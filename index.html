@@ -1,133 +1,637 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Caldas Cup Fut7 - Painel de Controle</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" href="icon.png">
-  <link rel="apple-touch-icon" href="icon.png">
-  <meta name="theme-color" content="#0a2635">
+
+  <title>Caldas Cup Fut7</title>
+
+  <meta name="theme-color" content="#031521">
+  <meta name="application-name" content="Caldas Cup Fut7">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Caldas Cup">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" href="./icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icon.png">
+
   <style>
     :root{
-      --bg-950:#071c29; --bg-900:#0a2635; --surface-2:#123a52; --line:#1f5674;
-      --muted:#8fb4c9; --muted-dim:#5c8298;
-      --brand-blue:#28a9e0; --gold:#f4c430; --gold-soft:#ffdb6b;
+      --bg:#031521;
+      --bg2:#06283a;
+      --blue:#28a9e0;
+      --cyan:#5cd6d6;
+      --gold:#f4c430;
+      --gold2:#ffdf6b;
+      --text:#eef4f8;
+      --muted:#a9c3d1;
     }
-    *{box-sizing:border-box;}
-    html,body{margin:0;height:100%;background:var(--bg-950);font-family:'Inter',Arial,sans-serif;}
+
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      background:var(--bg);
+      font-family:Arial,Helvetica,sans-serif;
+    }
+
+    #app{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+      opacity:0;
+      background:var(--bg);
+      transition:opacity .65s ease;
+    }
+
+    #app.visivel{opacity:1}
 
     #splash{
-      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-      background:radial-gradient(ellipse at 50% 35%,#123a52 0%,#0a2635 45%,#071c29 100%);
-    }
-    .splash-conteudo{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px;}
-    .splash-conteudo>*{opacity:0;animation:splashSubir .7s ease forwards;}
-    .splash-bola-wrap{animation-delay:.05s;}
-    .splash-marca{animation-delay:.25s;}
-    .splash-tagline{animation-delay:.42s;}
-    .splash-barra{animation-delay:.56s;}
-    .splash-status{animation-delay:.66s;}
-    @keyframes splashSubir{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      padding:
+        calc(20px + env(safe-area-inset-top,0px))
+        18px
+        calc(20px + env(safe-area-inset-bottom,0px));
 
-    .splash-bola-wrap{position:relative;width:220px;height:220px;margin-bottom:30px;display:flex;align-items:center;justify-content:center;}
-    .splash-anel{position:absolute;inset:0;width:100%;height:100%;}
-    .anel-pontilhado{transform-box:fill-box;transform-origin:center;animation:splashGirar 10s linear infinite;}
-    .anel-arco{transform-box:fill-box;transform-origin:center;animation:splashGirar 1.6s linear infinite;}
-    @keyframes splashGirar{to{transform:rotate(360deg);}}
-    .splash-bola{
-      position:relative;width:150px;height:150px;border-radius:50%;z-index:2;
       background:
-        radial-gradient(circle at 32% 28%, rgba(255,255,255,.9), rgba(255,255,255,.15) 38%, transparent 55%),
-        radial-gradient(circle at 68% 72%, rgba(0,0,0,.35), transparent 55%),
-        linear-gradient(135deg,#f4f7fa,#d7dee6);
-      box-shadow:0 0 34px rgba(40,169,224,.45), 0 0 70px rgba(244,196,48,.18), inset 0 0 30px rgba(0,0,0,.25);
-      display:flex;align-items:center;justify-content:center;overflow:hidden;
-      animation:splashPulsa 3.4s ease-in-out infinite;
-    }
-    .splash-bola::before{
-      content:"";position:absolute;inset:0;opacity:.5;
-      background-image:
-        radial-gradient(circle at 50% 14%, transparent 13%, #1c2733 13.5% 15%, transparent 15.5%),
-        radial-gradient(circle at 18% 40%, transparent 13%, #1c2733 13.5% 15%, transparent 15.5%),
-        radial-gradient(circle at 82% 40%, transparent 13%, #1c2733 13.5% 15%, transparent 15.5%),
-        radial-gradient(circle at 32% 78%, transparent 13%, #1c2733 13.5% 15%, transparent 15.5%),
-        radial-gradient(circle at 68% 78%, transparent 13%, #1c2733 13.5% 15%, transparent 15.5%);
-    }
-    @keyframes splashPulsa{0%,100%{filter:drop-shadow(0 0 10px rgba(40,169,224,.4));}50%{filter:drop-shadow(0 0 20px rgba(244,196,48,.5));}}
-    .splash-escudo{
-      position:relative;z-index:3;width:104px;height:104px;border-radius:50%;
-      object-fit:cover;object-position:center 38%;background:#0a2635;
-      box-shadow:0 3px 10px rgba(0,0,0,.5), inset 0 0 0 3px rgba(244,196,48,.55);
+        radial-gradient(circle at 50% 30%,rgba(40,169,224,.22),transparent 28%),
+        radial-gradient(circle at 50% 72%,rgba(244,196,48,.09),transparent 34%),
+        linear-gradient(155deg,#02111a 0%,#06283a 50%,#031521 100%);
+
+      color:var(--text);
+      transition:opacity .75s ease,visibility .75s ease;
     }
 
-    .splash-marca{display:flex;flex-direction:column;align-items:center;gap:2px;}
-    .splash-rotulo{font-family:'Oswald';font-weight:600;font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-soft);}
-    .splash-titulo{font-family:'Oswald';font-weight:700;font-size:38px;letter-spacing:.02em;line-height:1;margin-top:6px;color:#fff;}
-    .splash-titulo .gold{color:var(--gold);}
-    .splash-sub{margin-top:8px;display:flex;align-items:center;gap:12px;color:var(--brand-blue);font-family:'Oswald';font-weight:600;font-size:17px;letter-spacing:.12em;}
-    .splash-sub::before,.splash-sub::after{content:"";width:52px;height:1px;background:linear-gradient(90deg,transparent,var(--line));}
-    .splash-sub::after{background:linear-gradient(90deg,var(--line),transparent);}
-    .splash-tagline{margin-top:20px;font-size:12px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;}
-    .splash-barra{margin-top:22px;width:min(320px,72vw);height:5px;background:var(--surface-2);border-radius:999px;overflow:hidden;}
-    .splash-barra-fill{height:100%;width:30%;border-radius:999px;background:linear-gradient(90deg,transparent,var(--brand-blue) 35%,var(--gold-soft) 65%,transparent);animation:splashDesliza 1.4s ease-in-out infinite;}
-    @keyframes splashDesliza{0%{transform:translateX(-140%);}100%{transform:translateX(440%);}}
-    .splash-status{margin-top:12px;font-size:12.5px;color:var(--muted-dim);}
-    .splash-link{margin-top:10px;font-size:12px;}
-    .splash-link a{color:var(--gold-soft);}
+    #splash.saindo{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
+    }
 
-    @media(max-width:640px){
-      .splash-bola-wrap{width:170px;height:170px;}
-      .splash-bola{width:118px;height:118px;}
-      .splash-escudo{width:76px;height:76px;}
-      .splash-titulo{font-size:29px;}
-      .splash-sub{font-size:14px;}
-      .splash-sub::before,.splash-sub::after{width:32px;}
+    .conteudo{
+      width:min(94vw,480px);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      position:relative;
+      z-index:2;
+      animation:entrada .9s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .universo{
+      position:relative;
+      width:320px;
+      height:320px;
+      margin-bottom:18px;
+      display:grid;
+      place-items:center;
+      perspective:1200px;
+    }
+
+    .halo{
+      position:absolute;
+      width:250px;
+      height:250px;
+      border-radius:50%;
+      background:radial-gradient(circle,rgba(40,169,224,.30),rgba(40,169,224,.08) 46%,transparent 72%);
+      filter:blur(18px);
+      animation:pulsar 2.8s ease-in-out infinite;
+    }
+
+    .bola{
+      position:relative;
+      width:232px;
+      height:232px;
+      aspect-ratio:1/1;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      transform-style:preserve-3d;
+      overflow:visible;
+      animation:bolaFlutua 3.2s ease-in-out infinite;
+      filter:
+        drop-shadow(0 24px 34px rgba(0,0,0,.45))
+        drop-shadow(0 0 28px rgba(40,169,224,.30));
+    }
+
+    .bola-svg{
+      width:232px;
+      height:232px;
+      display:block;
+      overflow:visible;
+      transform-style:preserve-3d;
+    }
+
+    .bola-casco{
+      transform-origin:116px 116px;
+      animation:giroBola 5.2s linear infinite;
+    }
+
+    .bola-luz{
+      transform-origin:116px 116px;
+      animation:luzBola 3.6s ease-in-out infinite;
+      pointer-events:none;
+    }
+
+    .orbita{
+      position:absolute;
+      border-radius:50%;
+      border:3px solid transparent;
+      pointer-events:none;
+    }
+
+    .orbita.azul{
+      width:294px;
+      height:128px;
+      border-top-color:rgba(92,214,214,.95);
+      border-bottom-color:rgba(40,169,224,.45);
+      filter:drop-shadow(0 0 10px rgba(40,169,224,.85));
+      animation:orbitaAzul 2.9s linear infinite;
+    }
+
+    .orbita.ouro{
+      width:282px;
+      height:144px;
+      border-left-color:rgba(244,196,48,.95);
+      border-right-color:rgba(244,196,48,.35);
+      filter:drop-shadow(0 0 10px rgba(244,196,48,.70));
+      animation:orbitaOuro 3.8s linear infinite reverse;
+    }
+
+    .orbita.vertical{
+      width:136px;
+      height:300px;
+      border-left-color:rgba(92,214,214,.82);
+      border-right-color:rgba(244,196,48,.72);
+      filter:drop-shadow(0 0 9px rgba(40,169,224,.55));
+      animation:orbitaVertical 4.4s linear infinite;
+    }
+
+    .rastro{
+      position:absolute;
+      width:270px;
+      height:270px;
+      border-radius:50%;
+      background:
+        conic-gradient(
+          from 0deg,
+          transparent 0 16%,
+          rgba(92,214,214,.68) 19%,
+          transparent 24% 54%,
+          rgba(244,196,48,.72) 59%,
+          transparent 66% 100%
+        );
+      filter:blur(8px);
+      opacity:.78;
+      animation:rastroGira 3.2s linear infinite;
+    }
+
+    @keyframes giroBola{
+      0%{transform:rotate(0deg)}
+      100%{transform:rotate(360deg)}
+    }
+
+    @keyframes luzBola{
+      0%,100%{transform:translateX(-8px);opacity:.72}
+      50%{transform:translateX(8px);opacity:1}
+    }
+
+    .mini{
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.34em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    .titulo{
+      margin:0;
+      font-size:clamp(36px,9vw,50px);
+      line-height:1;
+      font-weight:900;
+      letter-spacing:.055em;
+      text-shadow:0 10px 28px rgba(0,0,0,.36);
+    }
+
+    .titulo span{color:var(--gold)}
+
+    .sub{
+      margin:14px 0 24px;
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.17em;
+      text-transform:uppercase;
+      line-height:1.6;
+    }
+
+    .barra{
+      width:min(78vw,320px);
+      height:8px;
+      overflow:hidden;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(40,169,224,.34);
+      box-shadow:inset 0 1px 3px rgba(0,0,0,.46),0 0 18px rgba(40,169,224,.14);
+    }
+
+    .barra span{
+      display:block;
+      width:38%;
+      height:100%;
+      border-radius:inherit;
+      background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),#fff3b0,transparent);
+      box-shadow:0 0 16px rgba(244,196,48,.95);
+      animation:carregar 1.35s ease-in-out infinite;
+    }
+
+    .status{
+      min-height:20px;
+      margin-top:14px;
+      color:#dbe8ee;
+      font-size:12px;
+      letter-spacing:.08em;
+    }
+
+    .status::after{
+      content:"";
+      animation:pontos 1.25s steps(4,end) infinite;
+    }
+
+    #fallback{
+      display:none;
+      width:min(86vw,360px);
+      margin-top:18px;
+      padding-top:16px;
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+
+    #fallback p{
+      margin:0 0 13px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    #abrirDireto{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:46px;
+      padding:12px 22px;
+      border-radius:12px;
+      background:linear-gradient(180deg,var(--gold2),var(--gold));
+      color:#071c29;
+      font-size:14px;
+      font-weight:800;
+      text-decoration:none;
+      box-shadow:0 10px 28px rgba(244,196,48,.20);
+    }
+
+    @keyframes entrada{
+      from{opacity:0;transform:translateY(18px) scale(.97)}
+      to{opacity:1;transform:none}
+    }
+
+    @keyframes bolaFlutua{
+      0%,100%{transform:translateY(0) rotateY(-8deg) rotateX(3deg)}
+      50%{transform:translateY(-10px) rotateY(8deg) rotateX(-3deg)}
+    }
+
+    @keyframes texturaGira{
+      to{transform:rotate(360deg)}
+    }
+
+    @keyframes logoPulsa{
+      0%,100%{transform:scale(1)}
+      50%{transform:scale(1.035)}
+    }
+
+    @keyframes orbitaAzul{
+      to{transform:rotate(360deg)}
+    }
+
+    @keyframes orbitaOuro{
+      to{transform:rotate(360deg)}
+    }
+
+    @keyframes orbitaVertical{
+      to{transform:rotate(360deg)}
+    }
+
+    @keyframes rastroGira{
+      to{transform:rotate(360deg)}
+    }
+
+    @keyframes pulsar{
+      0%,100%{transform:scale(.94);opacity:.62}
+      50%{transform:scale(1.08);opacity:1}
+    }
+
+    @keyframes carregar{
+      0%{transform:translateX(-135%)}
+      100%{transform:translateX(375%)}
+    }
+
+    @keyframes pontos{
+      0%{content:""}
+      25%{content:"."}
+      50%{content:".."}
+      75%,100%{content:"..."}
+    }
+
+    @media(max-height:680px){
+      .universo{
+        width:244px;
+        height:244px;
+        margin-bottom:10px;
+      }
+
+      .bola{
+        width:180px;
+        height:180px;
+      }
+
+      .logo{
+        width:126px;
+        height:126px;
+      }
+
+      .logo img{
+        width:136px;
+        height:136px;
+      }
+
+      .orbita.azul{width:226px;height:96px}
+      .orbita.ouro{width:216px;height:108px}
+      .orbita.vertical{width:104px;height:232px}
+      .rastro{width:206px;height:206px}
+
+      .titulo{font-size:34px}
+      .sub{margin:9px 0 16px}
     }
   </style>
-  <script>
-    // redireciona a página inteira pro painel de verdade (sem iframe — evita bloqueio de cookies do Safari/iOS)
-    setTimeout(function(){
-      window.location.replace("https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec");
-    }, 1400);
-  </script>
 </head>
+
 <body>
-  <div id="splash">
-    <div class="splash-conteudo">
-      <div class="splash-bola-wrap">
-        <svg class="splash-anel" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="splashAnelGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#a7e6f9"/>
-              <stop offset=".5" stop-color="#28a9e0"/>
-              <stop offset="1" stop-color="#f4c430"/>
-            </linearGradient>
-          </defs>
-          <circle cx="110" cy="110" r="103" fill="none" stroke="rgba(40,169,224,.14)" stroke-width="1.4"/>
-          <circle class="anel-pontilhado" cx="110" cy="110" r="103" fill="none" stroke="url(#splashAnelGrad)" stroke-width="5" stroke-dasharray="3 11"/>
-          <circle class="anel-arco" cx="110" cy="110" r="91" fill="none" stroke="#f4c430" stroke-width="3" stroke-linecap="round" stroke-dasharray="66 350"/>
-        </svg>
-        <div class="splash-bola">
-          <img class="splash-escudo" src="icon.png" alt="Caldas Cup">
+  <div id="splash" aria-live="polite">
+    <div class="conteudo">
+
+      <div class="universo">
+        <div class="halo"></div>
+        <div class="rastro"></div>
+        <div class="orbita azul"></div>
+        <div class="orbita ouro"></div>
+        <div class="orbita vertical"></div>
+
+        <div class="bola">
+          <svg
+            class="bola-svg"
+            viewBox="0 0 232 232"
+            role="img"
+            aria-label="Bola Caldas Cup"
+          >
+            <defs>
+              <clipPath id="recorteBola">
+                <circle cx="116" cy="116" r="112"></circle>
+              </clipPath>
+
+              <radialGradient id="baseBola" cx="33%" cy="25%" r="78%">
+                <stop offset="0%" stop-color="#ffffff"></stop>
+                <stop offset="42%" stop-color="#f5f7f8"></stop>
+                <stop offset="68%" stop-color="#d9e0e4"></stop>
+                <stop offset="86%" stop-color="#9eacb4"></stop>
+                <stop offset="100%" stop-color="#30434d"></stop>
+              </radialGradient>
+
+              <radialGradient id="sombraBola" cx="33%" cy="24%" r="82%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity=".42"></stop>
+                <stop offset="52%" stop-color="#ffffff" stop-opacity="0"></stop>
+                <stop offset="100%" stop-color="#000000" stop-opacity=".46"></stop>
+              </radialGradient>
+
+              <linearGradient id="gomoBranco" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffffff"></stop>
+                <stop offset="62%" stop-color="#eef2f4"></stop>
+                <stop offset="100%" stop-color="#b7c4ca"></stop>
+              </linearGradient>
+
+              <linearGradient id="gomoPreto" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#1d2a31"></stop>
+                <stop offset="65%" stop-color="#0b1318"></stop>
+                <stop offset="100%" stop-color="#020507"></stop>
+              </linearGradient>
+
+              <filter id="sombraGomo" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity=".30"></feDropShadow>
+              </filter>
+
+              <filter id="brilhoLogo" x="-40%" y="-40%" width="180%" height="180%">
+                <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#28a9e0" flood-opacity=".55"></feDropShadow>
+                <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#f4c430" flood-opacity=".28"></feDropShadow>
+              </filter>
+            </defs>
+
+            <g clip-path="url(#recorteBola)">
+              <circle cx="116" cy="116" r="112" fill="url(#baseBola)"></circle>
+
+              <g class="bola-casco" filter="url(#sombraGomo)">
+                <!-- pentágono central -->
+                <polygon
+                  points="116,18 151,43 138,84 94,84 81,43"
+                  fill="url(#gomoPreto)"
+                  stroke="#172832"
+                  stroke-width="3"
+                ></polygon>
+
+                <!-- pentágonos laterais -->
+                <polygon
+                  points="205,84 226,118 205,153 166,145 164,103"
+                  fill="url(#gomoPreto)"
+                  stroke="#172832"
+                  stroke-width="3"
+                ></polygon>
+
+                <polygon
+                  points="27,84 68,103 66,145 27,153 6,118"
+                  fill="url(#gomoPreto)"
+                  stroke="#172832"
+                  stroke-width="3"
+                ></polygon>
+
+                <polygon
+                  points="160,175 151,216 116,230 81,216 72,175 116,153"
+                  fill="url(#gomoPreto)"
+                  stroke="#172832"
+                  stroke-width="3"
+                ></polygon>
+
+                <!-- painéis brancos -->
+                <polygon
+                  points="81,43 94,84 68,103 27,84 42,45"
+                  fill="url(#gomoBranco)"
+                  stroke="#71828b"
+                  stroke-width="2"
+                ></polygon>
+
+                <polygon
+                  points="151,43 190,45 205,84 164,103 138,84"
+                  fill="url(#gomoBranco)"
+                  stroke="#71828b"
+                  stroke-width="2"
+                ></polygon>
+
+                <polygon
+                  points="68,103 94,84 116,111 91,145 66,145"
+                  fill="url(#gomoBranco)"
+                  stroke="#71828b"
+                  stroke-width="2"
+                ></polygon>
+
+                <polygon
+                  points="138,84 164,103 166,145 141,145 116,111"
+                  fill="url(#gomoBranco)"
+                  stroke="#71828b"
+                  stroke-width="2"
+                ></polygon>
+
+                <polygon
+                  points="66,145 91,145 116,153 72,175 37,160"
+                  fill="url(#gomoBranco)"
+                  stroke="#71828b"
+                  stroke-width="2"
+                ></polygon>
+
+                <polygon
+                  points="141,145 166,145 195,160 160,175 116,153"
+                  fill="url(#gomoBranco)"
+                  stroke="#71828b"
+                  stroke-width="2"
+                ></polygon>
+
+                <!-- costuras extras -->
+                <path
+                  d="M94 84 L116 111 L138 84 M91 145 L116 153 L141 145 M68 103 L42 45 M164 103 L190 45"
+                  fill="none"
+                  stroke="#50626c"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                ></path>
+              </g>
+
+              <g class="bola-luz">
+                <ellipse cx="83" cy="64" rx="36" ry="21" fill="#ffffff" opacity=".22"></ellipse>
+                <ellipse cx="155" cy="166" rx="48" ry="26" fill="#000000" opacity=".12"></ellipse>
+              </g>
+
+              <circle cx="116" cy="116" r="111" fill="url(#sombraBola)"></circle>
+            </g>
+
+            <circle
+              cx="116"
+              cy="116"
+              r="112"
+              fill="none"
+              stroke="rgba(92,214,214,.34)"
+              stroke-width="2"
+            ></circle>
+          </svg>
         </div>
       </div>
-      <div class="splash-marca">
-        <div class="splash-rotulo">Painel de Controle</div>
-        <div class="splash-titulo">CALDAS <span class="gold">CUP</span></div>
-        <div class="splash-sub">FUT7</div>
+
+      <div class="mini">Painel de Controle</div>
+
+      <h1 class="titulo">
+        CALDAS <span>CUP</span>
+      </h1>
+
+      <div class="sub">
+        Fut7 · Equipes · Hospedagem · Financeiro
       </div>
-      <div class="splash-tagline">Equipes · Hospedagem · Financeiro</div>
-      <div class="splash-barra"><div class="splash-barra-fill"></div></div>
-      <div class="splash-status">Abrindo o painel...</div>
-      <div class="splash-link"><a href="https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec">Não abriu? Toque aqui</a></div>
+
+      <div class="barra"><span></span></div>
+
+      <div class="status" id="status">Carregando sistema</div>
+
+      <div id="fallback">
+        <p>O sistema está demorando mais que o esperado para abrir.</p>
+
+        <a
+          id="abrirDireto"
+          href="https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec"
+          target="_top"
+          rel="noopener"
+        >
+          ABRIR SISTEMA
+        </a>
+      </div>
+
     </div>
   </div>
+
+  <iframe
+    id="app"
+    title="Sistema Caldas Cup Fut7"
+    src="https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec"
+    allow="clipboard-read; clipboard-write"
+  ></iframe>
+
+  <script>
+    const splash = document.getElementById('splash');
+    const iframe = document.getElementById('app');
+    const fallback = document.getElementById('fallback');
+    const status = document.getElementById('status');
+
+    const inicio = Date.now();
+    const TEMPO_MINIMO_SPLASH = 3000;
+    const TEMPO_LIMITE = 15000;
+
+    let iframeCarregado = false;
+    let splashEncerrada = false;
+
+    function encerrarSplash(){
+      if(splashEncerrada) return;
+
+      const decorrido = Date.now() - inicio;
+      const restante = Math.max(0,TEMPO_MINIMO_SPLASH - decorrido);
+
+      window.setTimeout(function(){
+        splashEncerrada = true;
+        status.textContent = 'Sistema pronto';
+        iframe.classList.add('visivel');
+        splash.classList.add('saindo');
+
+        window.setTimeout(function(){
+          splash.style.display = 'none';
+        },800);
+      },restante);
+    }
+
+    iframe.addEventListener('load',function(){
+      iframeCarregado = true;
+      encerrarSplash();
+    });
+
+    window.setTimeout(function(){
+      if(iframeCarregado || splashEncerrada) return;
+
+      status.textContent = 'Ainda carregando';
+      fallback.style.display = 'block';
+    },TEMPO_LIMITE);
+  </script>
 </body>
 </html>
