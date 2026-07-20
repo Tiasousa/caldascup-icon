@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Caldas Cup Fut7 - Painel de Controle</title>
-  <link rel="manifest" href="manifest.json" crossorigin="anonymous">
+  <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icon.png">
   <link rel="apple-touch-icon" href="icon.png">
   <meta name="theme-color" content="#0a2635">
@@ -21,12 +21,8 @@
     @keyframes spin{to{transform:rotate(360deg);}}
   </style>
   <script>
-    // Aguarda o PWA carregar e dá 2 segundos para o celular reconhecer o ícone de instalar
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        window.location.replace("https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec");
-      }, 2000); 
-    });
+    // redireciona a página inteira (sem iframe) — evita o bloqueio de cookies do Safari/iOS
+    window.location.replace("https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec");
   </script>
 </head>
 <body>
