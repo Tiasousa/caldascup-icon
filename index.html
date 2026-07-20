@@ -2,14 +2,11 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
   <title>Caldas Cup Fut7</title>
 
-  <meta name="theme-color" content="#071c29">
+  <meta name="theme-color" content="#031521">
   <meta name="application-name" content="Caldas Cup Fut7">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,9 +18,9 @@
   <link rel="apple-touch-icon" sizes="180x180" href="./icon.png">
 
   <style>
-    :root {
+    :root{
       --bg:#031521;
-      --bg2:#07283a;
+      --bg2:#06283a;
       --blue:#28a9e0;
       --cyan:#5cd6d6;
       --gold:#f4c430;
@@ -32,473 +29,431 @@
       --muted:#a9c3d1;
     }
 
-    * {
-      box-sizing: border-box;
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      background:var(--bg);
+      font-family:Arial,Helvetica,sans-serif;
     }
 
-    html,
-    body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: var(--bg);
+    #app{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+      opacity:0;
+      background:var(--bg);
+      transition:opacity .65s ease;
     }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-    }
+    #app.visivel{opacity:1}
 
-    #app {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      background: var(--bg);
-      opacity: 0;
-      transition: opacity .55s ease;
-    }
-
-    #app.visivel {
-      opacity: 1;
-    }
-
-    #splash {
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
+    #splash{
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
       padding:
-        calc(24px + env(safe-area-inset-top, 0px))
-        22px
-        calc(24px + env(safe-area-inset-bottom, 0px));
+        calc(20px + env(safe-area-inset-top,0px))
+        18px
+        calc(20px + env(safe-area-inset-bottom,0px));
 
       background:
-        radial-gradient(circle at 50% 36%, rgba(40,169,224,.22), transparent 28%),
-        radial-gradient(circle at 50% 58%, rgba(244,196,48,.07), transparent 38%),
-        linear-gradient(150deg, #02111a 0%, #062436 48%, #031521 100%);
+        radial-gradient(circle at 50% 30%,rgba(40,169,224,.22),transparent 28%),
+        radial-gradient(circle at 50% 72%,rgba(244,196,48,.09),transparent 34%),
+        linear-gradient(155deg,#02111a 0%,#06283a 50%,#031521 100%);
 
-      color: var(--text);
-      transition: opacity .6s ease, visibility .6s ease;
+      color:var(--text);
+      transition:opacity .75s ease,visibility .75s ease;
     }
 
-    #splash.saindo {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
+    #splash.saindo{
+      opacity:0;
+      visibility:hidden;
+      pointer-events:none;
     }
 
-    .conteudo {
-      position: relative;
-      width: min(94vw, 460px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      z-index: 3;
-      animation: entrada .9s cubic-bezier(.2,.8,.2,1) both;
+    .conteudo{
+      width:min(94vw,480px);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      position:relative;
+      z-index:2;
+      animation:entrada .9s cubic-bezier(.2,.8,.2,1) both;
     }
 
-    /* ESFERA 3D */
-    .esfera {
-      position: relative;
-      width: 260px;
-      height: 260px;
-      margin-bottom: 24px;
-      perspective: 900px;
-      display: grid;
-      place-items: center;
+    .universo{
+      position:relative;
+      width:320px;
+      height:320px;
+      margin-bottom:18px;
+      display:grid;
+      place-items:center;
+      perspective:1200px;
     }
 
-    .bola {
-      position: relative;
-      width: 214px;
-      height: 214px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      transform-style: preserve-3d;
+    .halo{
+      position:absolute;
+      width:250px;
+      height:250px;
+      border-radius:50%;
+      background:radial-gradient(circle,rgba(40,169,224,.30),rgba(40,169,224,.08) 46%,transparent 72%);
+      filter:blur(18px);
+      animation:pulsar 2.8s ease-in-out infinite;
+    }
+
+    .bola{
+      position:relative;
+      width:232px;
+      height:232px;
+      border-radius:50%;
+      overflow:hidden;
+      display:grid;
+      place-items:center;
+      transform-style:preserve-3d;
 
       background:
-        radial-gradient(circle at 34% 28%, rgba(255,255,255,.34), transparent 18%),
-        radial-gradient(circle at 50% 56%, rgba(40,169,224,.14), transparent 48%),
-        linear-gradient(145deg, #0a3148, #041a28 68%, #02111a);
-
-      border: 1px solid rgba(92,214,214,.28);
+        radial-gradient(circle at 34% 27%,rgba(255,255,255,.96),transparent 13%),
+        radial-gradient(circle at 50% 42%,#f8fafb 0 30%,#d5dde2 50%,#96a7b2 74%,#314651 100%);
 
       box-shadow:
-        inset -28px -24px 42px rgba(0,0,0,.48),
-        inset 18px 14px 28px rgba(255,255,255,.06),
-        0 0 34px rgba(40,169,224,.32),
-        0 0 70px rgba(40,169,224,.14);
+        inset -36px -30px 54px rgba(0,0,0,.40),
+        inset 22px 16px 30px rgba(255,255,255,.28),
+        0 28px 46px rgba(0,0,0,.46),
+        0 0 42px rgba(40,169,224,.34);
 
-      animation: esferaRespira 2.8s ease-in-out infinite;
+      animation:bolaFlutua 3.2s ease-in-out infinite;
     }
 
-    .bola::before {
-      content: "";
-      position: absolute;
-      inset: -30%;
-      border-radius: 50%;
+    .textura{
+      position:absolute;
+      inset:-34%;
+      border-radius:50%;
       background:
-        repeating-linear-gradient(
-          90deg,
-          transparent 0 18px,
-          rgba(92,214,214,.12) 19px,
-          transparent 20px 38px
+        radial-gradient(circle at 20% 28%,#111 0 6%,transparent 6.5%),
+        radial-gradient(circle at 56% 18%,#111 0 6%,transparent 6.5%),
+        radial-gradient(circle at 78% 45%,#111 0 6%,transparent 6.5%),
+        radial-gradient(circle at 43% 66%,#111 0 6%,transparent 6.5%),
+        radial-gradient(circle at 18% 76%,#111 0 6%,transparent 6.5%),
+        radial-gradient(circle at 73% 82%,#111 0 6%,transparent 6.5%),
+        repeating-radial-gradient(circle at 50% 50%,transparent 0 25px,rgba(4,17,26,.18) 26px,transparent 28px 46px);
+      opacity:.70;
+      animation:texturaGira 5.2s linear infinite;
+    }
+
+    .sombra-esfera{
+      position:absolute;
+      inset:0;
+      border-radius:50%;
+      background:
+        linear-gradient(90deg,rgba(255,255,255,.20),transparent 30%,rgba(0,0,0,.26)),
+        radial-gradient(circle at 32% 24%,rgba(255,255,255,.42),transparent 18%);
+      z-index:2;
+      pointer-events:none;
+    }
+
+    .logo{
+      position:relative;
+      z-index:5;
+      width:164px;
+      height:164px;
+      border-radius:50%;
+      overflow:hidden;
+      display:grid;
+      place-items:center;
+      background:#fff;
+      border:4px solid rgba(255,255,255,.68);
+      box-shadow:
+        0 0 0 7px rgba(40,169,224,.22),
+        0 0 30px rgba(244,196,48,.30);
+      animation:logoPulsa 2.6s ease-in-out infinite;
+    }
+
+    .logo img{
+      width:176px;
+      height:176px;
+      object-fit:contain;
+      transform:scale(1.08);
+    }
+
+    .orbita{
+      position:absolute;
+      border-radius:50%;
+      border:3px solid transparent;
+      pointer-events:none;
+    }
+
+    .orbita.azul{
+      width:294px;
+      height:128px;
+      border-top-color:rgba(92,214,214,.95);
+      border-bottom-color:rgba(40,169,224,.45);
+      filter:drop-shadow(0 0 10px rgba(40,169,224,.85));
+      animation:orbitaAzul 2.9s linear infinite;
+    }
+
+    .orbita.ouro{
+      width:282px;
+      height:144px;
+      border-left-color:rgba(244,196,48,.95);
+      border-right-color:rgba(244,196,48,.35);
+      filter:drop-shadow(0 0 10px rgba(244,196,48,.70));
+      animation:orbitaOuro 3.8s linear infinite reverse;
+    }
+
+    .orbita.vertical{
+      width:136px;
+      height:300px;
+      border-left-color:rgba(92,214,214,.82);
+      border-right-color:rgba(244,196,48,.72);
+      filter:drop-shadow(0 0 9px rgba(40,169,224,.55));
+      animation:orbitaVertical 4.4s linear infinite;
+    }
+
+    .rastro{
+      position:absolute;
+      width:270px;
+      height:270px;
+      border-radius:50%;
+      background:
+        conic-gradient(
+          from 0deg,
+          transparent 0 16%,
+          rgba(92,214,214,.68) 19%,
+          transparent 24% 54%,
+          rgba(244,196,48,.72) 59%,
+          transparent 66% 100%
         );
-      opacity: .55;
-      transform: rotateY(0deg);
-      animation: texturaGira 4.8s linear infinite;
+      filter:blur(8px);
+      opacity:.78;
+      animation:rastroGira 3.2s linear infinite;
     }
 
-    .bola::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 32% 25%, rgba(255,255,255,.23), transparent 20%),
-        linear-gradient(90deg, rgba(255,255,255,.08), transparent 32%, rgba(0,0,0,.20));
-      pointer-events: none;
+    .mini{
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.34em;
+      text-transform:uppercase;
+      margin-bottom:8px;
     }
 
-    .logo-mascara {
-      position: relative;
-      z-index: 5;
-      width: 176px;
-      height: 176px;
-      border-radius: 50%;
-      overflow: hidden;
-      display: grid;
-      place-items: center;
-
-      background: #ffffff;
-
-      box-shadow:
-        0 0 0 4px rgba(255,255,255,.10),
-        0 0 22px rgba(244,196,48,.18);
-
-      animation: logoFlutua 2.6s ease-in-out infinite;
+    .titulo{
+      margin:0;
+      font-size:clamp(36px,9vw,50px);
+      line-height:1;
+      font-weight:900;
+      letter-spacing:.055em;
+      text-shadow:0 10px 28px rgba(0,0,0,.36);
     }
 
-    .logo-mascara img {
-      width: 188px;
-      height: 188px;
-      object-fit: contain;
-      transform: scale(1.12);
+    .titulo span{color:var(--gold)}
+
+    .sub{
+      margin:14px 0 24px;
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.17em;
+      text-transform:uppercase;
+      line-height:1.6;
     }
 
-    /* ANÉIS ORBITAIS */
-    .orbita {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      border: 2px solid transparent;
-      pointer-events: none;
+    .barra{
+      width:min(78vw,320px);
+      height:8px;
+      overflow:hidden;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(40,169,224,.34);
+      box-shadow:inset 0 1px 3px rgba(0,0,0,.46),0 0 18px rgba(40,169,224,.14);
     }
 
-    .orbita.azul {
-      inset: 12px;
-      border-top-color: rgba(92,214,214,.95);
-      border-right-color: rgba(40,169,224,.35);
-      transform: rotateX(70deg) rotateZ(12deg);
-      box-shadow: 0 -2px 16px rgba(40,169,224,.55);
-      animation: orbitaAzul 3.2s linear infinite;
+    .barra span{
+      display:block;
+      width:38%;
+      height:100%;
+      border-radius:inherit;
+      background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),#fff3b0,transparent);
+      box-shadow:0 0 16px rgba(244,196,48,.95);
+      animation:carregar 1.35s ease-in-out infinite;
     }
 
-    .orbita.ouro {
-      inset: 24px;
-      border-bottom-color: rgba(244,196,48,.95);
-      border-left-color: rgba(244,196,48,.30);
-      transform: rotateX(66deg) rotateZ(-18deg);
-      box-shadow: 0 2px 18px rgba(244,196,48,.45);
-      animation: orbitaOuro 4.1s linear infinite reverse;
+    .status{
+      min-height:20px;
+      margin-top:14px;
+      color:#dbe8ee;
+      font-size:12px;
+      letter-spacing:.08em;
     }
 
-    .orbita.vertical {
-      inset: 5px 52px;
-      border-left-color: rgba(92,214,214,.7);
-      border-right-color: rgba(244,196,48,.55);
-      transform: rotateY(68deg);
-      animation: orbitaVertical 3.8s linear infinite;
+    .status::after{
+      content:"";
+      animation:pontos 1.25s steps(4,end) infinite;
     }
 
-    .brilho {
-      position: absolute;
-      inset: 34px;
-      border-radius: 50%;
-      background: conic-gradient(
-        from 0deg,
-        transparent 0 18%,
-        rgba(92,214,214,.65) 20%,
-        transparent 25% 58%,
-        rgba(244,196,48,.65) 62%,
-        transparent 69% 100%
-      );
-      filter: blur(6px);
-      opacity: .75;
-      animation: brilhoGira 3s linear infinite;
+    #fallback{
+      display:none;
+      width:min(86vw,360px);
+      margin-top:18px;
+      padding-top:16px;
+      border-top:1px solid rgba(255,255,255,.10);
     }
 
-    .marca-menor {
-      color: var(--gold2);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: .32em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
+    #fallback p{
+      margin:0 0 13px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
     }
 
-    .marca {
-      margin: 0;
-      font-size: clamp(34px, 8vw, 47px);
-      line-height: 1;
-      letter-spacing: .05em;
-      font-weight: 900;
-      text-shadow: 0 9px 30px rgba(0,0,0,.35);
+    #abrirDireto{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:46px;
+      padding:12px 22px;
+      border-radius:12px;
+      background:linear-gradient(180deg,var(--gold2),var(--gold));
+      color:#071c29;
+      font-size:14px;
+      font-weight:800;
+      text-decoration:none;
+      box-shadow:0 10px 28px rgba(244,196,48,.20);
     }
 
-    .marca span {
-      color: var(--gold);
+    @keyframes entrada{
+      from{opacity:0;transform:translateY(18px) scale(.97)}
+      to{opacity:1;transform:none}
     }
 
-    .subtitulo {
-      margin: 13px 0 25px;
-      max-width: 360px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.6;
-      letter-spacing: .17em;
-      text-transform: uppercase;
+    @keyframes bolaFlutua{
+      0%,100%{transform:translateY(0) rotateY(-8deg) rotateX(3deg)}
+      50%{transform:translateY(-10px) rotateY(8deg) rotateX(-3deg)}
     }
 
-    .progresso {
-      width: min(78vw, 310px);
-      height: 7px;
-      overflow: hidden;
-      border-radius: 999px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(40,169,224,.28);
-      box-shadow:
-        inset 0 1px 3px rgba(0,0,0,.42),
-        0 0 16px rgba(40,169,224,.12);
+    @keyframes texturaGira{
+      to{transform:rotate(360deg)}
     }
 
-    .progresso span {
-      display: block;
-      width: 38%;
-      height: 100%;
-      border-radius: inherit;
-      background:
-        linear-gradient(90deg, transparent, var(--gold), var(--gold2), #fff3b0, transparent);
-      box-shadow: 0 0 14px rgba(244,196,48,.9);
-      animation: carregar 1.4s ease-in-out infinite;
+    @keyframes logoPulsa{
+      0%,100%{transform:scale(1)}
+      50%{transform:scale(1.035)}
     }
 
-    .status {
-      min-height: 20px;
-      margin-top: 14px;
-      color: #dbe8ee;
-      font-size: 12px;
-      letter-spacing: .08em;
+    @keyframes orbitaAzul{
+      to{transform:rotate(360deg)}
     }
 
-    .status::after {
-      content: "";
-      animation: pontos 1.25s steps(4, end) infinite;
+    @keyframes orbitaOuro{
+      to{transform:rotate(360deg)}
     }
 
-    #fallback {
-      display: none;
-      width: min(86vw, 360px);
-      margin-top: 19px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255,255,255,.10);
+    @keyframes orbitaVertical{
+      to{transform:rotate(360deg)}
     }
 
-    #fallback p {
-      margin: 0 0 13px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
+    @keyframes rastroGira{
+      to{transform:rotate(360deg)}
     }
 
-    #abrirDireto {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      padding: 12px 22px;
-      border-radius: 12px;
-      border: 1px solid var(--gold);
-      background: linear-gradient(180deg, var(--gold2), var(--gold));
-      color: #071c29;
-      font-size: 14px;
-      font-weight: 800;
-      text-decoration: none;
-      box-shadow: 0 10px 28px rgba(244,196,48,.20);
+    @keyframes pulsar{
+      0%,100%{transform:scale(.94);opacity:.62}
+      50%{transform:scale(1.08);opacity:1}
     }
 
-    .luz-fundo {
-      position: absolute;
-      width: 520px;
-      height: 520px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle, rgba(40,169,224,.10), transparent 62%);
-      filter: blur(10px);
-      animation: fundoPulsa 4s ease-in-out infinite;
+    @keyframes carregar{
+      0%{transform:translateX(-135%)}
+      100%{transform:translateX(375%)}
     }
 
-    @keyframes entrada {
-      from {
-        opacity: 0;
-        transform: translateY(18px) scale(.97);
-      }
-      to {
-        opacity: 1;
-        transform: none;
-      }
+    @keyframes pontos{
+      0%{content:""}
+      25%{content:"."}
+      50%{content:".."}
+      75%,100%{content:"..."}
     }
 
-    @keyframes esferaRespira {
-      0%, 100% { transform: scale(1) rotateY(-5deg); }
-      50% { transform: scale(1.035) rotateY(5deg); }
-    }
-
-    @keyframes texturaGira {
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes logoFlutua {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-4px) scale(1.015); }
-    }
-
-    @keyframes orbitaAzul {
-      to { transform: rotateX(70deg) rotateZ(372deg); }
-    }
-
-    @keyframes orbitaOuro {
-      to { transform: rotateX(66deg) rotateZ(342deg); }
-    }
-
-    @keyframes orbitaVertical {
-      to { transform: rotateY(68deg) rotateZ(360deg); }
-    }
-
-    @keyframes brilhoGira {
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes carregar {
-      0% { transform: translateX(-135%); }
-      100% { transform: translateX(375%); }
-    }
-
-    @keyframes pontos {
-      0% { content: ""; }
-      25% { content: "."; }
-      50% { content: ".."; }
-      75%, 100% { content: "..."; }
-    }
-
-    @keyframes fundoPulsa {
-      0%, 100% { transform: scale(.92); opacity: .65; }
-      50% { transform: scale(1.08); opacity: 1; }
-    }
-
-    @media (max-height: 650px) {
-      .esfera {
-        width: 205px;
-        height: 205px;
-        margin-bottom: 14px;
+    @media(max-height:680px){
+      .universo{
+        width:244px;
+        height:244px;
+        margin-bottom:10px;
       }
 
-      .bola {
-        width: 170px;
-        height: 170px;
+      .bola{
+        width:180px;
+        height:180px;
       }
 
-      .logo-mascara {
-        width: 138px;
-        height: 138px;
+      .logo{
+        width:126px;
+        height:126px;
       }
 
-      .logo-mascara img {
-        width: 148px;
-        height: 148px;
+      .logo img{
+        width:136px;
+        height:136px;
       }
 
-      .marca {
-        font-size: 32px;
-      }
+      .orbita.azul{width:226px;height:96px}
+      .orbita.ouro{width:216px;height:108px}
+      .orbita.vertical{width:104px;height:232px}
+      .rastro{width:206px;height:206px}
 
-      .subtitulo {
-        margin: 9px 0 17px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-      }
+      .titulo{font-size:34px}
+      .sub{margin:9px 0 16px}
     }
   </style>
 </head>
 
 <body>
   <div id="splash" aria-live="polite">
-    <div class="luz-fundo"></div>
-
     <div class="conteudo">
-      <div class="esfera">
-        <div class="brilho"></div>
+
+      <div class="universo">
+        <div class="halo"></div>
+        <div class="rastro"></div>
         <div class="orbita azul"></div>
         <div class="orbita ouro"></div>
         <div class="orbita vertical"></div>
 
         <div class="bola">
-          <div class="logo-mascara">
-            <img
-              src="./icon.png"
-              alt="Caldas Cup Fut7"
-              onerror="this.style.display='none'"
-            >
+          <div class="textura"></div>
+
+          <div class="logo">
+            <img src="./icon.png" alt="Caldas Cup Fut7">
           </div>
+
+          <div class="sombra-esfera"></div>
         </div>
       </div>
 
-      <div class="marca-menor">Painel de Controle</div>
+      <div class="mini">Painel de Controle</div>
 
-      <h1 class="marca">
+      <h1 class="titulo">
         CALDAS <span>CUP</span>
       </h1>
 
-      <div class="subtitulo">
+      <div class="sub">
         Fut7 · Equipes · Hospedagem · Financeiro
       </div>
 
-      <div class="progresso" aria-hidden="true">
-        <span></span>
-      </div>
+      <div class="barra"><span></span></div>
 
       <div class="status" id="status">Carregando sistema</div>
 
       <div id="fallback">
-        <p>
-          O sistema está demorando mais que o esperado para abrir.
-        </p>
+        <p>O sistema está demorando mais que o esperado para abrir.</p>
 
         <a
           id="abrirDireto"
@@ -509,6 +464,7 @@
           ABRIR SISTEMA
         </a>
       </div>
+
     </div>
   </div>
 
@@ -526,41 +482,41 @@
     const status = document.getElementById('status');
 
     const inicio = Date.now();
-    const TEMPO_MINIMO_SPLASH = 2600;
+    const TEMPO_MINIMO_SPLASH = 3000;
     const TEMPO_LIMITE = 15000;
 
     let iframeCarregado = false;
     let splashEncerrada = false;
 
-    function encerrarSplash() {
-      if (splashEncerrada) return;
+    function encerrarSplash(){
+      if(splashEncerrada) return;
 
       const decorrido = Date.now() - inicio;
-      const restante = Math.max(0, TEMPO_MINIMO_SPLASH - decorrido);
+      const restante = Math.max(0,TEMPO_MINIMO_SPLASH - decorrido);
 
-      window.setTimeout(function () {
+      window.setTimeout(function(){
         splashEncerrada = true;
         status.textContent = 'Sistema pronto';
         iframe.classList.add('visivel');
         splash.classList.add('saindo');
 
-        window.setTimeout(function () {
+        window.setTimeout(function(){
           splash.style.display = 'none';
-        }, 650);
-      }, restante);
+        },800);
+      },restante);
     }
 
-    iframe.addEventListener('load', function () {
+    iframe.addEventListener('load',function(){
       iframeCarregado = true;
       encerrarSplash();
     });
 
-    window.setTimeout(function () {
-      if (iframeCarregado || splashEncerrada) return;
+    window.setTimeout(function(){
+      if(iframeCarregado || splashEncerrada) return;
 
       status.textContent = 'Ainda carregando';
       fallback.style.display = 'block';
-    }, TEMPO_LIMITE);
+    },TEMPO_LIMITE);
   </script>
 </body>
 </html>
