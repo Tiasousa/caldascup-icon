@@ -116,182 +116,103 @@
       position:relative;
       width:232px;
       height:232px;
-      aspect-ratio:1 / 1;
+      aspect-ratio:1/1;
       border-radius:50%;
-      overflow:hidden;
       display:grid;
-      clip-path:circle(50% at 50% 50%);
-      -webkit-clip-path:circle(50% at 50% 50%);
-      -webkit-mask-image:radial-gradient(circle, #000 69%, transparent 70%);
-      mask-image:radial-gradient(circle, #000 69%, transparent 70%);
-      isolation:isolate;
       place-items:center;
       transform-style:preserve-3d;
-
-      background:
-        radial-gradient(circle at 33% 24%,rgba(255,255,255,.98),transparent 13%),
-        radial-gradient(circle at 50% 45%,#ffffff 0 32%,#e7edf0 56%,#aebbc2 78%,#263944 100%);
-
-      box-shadow:
-        inset -38px -34px 58px rgba(0,0,0,.44),
-        inset 22px 16px 32px rgba(255,255,255,.34),
-        0 28px 46px rgba(0,0,0,.46),
-        0 0 42px rgba(40,169,224,.34);
-
+      overflow:visible;
       animation:bolaFlutua 3.2s ease-in-out infinite;
+      filter:
+        drop-shadow(0 24px 34px rgba(0,0,0,.45))
+        drop-shadow(0 0 28px rgba(40,169,224,.30));
     }
 
-    .bola::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:50%;
-      background:
-        radial-gradient(circle at 50% 50%, transparent 0 41%, rgba(7,24,32,.18) 41.5% 42.5%, transparent 43%),
-        conic-gradient(
-          from 0deg,
-          transparent 0 9%,
-          rgba(5,20,28,.42) 9.5% 10.5%,
-          transparent 11% 24%,
-          rgba(5,20,28,.38) 24.5% 25.5%,
-          transparent 26% 39%,
-          rgba(5,20,28,.42) 39.5% 40.5%,
-          transparent 41% 54%,
-          rgba(5,20,28,.38) 54.5% 55.5%,
-          transparent 56% 69%,
-          rgba(5,20,28,.42) 69.5% 70.5%,
-          transparent 71% 84%,
-          rgba(5,20,28,.38) 84.5% 85.5%,
-          transparent 86% 100%
-        );
-      opacity:.72;
-      z-index:1;
+    .bola-svg{
+      width:232px;
+      height:232px;
+      display:block;
+      overflow:visible;
+      transform-style:preserve-3d;
+    }
+
+    .bola-casco{
+      transform-origin:116px 116px;
+      animation:giroBola 5.2s linear infinite;
+    }
+
+    .bola-luz{
+      transform-origin:116px 116px;
+      animation:luzBola 3.6s ease-in-out infinite;
       pointer-events:none;
     }
 
-    .textura{
-      position:absolute;
-      inset:-12%;
-      border-radius:50%;
-      z-index:1;
-      background:
-        radial-gradient(circle at 17% 28%,#101820 0 9%,transparent 9.8%),
-        radial-gradient(circle at 52% 11%,#101820 0 8.6%,transparent 9.4%),
-        radial-gradient(circle at 84% 31%,#101820 0 9%,transparent 9.8%),
-        radial-gradient(circle at 92% 66%,#101820 0 9%,transparent 9.8%),
-        radial-gradient(circle at 63% 91%,#101820 0 9%,transparent 9.8%),
-        radial-gradient(circle at 27% 84%,#101820 0 9%,transparent 9.8%),
-        radial-gradient(circle at 5% 61%,#101820 0 9%,transparent 9.8%),
-
-        radial-gradient(circle at 34% 18%,rgba(255,255,255,.97) 0 12%,transparent 12.8%),
-        radial-gradient(circle at 70% 20%,rgba(255,255,255,.97) 0 12%,transparent 12.8%),
-        radial-gradient(circle at 82% 49%,rgba(255,255,255,.96) 0 12.5%,transparent 13.3%),
-        radial-gradient(circle at 72% 78%,rgba(255,255,255,.95) 0 12%,transparent 12.8%),
-        radial-gradient(circle at 39% 83%,rgba(255,255,255,.95) 0 12.5%,transparent 13.3%),
-        radial-gradient(circle at 17% 57%,rgba(255,255,255,.96) 0 12%,transparent 12.8%),
-
-        repeating-radial-gradient(
-          circle at 50% 50%,
-          transparent 0 31px,
-          rgba(5,20,28,.22) 32px,
-          transparent 34px 58px
-        );
-      animation:texturaGira 5.2s linear infinite;
-      opacity:.96;
-    }
-
-    .gomos{
-      position:absolute;
-      inset:0;
-      z-index:2;
-      border-radius:50%;
-      overflow:hidden;
-      pointer-events:none;
-      animation:texturaGira 5.2s linear infinite;
-    }
-
-    .gomo{
-      position:absolute;
-      background:linear-gradient(145deg,#fff 0%,#edf1f3 58%,#bcc8ce 100%);
-      box-shadow:
-        inset -7px -8px 12px rgba(0,0,0,.14),
-        inset 6px 6px 10px rgba(255,255,255,.62);
-      clip-path:polygon(50% 0%,92% 26%,78% 78%,50% 100%,22% 78%,8% 26%);
-      border:1px solid rgba(28,45,55,.28);
-    }
-
-    .gomo.g1{width:72px;height:82px;left:80px;top:-10px}
-    .gomo.g2{width:74px;height:86px;right:-4px;top:63px;transform:rotate(18deg)}
-    .gomo.g3{width:74px;height:86px;left:-4px;top:63px;transform:rotate(-18deg)}
-    .gomo.g4{width:72px;height:82px;right:34px;bottom:-14px;transform:rotate(7deg)}
-    .gomo.g5{width:72px;height:82px;left:34px;bottom:-14px;transform:rotate(-7deg)}
-
-    .pentagono{
-      position:absolute;
-      z-index:3;
-      width:58px;
-      height:58px;
-      background:linear-gradient(145deg,#15242c 0%,#0b141a 70%,#02070a 100%);
-      clip-path:polygon(50% 0%,97% 35%,79% 91%,21% 91%,3% 35%);
-      box-shadow:
-        inset -6px -7px 11px rgba(0,0,0,.55),
-        inset 4px 4px 8px rgba(255,255,255,.08),
-        0 0 0 2px rgba(12,31,41,.40);
-      pointer-events:none;
-      animation:texturaGira 5.2s linear infinite;
-    }
-
-    .pentagono.p1{left:87px;top:24px}
-    .pentagono.p2{right:10px;top:91px;transform:rotate(12deg)}
-    .pentagono.p3{left:10px;top:91px;transform:rotate(-12deg)}
-    .pentagono.p4{right:55px;bottom:8px;transform:rotate(5deg)}
-    .pentagono.p5{left:55px;bottom:8px;transform:rotate(-5deg)}
-
-    .sombra-esfera{
-      position:absolute;
-      inset:0;
-      border-radius:50%;
-      background:
-        radial-gradient(circle at 31% 24%,rgba(255,255,255,.42),transparent 18%),
-        linear-gradient(90deg,rgba(255,255,255,.18),transparent 28%,rgba(0,0,0,.30));
-      z-index:8;
-      pointer-events:none;
-      mix-blend-mode:soft-light;
-    }
-
-    .logo{
-      position:relative;
-      z-index:7;
-      width:164px;
-      height:164px;
-      aspect-ratio:1 / 1;
-      border-radius:50%;
-      overflow:hidden;
-      display:grid;
-      clip-path:circle(50% at 50% 50%);
-      -webkit-clip-path:circle(50% at 50% 50%);
-      -webkit-mask-image:radial-gradient(circle, #000 69%, transparent 70%);
-      mask-image:radial-gradient(circle, #000 69%, transparent 70%);
-      isolation:isolate;
-      place-items:center;
-      background:#fff;
-      border:4px solid rgba(255,255,255,.68);
-      box-shadow:
-        0 0 0 7px rgba(40,169,224,.22),
-        0 0 30px rgba(244,196,48,.30);
+    .logo-svg{
+      transform-origin:116px 116px;
       animation:logoPulsa 2.6s ease-in-out infinite;
     }
 
-    .logo img{
-      width:176px;
-      height:176px;
-      max-width:none;
-      max-height:none;
-      object-fit:cover;
+    .orbita{
+      position:absolute;
       border-radius:50%;
-      clip-path:circle(49% at 50% 50%);
-      -webkit-clip-path:circle(49% at 50% 50%);
-      transform:scale(1.08);
+      border:3px solid transparent;
+      pointer-events:none;
+    }
+
+    .orbita.azul{
+      width:294px;
+      height:128px;
+      border-top-color:rgba(92,214,214,.95);
+      border-bottom-color:rgba(40,169,224,.45);
+      filter:drop-shadow(0 0 10px rgba(40,169,224,.85));
+      animation:orbitaAzul 2.9s linear infinite;
+    }
+
+    .orbita.ouro{
+      width:282px;
+      height:144px;
+      border-left-color:rgba(244,196,48,.95);
+      border-right-color:rgba(244,196,48,.35);
+      filter:drop-shadow(0 0 10px rgba(244,196,48,.70));
+      animation:orbitaOuro 3.8s linear infinite reverse;
+    }
+
+    .orbita.vertical{
+      width:136px;
+      height:300px;
+      border-left-color:rgba(92,214,214,.82);
+      border-right-color:rgba(244,196,48,.72);
+      filter:drop-shadow(0 0 9px rgba(40,169,224,.55));
+      animation:orbitaVertical 4.4s linear infinite;
+    }
+
+    .rastro{
+      position:absolute;
+      width:270px;
+      height:270px;
+      border-radius:50%;
+      background:
+        conic-gradient(
+          from 0deg,
+          transparent 0 16%,
+          rgba(92,214,214,.68) 19%,
+          transparent 24% 54%,
+          rgba(244,196,48,.72) 59%,
+          transparent 66% 100%
+        );
+      filter:blur(8px);
+      opacity:.78;
+      animation:rastroGira 3.2s linear infinite;
+    }
+
+    @keyframes giroBola{
+      0%{transform:rotate(0deg)}
+      100%{transform:rotate(360deg)}
+    }
+
+    @keyframes luzBola{
+      0%,100%{transform:translateX(-8px);opacity:.72}
+      50%{transform:translateX(8px);opacity:1}
     }
 
     .mini{
@@ -438,25 +359,6 @@
       75%,100%{content:"..."}
     }
 
-
-    @media(max-width:600px){
-      .bola{
-        flex:0 0 auto;
-        min-width:180px;
-        min-height:180px;
-        max-width:232px;
-        max-height:232px;
-      }
-
-      .logo{
-        flex:0 0 auto;
-        min-width:126px;
-        min-height:126px;
-        max-width:164px;
-        max-height:164px;
-      }
-    }
-
     @media(max-height:680px){
       .universo{
         width:244px;
@@ -502,28 +404,172 @@
         <div class="orbita vertical"></div>
 
         <div class="bola">
-          <div class="textura"></div>
+          <svg
+            class="bola-svg"
+            viewBox="0 0 232 232"
+            role="img"
+            aria-label="Bola Caldas Cup"
+          >
+            <defs>
+              <clipPath id="recorteBola">
+                <circle cx="116" cy="116" r="112"></circle>
+              </clipPath>
 
-          <div class="gomos">
-            <div class="gomo g1"></div>
-            <div class="gomo g2"></div>
-            <div class="gomo g3"></div>
-            <div class="gomo g4"></div>
-            <div class="gomo g5"></div>
-          </div>
+              <radialGradient id="baseBola" cx="33%" cy="25%" r="78%">
+                <stop offset="0%" stop-color="#ffffff"></stop>
+                <stop offset="42%" stop-color="#f5f7f8"></stop>
+                <stop offset="68%" stop-color="#d9e0e4"></stop>
+                <stop offset="86%" stop-color="#9eacb4"></stop>
+                <stop offset="100%" stop-color="#30434d"></stop>
+              </radialGradient>
 
-          <div class="pentagono p1"></div>
-          <div class="pentagono p2"></div>
-          <div class="pentagono p3"></div>
-          <div class="pentagono p4"></div>
-          <div class="pentagono p5"></div>
+              <radialGradient id="sombraBola" cx="33%" cy="24%" r="82%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity=".42"></stop>
+                <stop offset="52%" stop-color="#ffffff" stop-opacity="0"></stop>
+                <stop offset="100%" stop-color="#000000" stop-opacity=".46"></stop>
+              </radialGradient>
 
-          <div class="logo">
-            <img src="./icon.png" alt="Caldas Cup Fut7">
-          </div>
+              <linearGradient id="gomoBranco" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ffffff"></stop>
+                <stop offset="62%" stop-color="#eef2f4"></stop>
+                <stop offset="100%" stop-color="#b7c4ca"></stop>
+              </linearGradient>
 
-          <div class="sombra-esfera"></div>
-        </div>
+              <linearGradient id="gomoPreto" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#1d2a31"></stop>
+                <stop offset="65%" stop-color="#0b1318"></stop>
+                <stop offset="100%" stop-color="#020507"></stop>
+              </linearGradient>
+
+              <filter id="sombraGomo" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000000" flood-opacity=".30"></feDropShadow>
+              </filter>
+
+              <filter id="brilhoLogo" x="-40%" y="-40%" width="180%" height="180%">
+                <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#28a9e0" flood-opacity=".55"></feDropShadow>
+                <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#f4c430" flood-opacity=".28"></feDropShadow>
+              </filter>
+            </defs>
+
+            <g clip-path="url(#recorteBola)">
+              <circle cx="116" cy="116" r="112" fill="url(#baseBola)"></circle>
+
+              <g class="bola-casco" filter="url(#sombraGomo)">
+                <!-- pentágono central -->
+                <polygon
+                  points="116,18 151,43 138,84 94,84 81,43"
+                  fill="url(#gomoPreto)"
+                  stroke="#172832"
+                  stroke-width="3"
+                ></polygon>
+
+                <!-- pentágonos laterais -->
+                <polygon
+                  points="205,84 226,118 205,153 166,145 164,103"
+                  fill="url(#gomoPreto)"
+                  stroke="#172832"
+                  stroke-width="3"
+                ></polygon>
+
+                <polygon
+                  points="27,84 68,103 66,145 27,153 6,118"
+                  fill="url(#gomoPreto)"
+                  stroke="#172832"
+                  stroke-width="3"
+                ></polygon>
+
+                <polygon
+                  points="160,175 151,216 116,230 81,216 72,175 116,153"
+                  fill="url(#gomoPreto)"
+                  stroke="#172832"
+                  stroke-width="3"
+                ></polygon>
+
+                <!-- painéis brancos -->
+                <polygon
+                  points="81,43 94,84 68,103 27,84 42,45"
+                  fill="url(#gomoBranco)"
+                  stroke="#71828b"
+                  stroke-width="2"
+                ></polygon>
+
+                <polygon
+                  points="151,43 190,45 205,84 164,103 138,84"
+                  fill="url(#gomoBranco)"
+                  stroke="#71828b"
+                  stroke-width="2"
+                ></polygon>
+
+                <polygon
+                  points="68,103 94,84 116,111 91,145 66,145"
+                  fill="url(#gomoBranco)"
+                  stroke="#71828b"
+                  stroke-width="2"
+                ></polygon>
+
+                <polygon
+                  points="138,84 164,103 166,145 141,145 116,111"
+                  fill="url(#gomoBranco)"
+                  stroke="#71828b"
+                  stroke-width="2"
+                ></polygon>
+
+                <polygon
+                  points="66,145 91,145 116,153 72,175 37,160"
+                  fill="url(#gomoBranco)"
+                  stroke="#71828b"
+                  stroke-width="2"
+                ></polygon>
+
+                <polygon
+                  points="141,145 166,145 195,160 160,175 116,153"
+                  fill="url(#gomoBranco)"
+                  stroke="#71828b"
+                  stroke-width="2"
+                ></polygon>
+
+                <!-- costuras extras -->
+                <path
+                  d="M94 84 L116 111 L138 84 M91 145 L116 153 L141 145 M68 103 L42 45 M164 103 L190 45"
+                  fill="none"
+                  stroke="#50626c"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                ></path>
+              </g>
+
+              <!-- logo central -->
+              <g class="logo-svg" filter="url(#brilhoLogo)">
+                <circle cx="116" cy="116" r="49" fill="#ffffff" stroke="#28a9e0" stroke-width="5"></circle>
+                <circle cx="116" cy="116" r="43" fill="#ffffff" stroke="#f4c430" stroke-width="2.5"></circle>
+                <image
+                  href="./icon.png"
+                  x="72"
+                  y="72"
+                  width="88"
+                  height="88"
+                  preserveAspectRatio="xMidYMid meet"
+                ></image>
+              </g>
+
+              <g class="bola-luz">
+                <ellipse cx="83" cy="64" rx="36" ry="21" fill="#ffffff" opacity=".22"></ellipse>
+                <ellipse cx="155" cy="166" rx="48" ry="26" fill="#000000" opacity=".12"></ellipse>
+              </g>
+
+              <circle cx="116" cy="116" r="111" fill="url(#sombraBola)"></circle>
+            </g>
+
+            <circle
+              cx="116"
+              cy="116"
+              r="112"
+              fill="none"
+              stroke="rgba(92,214,214,.34)"
+              stroke-width="2"
+            ></circle>
+          </svg>
+        </div>        </div>
       </div>
 
       <div class="mini">Painel de Controle</div>
