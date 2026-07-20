@@ -2,7 +2,6 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1, viewport-fit=cover"
@@ -10,131 +9,141 @@
 
   <title>Caldas Cup Fut7</title>
 
-  <!-- Ícones -->
-  <link rel="apple-touch-icon" href="icon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="icon.png">
-  <link rel="apple-touch-icon" sizes="512x512" href="icon.png">
-
-  <link rel="icon" type="image/png" href="icon.png">
-  <link rel="shortcut icon" href="icon.png">
-
-  <!-- Configuração do aplicativo -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-
-  <meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="black-translucent"
-  >
-
-  <meta
-    name="apple-mobile-web-app-title"
-    content="Caldas Cup"
-  >
-
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="application-name" content="Caldas Cup Fut7">
-
-  <link rel="manifest" href="manifest.json">
-
   <meta name="theme-color" content="#0a2635">
+  <meta name="application-name" content="Caldas Cup Fut7">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Caldas Cup">
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/png" href="./icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icon.png">
 
   <style>
+    :root {
+      --fundo: #071c29;
+      --fundo-secundario: #0a2635;
+      --ouro: #f4c430;
+      --texto: #eef4f8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     html,
     body {
       margin: 0;
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: #071c29;
+      background: var(--fundo);
+    }
+
+    body {
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
     }
 
     #app {
       position: fixed;
-      top: env(safe-area-inset-top, 0px);
-      left: 0;
-      right: 0;
-      bottom: 0;
-
+      inset:
+        env(safe-area-inset-top, 0px)
+        0
+        env(safe-area-inset-bottom, 0px)
+        0;
       width: 100%;
-      height: calc(100% - env(safe-area-inset-top, 0px));
-
+      height: calc(
+        100%
+        - env(safe-area-inset-top, 0px)
+        - env(safe-area-inset-bottom, 0px)
+      );
       border: 0;
-      background: #071c29;
+      background: var(--fundo);
     }
 
-    #abrindo {
+    #carregamento {
       position: fixed;
       inset: 0;
-
+      z-index: 10;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-
       gap: 18px;
       padding: 24px;
-
       background:
         radial-gradient(
           ellipse at 50% 38%,
           #123c50 0%,
-          #0a2635 48%,
+          var(--fundo-secundario) 48%,
           #04131d 100%
         );
-
-      color: #eef4f8;
+      color: var(--texto);
       font-family: Arial, sans-serif;
-
-      z-index: 2;
-      transition: opacity 0.5s ease;
+      text-align: center;
+      transition: opacity 0.35s ease;
     }
 
-    #abrindo img {
+    #carregamento.oculto {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #carregamento img {
       width: 130px;
-      height: auto;
+      height: 130px;
+      object-fit: contain;
       border-radius: 24px;
-
-      filter:
-        drop-shadow(
-          0 0 18px rgba(244, 196, 48, 0.30)
-        );
+      filter: drop-shadow(0 0 18px rgba(244, 196, 48, 0.30));
     }
 
-    #abrindo .marca {
+    .marca {
       font-size: 28px;
       font-weight: 800;
       letter-spacing: 2px;
-      text-align: center;
     }
 
-    #abrindo .destaque {
-      color: #f4c430;
+    .destaque {
+      color: var(--ouro);
     }
 
-    #abrindo .subtitulo {
-      font-size: 12px;
-      letter-spacing: 2px;
-      text-align: center;
+    .subtitulo {
+      max-width: 340px;
       color: #dce8ee;
+      font-size: 12px;
+      line-height: 1.6;
+      letter-spacing: 1.5px;
     }
 
-    #abrindo .anel {
+    .anel {
       width: 40px;
       height: 40px;
-
       border: 3px solid rgba(244, 196, 48, 0.20);
-      border-top-color: #f4c430;
+      border-top-color: var(--ouro);
       border-radius: 50%;
-
       animation: girar 0.9s linear infinite;
     }
 
-    #abrindo a {
-      margin-top: 8px;
-
-      color: #f4c430;
+    #mensagemErro {
+      display: none;
+      max-width: 360px;
+      color: #dce8ee;
       font-size: 13px;
-      text-decoration: underline;
+      line-height: 1.5;
+    }
+
+    #abrirDireto {
+      display: none;
+      padding: 12px 18px;
+      border: 1px solid var(--ouro);
+      border-radius: 10px;
+      color: #071c29;
+      background: var(--ouro);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
     }
 
     @keyframes girar {
@@ -146,11 +155,9 @@
 </head>
 
 <body>
-
-  <div id="abrindo">
-
+  <div id="carregamento">
     <img
-      src="icon.png"
+      src="./icon.png"
       alt="Caldas Cup Fut7"
       onerror="this.style.display='none'"
     >
@@ -163,29 +170,55 @@
       FUT7 · EQUIPES · HOSPEDAGEM · FINANCEIRO
     </div>
 
-    <div class="anel"></div>
+    <div class="anel" id="anel"></div>
+
+    <div id="mensagemErro">
+      O sistema está demorando para abrir dentro do aplicativo.
+      Toque no botão abaixo para abrir diretamente.
+    </div>
 
     <a
+      id="abrirDireto"
       href="https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec"
-      target="_blank"
+      target="_top"
+      rel="noopener"
     >
-      Não abriu? Toque aqui
+      ABRIR SISTEMA
     </a>
-
   </div>
 
   <iframe
     id="app"
     title="Sistema Caldas Cup Fut7"
     src="https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec"
-    onload="
-      document.getElementById('abrindo').style.opacity='0';
-
-      setTimeout(function () {
-        document.getElementById('abrindo').style.display='none';
-      }, 600);
-    "
+    allow="clipboard-read; clipboard-write"
   ></iframe>
 
+  <script>
+    const carregamento = document.getElementById('carregamento');
+    const iframe = document.getElementById('app');
+    const anel = document.getElementById('anel');
+    const mensagemErro = document.getElementById('mensagemErro');
+    const abrirDireto = document.getElementById('abrirDireto');
+
+    let abriu = false;
+
+    iframe.addEventListener('load', function () {
+      abriu = true;
+      carregamento.classList.add('oculto');
+
+      window.setTimeout(function () {
+        carregamento.style.display = 'none';
+      }, 400);
+    });
+
+    window.setTimeout(function () {
+      if (abriu) return;
+
+      anel.style.display = 'none';
+      mensagemErro.style.display = 'block';
+      abrirDireto.style.display = 'inline-block';
+    }, 12000);
+  </script>
 </body>
 </html>
