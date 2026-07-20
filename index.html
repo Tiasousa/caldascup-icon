@@ -140,15 +140,84 @@
       inset:-34%;
       border-radius:50%;
       background:
-        radial-gradient(circle at 20% 28%,#111 0 6%,transparent 6.5%),
-        radial-gradient(circle at 56% 18%,#111 0 6%,transparent 6.5%),
-        radial-gradient(circle at 78% 45%,#111 0 6%,transparent 6.5%),
-        radial-gradient(circle at 43% 66%,#111 0 6%,transparent 6.5%),
-        radial-gradient(circle at 18% 76%,#111 0 6%,transparent 6.5%),
-        radial-gradient(circle at 73% 82%,#111 0 6%,transparent 6.5%),
-        repeating-radial-gradient(circle at 50% 50%,transparent 0 25px,rgba(4,17,26,.18) 26px,transparent 28px 46px);
-      opacity:.70;
+        radial-gradient(circle at 20% 28%,#101820 0 7%,transparent 7.6%),
+        radial-gradient(circle at 56% 18%,#101820 0 7%,transparent 7.6%),
+        radial-gradient(circle at 78% 45%,#101820 0 7%,transparent 7.6%),
+        radial-gradient(circle at 43% 66%,#101820 0 7%,transparent 7.6%),
+        radial-gradient(circle at 18% 76%,#101820 0 7%,transparent 7.6%),
+        radial-gradient(circle at 73% 82%,#101820 0 7%,transparent 7.6%),
+
+        radial-gradient(circle at 13% 50%,rgba(255,255,255,.96) 0 14%,transparent 14.8%),
+        radial-gradient(circle at 87% 50%,rgba(255,255,255,.96) 0 14%,transparent 14.8%),
+        radial-gradient(circle at 50% 8%,rgba(255,255,255,.94) 0 13%,transparent 13.8%),
+        radial-gradient(circle at 50% 92%,rgba(255,255,255,.92) 0 13%,transparent 13.8%),
+
+        repeating-radial-gradient(
+          circle at 50% 50%,
+          transparent 0 24px,
+          rgba(4,17,26,.22) 25px,
+          transparent 27px 44px
+        );
+      opacity:.92;
       animation:texturaGira 5.2s linear infinite;
+    }
+
+    .painel-lateral{
+      position:absolute;
+      z-index:1;
+      width:74px;
+      height:88px;
+      background:linear-gradient(145deg,#ffffff 0%,#e9eef1 58%,#b9c6cd 100%);
+      clip-path:polygon(50% 0%,92% 26%,78% 78%,50% 100%,22% 78%,8% 26%);
+      box-shadow:
+        inset -8px -8px 14px rgba(0,0,0,.15),
+        inset 7px 6px 12px rgba(255,255,255,.65);
+      opacity:.98;
+    }
+
+    .painel-lateral.esquerda{
+      left:-6px;
+      top:72px;
+      transform:rotate(-18deg) scale(.92);
+    }
+
+    .painel-lateral.direita{
+      right:-6px;
+      top:72px;
+      transform:rotate(18deg) scale(.92);
+    }
+
+    .painel-lateral.topo{
+      top:-18px;
+      left:79px;
+      transform:rotate(0deg) scale(.88);
+    }
+
+    .costura{
+      position:absolute;
+      inset:0;
+      z-index:1;
+      border-radius:50%;
+      background:
+        conic-gradient(
+          from 12deg,
+          transparent 0 8%,
+          rgba(5,22,31,.40) 8.5% 9.2%,
+          transparent 9.7% 22%,
+          rgba(5,22,31,.34) 22.5% 23.2%,
+          transparent 23.7% 38%,
+          rgba(5,22,31,.36) 38.5% 39.2%,
+          transparent 39.7% 54%,
+          rgba(5,22,31,.34) 54.5% 55.2%,
+          transparent 55.7% 70%,
+          rgba(5,22,31,.38) 70.5% 71.2%,
+          transparent 71.7% 86%,
+          rgba(5,22,31,.35) 86.5% 87.2%,
+          transparent 87.7% 100%
+        );
+      mix-blend-mode:multiply;
+      opacity:.78;
+      pointer-events:none;
     }
 
     .sombra-esfera{
@@ -429,6 +498,10 @@
 
         <div class="bola">
           <div class="textura"></div>
+          <div class="painel-lateral esquerda"></div>
+          <div class="painel-lateral direita"></div>
+          <div class="painel-lateral topo"></div>
+          <div class="costura"></div>
 
           <div class="logo">
             <img src="./icon.png" alt="Caldas Cup Fut7">
