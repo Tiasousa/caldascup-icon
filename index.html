@@ -23,9 +23,14 @@
   <style>
     :root {
       --fundo: #071c29;
-      --fundo-secundario: #0a2635;
+      --fundo-2: #0a2635;
+      --fundo-3: #123c50;
+      --azul: #28a9e0;
+      --ciano: #5cd6d6;
       --ouro: #f4c430;
+      --ouro-claro: #ffdb6b;
       --texto: #eef4f8;
+      --muted: #b8ceda;
     }
 
     * {
@@ -44,6 +49,7 @@
     body {
       padding-top: env(safe-area-inset-top, 0px);
       padding-bottom: env(safe-area-inset-bottom, 0px);
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     #app {
@@ -53,138 +59,359 @@
         0
         env(safe-area-inset-bottom, 0px)
         0;
+
       width: 100%;
       height: calc(
         100%
         - env(safe-area-inset-top, 0px)
         - env(safe-area-inset-bottom, 0px)
       );
+
       border: 0;
       background: var(--fundo);
+      opacity: 0;
+      transition: opacity .45s ease;
     }
 
-    #carregamento {
+    #app.visivel {
+      opacity: 1;
+    }
+
+    #splash {
       position: fixed;
       inset: 0;
-      z-index: 10;
+      z-index: 1000;
+
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 18px;
-      padding: 24px;
+
+      padding:
+        calc(28px + env(safe-area-inset-top, 0px))
+        24px
+        calc(28px + env(safe-area-inset-bottom, 0px));
+
+      overflow: hidden;
       background:
-        radial-gradient(
-          ellipse at 50% 38%,
-          #123c50 0%,
-          var(--fundo-secundario) 48%,
-          #04131d 100%
-        );
+        radial-gradient(circle at 50% 34%, rgba(40,169,224,.22), transparent 34%),
+        radial-gradient(circle at 50% 75%, rgba(244,196,48,.10), transparent 34%),
+        linear-gradient(160deg, #04131d 0%, var(--fundo) 42%, var(--fundo-2) 100%);
+
       color: var(--texto);
-      font-family: Arial, sans-serif;
-      text-align: center;
-      transition: opacity 0.35s ease;
+      transition: opacity .55s ease, visibility .55s ease;
     }
 
-    #carregamento.oculto {
+    #splash.saindo {
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
     }
 
-    #carregamento img {
-      width: 130px;
-      height: 130px;
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(10px);
+      opacity: .45;
+      animation: flutuar 6s ease-in-out infinite;
+    }
+
+    .orb.um {
+      width: 220px;
+      height: 220px;
+      top: -70px;
+      right: -60px;
+      background: rgba(40,169,224,.16);
+    }
+
+    .orb.dois {
+      width: 180px;
+      height: 180px;
+      bottom: -50px;
+      left: -60px;
+      background: rgba(244,196,48,.10);
+      animation-delay: -2s;
+    }
+
+    .splash-conteudo {
+      position: relative;
+      width: min(92vw, 430px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      animation: entrada .9s cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    .logo-wrap {
+      position: relative;
+      width: 176px;
+      height: 176px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 22px;
+    }
+
+    .halo {
+      position: absolute;
+      inset: 5px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(40,169,224,.20), rgba(40,169,224,.06) 46%, transparent 70%);
+      box-shadow:
+        0 0 60px rgba(40,169,224,.25),
+        0 0 90px rgba(244,196,48,.08);
+      animation: pulsar 2.2s ease-in-out infinite;
+    }
+
+    .anel-logo {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(92,214,214,.20);
+    }
+
+    .anel-logo::before,
+    .anel-logo::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(244,196,48,.16);
+    }
+
+    .anel-logo::after {
+      inset: 22px;
+      border-color: rgba(40,169,224,.15);
+    }
+
+    .logo-wrap img {
+      position: relative;
+      z-index: 2;
+      width: 142px;
+      height: 142px;
       object-fit: contain;
-      border-radius: 24px;
-      filter: drop-shadow(0 0 18px rgba(244, 196, 48, 0.30));
+      border-radius: 28px;
+      filter:
+        drop-shadow(0 10px 30px rgba(0,0,0,.35))
+        drop-shadow(0 0 16px rgba(244,196,48,.18));
+      animation: respirar 2.5s ease-in-out infinite;
+    }
+
+    .evento {
+      margin-bottom: 7px;
+      color: var(--ouro-claro);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .32em;
+      text-transform: uppercase;
     }
 
     .marca {
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: 2px;
+      margin: 0;
+      font-size: clamp(34px, 8vw, 46px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: .06em;
+      text-shadow: 0 8px 30px rgba(0,0,0,.28);
     }
 
-    .destaque {
+    .marca .destaque {
       color: var(--ouro);
     }
 
     .subtitulo {
-      max-width: 340px;
-      color: #dce8ee;
+      margin: 13px 0 26px;
+      max-width: 360px;
+      color: var(--muted);
       font-size: 12px;
       line-height: 1.6;
-      letter-spacing: 1.5px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
     }
 
-    .anel {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(244, 196, 48, 0.20);
-      border-top-color: var(--ouro);
-      border-radius: 50%;
-      animation: girar 0.9s linear infinite;
+    .progresso {
+      width: min(78vw, 300px);
+      height: 5px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255,255,255,.09);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,.3);
     }
 
-    #mensagemErro {
+    .progresso span {
+      display: block;
+      width: 36%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, transparent, var(--ouro), var(--ouro-claro), transparent);
+      animation: carregar 1.35s ease-in-out infinite;
+    }
+
+    .status {
+      min-height: 20px;
+      margin-top: 14px;
+      color: #d9e6ec;
+      font-size: 12px;
+      letter-spacing: .05em;
+    }
+
+    .status::after {
+      content: "";
+      animation: pontos 1.3s steps(4, end) infinite;
+    }
+
+    #fallback {
       display: none;
-      max-width: 360px;
-      color: #dce8ee;
+      width: min(86vw, 360px);
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,.10);
+    }
+
+    #fallback p {
+      margin: 0 0 14px;
+      color: var(--muted);
       font-size: 13px;
       line-height: 1.5;
     }
 
     #abrirDireto {
-      display: none;
-      padding: 12px 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 12px 22px;
       border: 1px solid var(--ouro);
-      border-radius: 10px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, var(--ouro-claro), var(--ouro));
       color: #071c29;
-      background: var(--ouro);
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 800;
+      letter-spacing: .04em;
       text-decoration: none;
+      box-shadow: 0 10px 28px rgba(244,196,48,.20);
     }
 
-    @keyframes girar {
+    @keyframes entrada {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(.97);
+      }
       to {
-        transform: rotate(360deg);
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @keyframes respirar {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.035); }
+    }
+
+    @keyframes pulsar {
+      0%, 100% { transform: scale(.96); opacity: .65; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+
+    @keyframes carregar {
+      0% { transform: translateX(-130%); }
+      100% { transform: translateX(380%); }
+    }
+
+    @keyframes pontos {
+      0% { content: ""; }
+      25% { content: "."; }
+      50% { content: ".."; }
+      75%, 100% { content: "..."; }
+    }
+
+    @keyframes flutuar {
+      0%, 100% { transform: translate3d(0,0,0); }
+      50% { transform: translate3d(0,16px,0); }
+    }
+
+    @media (max-height: 620px) {
+      .logo-wrap {
+        width: 132px;
+        height: 132px;
+        margin-bottom: 14px;
+      }
+
+      .logo-wrap img {
+        width: 108px;
+        height: 108px;
+      }
+
+      .marca {
+        font-size: 32px;
+      }
+
+      .subtitulo {
+        margin: 10px 0 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
       }
     }
   </style>
 </head>
 
 <body>
-  <div id="carregamento">
-    <img
-      src="./icon.png"
-      alt="Caldas Cup Fut7"
-      onerror="this.style.display='none'"
-    >
+  <div id="splash" aria-live="polite">
+    <div class="orb um"></div>
+    <div class="orb dois"></div>
 
-    <div class="marca">
-      CALDAS <span class="destaque">CUP</span>
+    <div class="splash-conteudo">
+      <div class="logo-wrap">
+        <div class="halo"></div>
+        <div class="anel-logo"></div>
+
+        <img
+          src="./icon.png"
+          alt="Caldas Cup Fut7"
+          onerror="this.style.display='none'"
+        >
+      </div>
+
+      <div class="evento">Painel de Controle</div>
+
+      <h1 class="marca">
+        CALDAS <span class="destaque">CUP</span>
+      </h1>
+
+      <div class="subtitulo">
+        Fut7 · Equipes · Hospedagem · Financeiro
+      </div>
+
+      <div class="progresso" aria-hidden="true">
+        <span></span>
+      </div>
+
+      <div class="status" id="status">Carregando sistema</div>
+
+      <div id="fallback">
+        <p>
+          O sistema está demorando mais que o esperado para abrir dentro do aplicativo.
+        </p>
+
+        <a
+          id="abrirDireto"
+          href="https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec"
+          target="_top"
+          rel="noopener"
+        >
+          ABRIR SISTEMA
+        </a>
+      </div>
     </div>
-
-    <div class="subtitulo">
-      FUT7 · EQUIPES · HOSPEDAGEM · FINANCEIRO
-    </div>
-
-    <div class="anel" id="anel"></div>
-
-    <div id="mensagemErro">
-      O sistema está demorando para abrir dentro do aplicativo.
-      Toque no botão abaixo para abrir diretamente.
-    </div>
-
-    <a
-      id="abrirDireto"
-      href="https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec"
-      target="_top"
-      rel="noopener"
-    >
-      ABRIR SISTEMA
-    </a>
   </div>
 
   <iframe
@@ -195,30 +422,47 @@
   ></iframe>
 
   <script>
-    const carregamento = document.getElementById('carregamento');
+    const splash = document.getElementById('splash');
     const iframe = document.getElementById('app');
-    const anel = document.getElementById('anel');
-    const mensagemErro = document.getElementById('mensagemErro');
-    const abrirDireto = document.getElementById('abrirDireto');
+    const fallback = document.getElementById('fallback');
+    const status = document.getElementById('status');
 
-    let abriu = false;
+    const inicio = Date.now();
+    const TEMPO_MINIMO_SPLASH = 2200;
+    const TEMPO_LIMITE = 15000;
 
-    iframe.addEventListener('load', function () {
-      abriu = true;
-      carregamento.classList.add('oculto');
+    let iframeCarregado = false;
+    let splashEncerrada = false;
+
+    function encerrarSplash() {
+      if (splashEncerrada) return;
+
+      const tempoDecorrido = Date.now() - inicio;
+      const esperaRestante = Math.max(0, TEMPO_MINIMO_SPLASH - tempoDecorrido);
 
       window.setTimeout(function () {
-        carregamento.style.display = 'none';
-      }, 400);
+        splashEncerrada = true;
+        status.textContent = 'Sistema pronto';
+        iframe.classList.add('visivel');
+        splash.classList.add('saindo');
+
+        window.setTimeout(function () {
+          splash.style.display = 'none';
+        }, 600);
+      }, esperaRestante);
+    }
+
+    iframe.addEventListener('load', function () {
+      iframeCarregado = true;
+      encerrarSplash();
     });
 
     window.setTimeout(function () {
-      if (abriu) return;
+      if (iframeCarregado || splashEncerrada) return;
 
-      anel.style.display = 'none';
-      mensagemErro.style.display = 'block';
-      abrirDireto.style.display = 'inline-block';
-    }, 12000);
+      status.textContent = 'Ainda carregando';
+      fallback.style.display = 'block';
+    }, TEMPO_LIMITE);
   </script>
 </body>
 </html>
