@@ -1,30 +1,146 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Caldas Cup Fut7 - Painel de Controle</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" href="icon.png">
+
+  <!-- Ícone da tela inicial (arquivo icon.png na MESMA pasta) -->
   <link rel="apple-touch-icon" href="icon.png">
-  <meta name="theme-color" content="#0a2635">
-  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="apple-touch-icon" sizes="180x180" href="icon.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icon.png">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="shortcut icon" href="icon.png">
+
+  <!-- Manifesto PWA (usado principalmente pelo Android/Chrome ao "Instalar app") -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Nome do app + tela cheia + cor do tema -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Caldas Cup">
-  <meta http-equiv="refresh" content="0; url=https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Caldas Cup Fut7">
+  <meta name="theme-color" content="#0a2635">
+
   <style>
-    html,body{margin:0;height:100%;background:#071c29;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;}
-    .box{text-align:center;color:#eef4f8;}
-    img{width:140px;height:auto;margin-bottom:16px;}
-    a{color:#f4c430;}
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap');
+
+    html, body { margin: 0; height: 100%; background: #071c29; }
+    #app {
+      position: fixed;
+      top: env(safe-area-inset-top, 0px);
+      left: 0; right: 0; bottom: 0;
+      width: 100%;
+      height: calc(100% - env(safe-area-inset-top, 0px));
+      border: 0;
+    }
+
+    #abrindo {
+      position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: radial-gradient(ellipse at 50% 38%, #123a52 0%, #0a2635 45%, #071c29 100%);
+      color: #eef4f8; font-family: 'Segoe UI', system-ui, sans-serif; z-index: 2;
+      transition: opacity .5s ease;
+    }
+
+    .abrindo__glow {
+      position: absolute; top: 40%; left: 50%; width: 480px; height: 480px; transform: translate(-50%,-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(40,169,224,0.22) 0%, rgba(244,196,48,0.08) 42%, transparent 70%);
+      filter: blur(6px); z-index: 1;
+      animation: abrindoRespira 5s ease-in-out infinite;
+    }
+    @keyframes abrindoRespira { 0%,100% { opacity: 0.7; transform: translate(-50%,-50%) scale(1); } 50% { opacity: 1; transform: translate(-50%,-50%) scale(1.07); } }
+
+    .abrindo__content { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 2; }
+    .abrindo__content > * { opacity: 0; animation: abrindoSubir 0.7s ease forwards; }
+    .abrindo__content .abrindo__emblema { animation-delay: 0.05s; }
+    .abrindo__content .abrindo__marca { animation-delay: 0.22s; }
+    .abrindo__content .abrindo__modulo { animation-delay: 0.32s; }
+    .abrindo__content .abrindo__tagline { animation-delay: 0.44s; }
+    .abrindo__content .abrindo__barra { animation-delay: 0.58s; }
+    #abrindo > .abrindo__link { opacity: 0; animation: abrindoSubir 0.7s ease forwards; animation-delay: 0.68s; }
+    @keyframes abrindoSubir { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+    .abrindo__emblema {
+      position: relative; width: 172px; height: 172px; margin-bottom: 26px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .abrindo__emblema-anel { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .abrindo__emblema-anel .gear { transform-box: fill-box; transform-origin: center; animation: abrindoGirar 12s linear infinite; }
+    .abrindo__emblema-anel .arco { transform-box: fill-box; transform-origin: center; animation: abrindoGirar 1.3s linear infinite; }
+    .abrindo__logo { position: relative; width: 108px; height: auto; z-index: 2; animation: abrindoPulsaLogo 3.6s ease-in-out infinite; }
+    @keyframes abrindoPulsaLogo { 0%,100% { filter: drop-shadow(0 0 12px rgba(40,169,224,0.42)); } 50% { filter: drop-shadow(0 0 22px rgba(244,196,48,0.55)); } }
+    @keyframes abrindoGirar { to { transform: rotate(360deg); } }
+
+    .abrindo__marca { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .abrindo__prefixo {
+      font-family: 'Oswald', 'Segoe UI', sans-serif; font-weight: 600; font-size: 15px;
+      letter-spacing: 2.5px; text-transform: uppercase; color: #eef4f8;
+    }
+    .abrindo__word {
+      font-family: 'Oswald', 'Segoe UI', sans-serif; font-weight: 700; font-size: 40px; letter-spacing: 2px; line-height: 1;
+      background: linear-gradient(100deg, #ffdb6b 0%, #ffffff 18%, #a7e6f9 34%, #28a9e0 52%, #5cd6d6 68%, #f4c430 82%, #ffdb6b 100%);
+      background-size: 220% 100%;
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+      animation: abrindoShimmer 3.2s linear infinite;
+    }
+    @keyframes abrindoShimmer { to { background-position: -220% 0; } }
+    .abrindo__modulo {
+      margin-top: 6px; font-family: 'Oswald', 'Segoe UI', sans-serif; font-size: 13px;
+      font-weight: 600; letter-spacing: 3px; color: #8fb4c9;
+    }
+    .abrindo__tagline { margin-top: 14px; font-family: 'Oswald', 'Segoe UI', sans-serif; font-size: 13px; letter-spacing: 3.5px; color: #ffdb6b; font-weight: 600; }
+
+    .abrindo__barra { margin-top: 30px; width: min(320px, 74vw); height: 4px; background: rgba(40,169,224,0.12); border-radius: 999px; overflow: hidden; }
+    .abrindo__barra-fill {
+      height: 100%; width: 32%; border-radius: 999px;
+      background: linear-gradient(90deg, transparent, #28a9e0 30%, #5cd6d6 50%, #f4c430 75%, transparent);
+      animation: abrindoDesliza 1.5s ease-in-out infinite;
+    }
+    @keyframes abrindoDesliza { 0% { transform: translateX(-130%); } 100% { transform: translateX(420%); } }
+
+    .abrindo__link { margin-top: 18px; color: #8fd6f5; font-size: 13px; text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .abrindo__word { font-size: 28px; } .abrindo__prefixo { font-size: 12px; letter-spacing: 1.8px; }
+      .abrindo__emblema { width: 130px; height: 130px; } .abrindo__logo { width: 82px; }
+      .abrindo__modulo { font-size: 11px; letter-spacing: 2px; }
+      .abrindo__tagline { letter-spacing: 2px; font-size: 11px; }
+    }
   </style>
 </head>
 <body>
-  <div class="box">
-    <img src="icon.png" alt="Caldas Cup">
-    <p>Abrindo o painel do Caldas Cup...</p>
-    <p><a href="https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec">Clique aqui se não abrir automaticamente</a></p>
+  <div id="abrindo">
+    <div class="abrindo__glow"></div>
+    <div class="abrindo__content">
+      <div class="abrindo__emblema">
+        <svg class="abrindo__emblema-anel" viewBox="0 0 172 172" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="wrapAnelGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#a7e6f9"/>
+              <stop offset="0.5" stop-color="#28a9e0"/>
+              <stop offset="1" stop-color="#1c7aa8"/>
+            </linearGradient>
+          </defs>
+          <circle cx="86" cy="86" r="80" fill="none" stroke="rgba(40,169,224,0.16)" stroke-width="1.4"/>
+          <circle class="gear" cx="86" cy="86" r="80" fill="none" stroke="url(#wrapAnelGrad)" stroke-width="6" stroke-dasharray="3 9.5"/>
+          <circle class="arco" cx="86" cy="86" r="71" fill="none" stroke="#f4c430" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="52 280"/>
+        </svg>
+        <img class="abrindo__logo" src="icon.png" alt="Caldas Cup Fut7" onerror="this.style.display='none'">
+      </div>
+      <div class="abrindo__marca">
+        <span class="abrindo__prefixo">Painel de Controle</span>
+        <span class="abrindo__word">CALDAS CUP</span>
+      </div>
+      <div class="abrindo__modulo">FUT7 · 2026</div>
+      <div class="abrindo__tagline">EQUIPES · FINANCEIRO · GESTÃO</div>
+      <div class="abrindo__barra"><div class="abrindo__barra-fill"></div></div>
+    </div>
+    <a class="abrindo__link" href="https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec" target="_blank">Não abriu? Toque aqui</a>
   </div>
+
+  <iframe id="app" src="https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec"
+    onload="document.getElementById('abrindo').style.opacity='0'; setTimeout(function(){document.getElementById('abrindo').style.display='none';}, 600);"></iframe>
 </body>
 </html>
