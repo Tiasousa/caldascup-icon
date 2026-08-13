@@ -1,1 +1,760 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Inscrição Oficial | Caldas Cup 2026</title>
 
+  <meta name="theme-color" content="#031521">
+  <meta name="application-name" content="Caldas Cup Fut7">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Caldas Cup">
+
+  <link rel="icon" type="image/png" href="./icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icon.png">
+
+  <style>
+    :root{
+      --bg:#031521;
+      --bg2:#06283a;
+      --blue:#28a9e0;
+      --cyan:#5cd6d6;
+      --gold:#f4c430;
+      --gold2:#ffdf6b;
+      --text:#eef4f8;
+      --muted:#a9c3d1;
+      --line:rgba(244,196,48,.18);
+      --panel:rgba(5,31,45,.86);
+      --danger:#ff7a7a;
+      --success:#3dd68c;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--text);
+      font-family:Arial,Helvetica,sans-serif;
+      background:
+        radial-gradient(circle at 50% -5%,rgba(40,169,224,.24),transparent 32%),
+        radial-gradient(circle at 92% 18%,rgba(244,196,48,.09),transparent 26%),
+        linear-gradient(155deg,#02111a 0%,#06283a 50%,#031521 100%);
+    }
+
+    body:before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+      background-size:42px 42px;
+      mask-image:linear-gradient(to bottom,#000,transparent 78%);
+    }
+
+    .wrap{
+      width:min(920px,calc(100% - 24px));
+      margin:0 auto;
+      padding:28px 0 50px;
+    }
+
+    .hero{
+      text-align:center;
+      padding:8px 10px 26px;
+    }
+
+    .brand{
+      width:112px;
+      height:112px;
+      margin:0 auto 17px;
+      border-radius:28px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(244,196,48,.24);
+      background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.025));
+      box-shadow:0 20px 50px rgba(0,0,0,.34),0 0 35px rgba(40,169,224,.10);
+    }
+
+    .brand img{
+      width:92px;
+      height:92px;
+      object-fit:contain;
+      filter:drop-shadow(0 8px 18px rgba(0,0,0,.35));
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 12px;
+      border-radius:999px;
+      color:var(--gold2);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      border:1px solid rgba(244,196,48,.25);
+      background:rgba(244,196,48,.065);
+    }
+
+    h1{
+      margin:14px 0 9px;
+      font-size:clamp(32px,7vw,51px);
+      line-height:1;
+      letter-spacing:-.035em;
+    }
+
+    h1 span{color:var(--gold)}
+
+    .hero p{
+      margin:0 auto;
+      max-width:650px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.65;
+    }
+
+    .card{
+      position:relative;
+      overflow:hidden;
+      padding:26px;
+      border-radius:26px;
+      border:1px solid var(--line);
+      background:linear-gradient(145deg,var(--panel),rgba(3,21,33,.94));
+      box-shadow:0 26px 70px rgba(0,0,0,.36);
+      backdrop-filter:blur(18px);
+    }
+
+    .card:before{
+      content:"";
+      position:absolute;
+      left:0;right:0;top:0;
+      height:2px;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    }
+
+    .section-head{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:19px;
+    }
+
+    .step{
+      width:35px;
+      height:35px;
+      flex:0 0 auto;
+      display:grid;
+      place-items:center;
+      border-radius:11px;
+      color:var(--gold);
+      font-weight:900;
+      border:1px solid rgba(244,196,48,.28);
+      background:rgba(244,196,48,.11);
+    }
+
+    .section-head h2{margin:0;font-size:18px}
+    .section-head p{margin:3px 0 0;color:var(--muted);font-size:12px}
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+
+    .field{display:flex;flex-direction:column;gap:8px}
+    .field.full{grid-column:1/-1}
+
+    label.title{
+      color:#dce8ee;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.03em;
+    }
+
+    input,textarea{
+      width:100%;
+      border:1px solid rgba(255,255,255,.09);
+      outline:none;
+      color:var(--text);
+      background:rgba(0,0,0,.18);
+      border-radius:14px;
+      padding:14px 15px;
+      font:inherit;
+      font-size:15px;
+      transition:.18s ease;
+    }
+
+    input:focus,textarea:focus{
+      border-color:rgba(244,196,48,.54);
+      box-shadow:0 0 0 4px rgba(244,196,48,.07);
+    }
+
+    input::placeholder,textarea::placeholder{color:#6d8998}
+    textarea{min-height:105px;resize:vertical}
+
+    .divider{
+      height:1px;
+      background:rgba(255,255,255,.07);
+      margin:26px 0;
+    }
+
+    .cats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+    }
+
+    .cat{
+      position:relative;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:14px 12px;
+      border-radius:15px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.035);
+      transition:.18s ease;
+      user-select:none;
+    }
+
+    .cat:hover{
+      transform:translateY(-1px);
+      border-color:rgba(244,196,48,.28);
+    }
+
+    .cat input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .check{
+      width:22px;
+      height:22px;
+      flex:0 0 auto;
+      display:grid;
+      place-items:center;
+      border-radius:7px;
+      border:1px solid rgba(255,255,255,.18);
+      color:#031521;
+      font-size:14px;
+      font-weight:900;
+    }
+
+    .cat.active{
+      border-color:rgba(244,196,48,.55);
+      background:linear-gradient(145deg,rgba(244,196,48,.14),rgba(244,196,48,.05));
+    }
+
+    .cat.active .check{
+      background:var(--gold);
+      border-color:var(--gold);
+    }
+
+    .cat .nome{
+      font-size:13px;
+      font-weight:900;
+    }
+
+    .summary{
+      margin-top:18px;
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      align-items:center;
+      padding:16px;
+      border-radius:16px;
+      border:1px solid rgba(244,196,48,.16);
+      background:rgba(244,196,48,.055);
+    }
+
+    .summary small{
+      display:block;
+      color:var(--muted);
+      margin-bottom:4px;
+    }
+
+    .summary strong{
+      color:var(--gold2);
+      font-size:18px;
+    }
+
+    .alert{
+      display:none;
+      margin-top:18px;
+      padding:13px 15px;
+      border-radius:13px;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .alert.error{
+      display:block;
+      color:#ffe1e1;
+      border:1px solid rgba(255,122,122,.30);
+      background:rgba(255,122,122,.10);
+    }
+
+    .button{
+      width:100%;
+      margin-top:24px;
+      border:0;
+      border-radius:16px;
+      padding:16px 18px;
+      cursor:pointer;
+      color:#06141d;
+      background:linear-gradient(180deg,var(--gold2),var(--gold));
+      font-size:14px;
+      font-weight:950;
+      letter-spacing:.04em;
+      box-shadow:0 14px 34px rgba(244,196,48,.20);
+      transition:.18s ease;
+    }
+
+    .button:hover{
+      transform:translateY(-1px);
+      box-shadow:0 18px 38px rgba(244,196,48,.28);
+    }
+
+    .button:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    .legal{
+      max-width:650px;
+      margin:13px auto 0;
+      text-align:center;
+      color:#6f8b9a;
+      font-size:11px;
+      line-height:1.55;
+    }
+
+    .loading{
+      display:none;
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      background:rgba(1,10,15,.83);
+      backdrop-filter:blur(10px);
+    }
+
+    .loading.show{display:flex}
+
+    .loader-box{text-align:center}
+
+    .loader{
+      width:54px;
+      height:54px;
+      margin:0 auto 14px;
+      border:4px solid rgba(255,255,255,.12);
+      border-top-color:var(--gold);
+      border-radius:50%;
+      animation:spin .8s linear infinite;
+    }
+
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .success{
+      display:none;
+      text-align:center;
+      padding:32px 8px 10px;
+    }
+
+    .success.show{display:block}
+
+    .success-icon{
+      width:84px;
+      height:84px;
+      margin:0 auto 18px;
+      display:grid;
+      place-items:center;
+      border-radius:25px;
+      color:#dfffee;
+      font-size:44px;
+      background:rgba(61,214,140,.12);
+      border:1px solid rgba(61,214,140,.30);
+    }
+
+    .success h2{
+      margin:0 0 10px;
+      font-size:29px;
+    }
+
+    .success p{
+      max-width:560px;
+      margin:0 auto 18px;
+      color:var(--muted);
+      line-height:1.65;
+    }
+
+    .success-box{
+      max-width:560px;
+      margin:0 auto;
+      padding:16px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.035);
+    }
+
+    .success-box strong{color:var(--gold2)}
+
+    footer{
+      margin-top:22px;
+      text-align:center;
+      color:#5b7887;
+      font-size:11px;
+    }
+
+    #postFrame{
+      position:absolute;
+      width:1px;
+      height:1px;
+      border:0;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .hp{
+      position:absolute !important;
+      left:-99999px !important;
+      width:1px !important;
+      height:1px !important;
+      opacity:0 !important;
+      pointer-events:none !important;
+    }
+
+    @media(max-width:640px){
+      .wrap{width:min(100% - 18px,920px);padding-top:16px}
+      .hero{padding-bottom:21px}
+      .brand{width:94px;height:94px;border-radius:24px}
+      .brand img{width:78px;height:78px}
+      .card{padding:20px 16px;border-radius:22px}
+      .grid{grid-template-columns:1fr}
+      .field.full{grid-column:auto}
+      .cats{grid-template-columns:repeat(2,1fr)}
+      .summary{flex-direction:column;align-items:flex-start}
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="brand">
+        <img src="./icon.png" alt="Caldas Cup">
+      </div>
+
+      <div class="badge">⚽ Inscrição oficial 2026</div>
+
+      <h1>Seu time na <span>Caldas Cup</span></h1>
+
+      <p>
+        Envie sua equipe diretamente para a organização do torneio.
+        Após o envio, os dados entram no sistema oficial para validação.
+      </p>
+    </section>
+
+    <section class="card">
+      <form id="form">
+        <div id="formContent">
+          <div class="section-head">
+            <div class="step">1</div>
+            <div>
+              <h2>Dados da equipe</h2>
+              <p>Informações principais para identificação</p>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="field full">
+              <label class="title" for="nomeEquipe">NOME DA EQUIPE *</label>
+              <input id="nomeEquipe" maxlength="80" autocomplete="organization"
+                     placeholder="Ex.: Arena Caldas Fut7" required>
+            </div>
+
+            <div class="field">
+              <label class="title" for="responsavel">RESPONSÁVEL *</label>
+              <input id="responsavel" maxlength="80" autocomplete="name"
+                     placeholder="Nome completo" required>
+            </div>
+
+            <div class="field">
+              <label class="title" for="telefone">WHATSAPP *</label>
+              <input id="telefone" maxlength="18" inputmode="tel" autocomplete="tel"
+                     placeholder="(64) 99999-9999" required>
+            </div>
+
+            <div class="field full">
+              <label class="title" for="cidade">CIDADE / UF *</label>
+              <input id="cidade" maxlength="80" autocomplete="address-level2"
+                     placeholder="Ex.: Goiânia / GO" required>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-head">
+            <div class="step">2</div>
+            <div>
+              <h2>Categorias</h2>
+              <p>Selecione todas as categorias que sua equipe disputará</p>
+            </div>
+          </div>
+
+          <div class="cats">
+            <label class="cat"><input type="checkbox" value="Sub 06"><span class="check">✓</span><span class="nome">Sub 06</span></label>
+            <label class="cat"><input type="checkbox" value="Sub 07"><span class="check">✓</span><span class="nome">Sub 07</span></label>
+            <label class="cat"><input type="checkbox" value="Sub 08"><span class="check">✓</span><span class="nome">Sub 08</span></label>
+            <label class="cat"><input type="checkbox" value="Sub 09"><span class="check">✓</span><span class="nome">Sub 09</span></label>
+            <label class="cat"><input type="checkbox" value="Sub 10"><span class="check">✓</span><span class="nome">Sub 10</span></label>
+            <label class="cat"><input type="checkbox" value="Sub 11"><span class="check">✓</span><span class="nome">Sub 11</span></label>
+            <label class="cat"><input type="checkbox" value="Sub 12"><span class="check">✓</span><span class="nome">Sub 12</span></label>
+            <label class="cat"><input type="checkbox" value="Sub 13"><span class="check">✓</span><span class="nome">Sub 13</span></label>
+            <label class="cat"><input type="checkbox" value="Sub 14"><span class="check">✓</span><span class="nome">Sub 14</span></label>
+          </div>
+
+          <div class="summary">
+            <div>
+              <small>Categorias selecionadas</small>
+              <strong id="qtdCategorias">0</strong>
+            </div>
+            <div>
+              <small>Status inicial</small>
+              <strong>Pendente de validação</strong>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-head">
+            <div class="step">3</div>
+            <div>
+              <h2>Informações finais</h2>
+              <p>Quantidade total e observações para a organização</p>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="field">
+              <label class="title" for="qtdAtletas">QUANTIDADE TOTAL DE ATLETAS *</label>
+              <input id="qtdAtletas" type="number" min="1" max="500" inputmode="numeric"
+                     placeholder="Ex.: 18" required>
+            </div>
+
+            <div class="field full">
+              <label class="title" for="observacoes">OBSERVAÇÕES</label>
+              <textarea id="observacoes" maxlength="800"
+                        placeholder="Informações adicionais para a organização..."></textarea>
+            </div>
+          </div>
+
+          <div id="mensagem" class="alert"></div>
+
+          <button class="button" id="btnEnviar" type="submit">
+            ENVIAR INSCRIÇÃO OFICIAL
+          </button>
+
+          <p class="legal">
+            O envio não representa aprovação automática. A organização da
+            Caldas Cup 2026 irá validar as informações recebidas.
+          </p>
+        </div>
+      </form>
+
+      <div class="success" id="success">
+        <div class="success-icon">✓</div>
+        <h2>Inscrição recebida!</h2>
+        <p>
+          Sua equipe foi enviada diretamente para o sistema oficial da
+          Caldas Cup 2026.
+        </p>
+        <div class="success-box">
+          Equipe: <strong id="successEquipe"></strong><br>
+          Status: <strong>Pendente de validação</strong>
+        </div>
+      </div>
+    </section>
+
+    <footer>Caldas Cup Fut7 • Caldas Novas / GO • 2026</footer>
+  </main>
+
+  <div class="loading" id="loading">
+    <div class="loader-box">
+      <div class="loader"></div>
+      <strong>Enviando inscrição...</strong>
+    </div>
+  </div>
+
+  <!-- Recebe a resposta do Apps Script sem tirar o usuário do GitHub Pages -->
+  <iframe id="postFrame" name="postFrame" title="Envio da inscrição"></iframe>
+
+  <!-- Form real de POST, montado via JavaScript -->
+  <form id="postForm" method="POST" target="postFrame" style="display:none">
+    <input type="hidden" name="payload" id="payload">
+    <input type="text" name="website" id="website" class="hp" tabindex="-1" autocomplete="off">
+  </form>
+
+  <script>
+    /*
+     * IMPORTANTE:
+     * Depois de criar e implantar o NOVO Apps Script público,
+     * substitua o texto abaixo pelo link /exec dele.
+     */
+    const ENDPOINT_INSCRICAO = 'COLE_AQUI_O_LINK_EXEC_DO_BACKEND_PUBLICO';
+
+    const form = document.getElementById('form');
+    const postForm = document.getElementById('postForm');
+    const payload = document.getElementById('payload');
+    const loading = document.getElementById('loading');
+    const mensagem = document.getElementById('mensagem');
+    const btnEnviar = document.getElementById('btnEnviar');
+    const qtdCategorias = document.getElementById('qtdCategorias');
+
+    let aguardandoResposta = false;
+    let timeoutEnvio = null;
+
+    function mostrarErro(texto){
+      loading.classList.remove('show');
+      btnEnviar.disabled = false;
+      aguardandoResposta = false;
+
+      if(timeoutEnvio){
+        clearTimeout(timeoutEnvio);
+        timeoutEnvio = null;
+      }
+
+      mensagem.textContent = texto;
+      mensagem.className = 'alert error';
+      mensagem.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+
+    function atualizarCategorias(){
+      qtdCategorias.textContent =
+        document.querySelectorAll('.cat input:checked').length;
+    }
+
+    document.querySelectorAll('.cat input').forEach(input => {
+      input.addEventListener('change',() => {
+        input.closest('.cat').classList.toggle('active',input.checked);
+        atualizarCategorias();
+      });
+    });
+
+    const telefone = document.getElementById('telefone');
+
+    telefone.addEventListener('input',() => {
+      let v = telefone.value.replace(/\D/g,'').slice(0,11);
+
+      if(v.length > 10){
+        v = v.replace(/^(\d{2})(\d{5})(\d{4})$/,'($1) $2-$3');
+      }else if(v.length > 6){
+        v = v.replace(/^(\d{2})(\d{4})(\d{0,4})$/,'($1) $2-$3');
+      }else if(v.length > 2){
+        v = v.replace(/^(\d{2})(\d{0,5})$/,'($1) $2');
+      }else if(v.length){
+        v = v.replace(/^(\d{0,2})$/,'($1');
+      }
+
+      telefone.value = v;
+    });
+
+    form.addEventListener('submit',e => {
+      e.preventDefault();
+
+      mensagem.className = 'alert';
+      mensagem.textContent = '';
+
+      if(!form.reportValidity()) return;
+
+      const selecionadas =
+        [...document.querySelectorAll('.cat input:checked')];
+
+      if(!selecionadas.length){
+        mostrarErro('Selecione pelo menos uma categoria.');
+        return;
+      }
+
+      if(!ENDPOINT_INSCRICAO.startsWith('https://script.google.com/macros/s/')){
+        mostrarErro('O link do backend de inscrição ainda não foi configurado.');
+        return;
+      }
+
+      const categorias = {};
+      selecionadas.forEach(i => categorias[i.value] = true);
+
+      const dados = {
+        nomeEquipe: document.getElementById('nomeEquipe').value.trim(),
+        responsavel: document.getElementById('responsavel').value.trim(),
+        telefone: telefone.value.trim(),
+        cidade: document.getElementById('cidade').value.trim(),
+        categorias: categorias,
+        qtdAtletas: document.getElementById('qtdAtletas').value,
+        observacoes: document.getElementById('observacoes').value.trim()
+      };
+
+      payload.value = JSON.stringify(dados);
+      postForm.action = ENDPOINT_INSCRICAO;
+
+      loading.classList.add('show');
+      btnEnviar.disabled = true;
+      aguardandoResposta = true;
+
+      // Segurança de UX caso o navegador bloqueie/atrase a resposta.
+      timeoutEnvio = setTimeout(() => {
+        if(aguardandoResposta){
+          mostrarErro(
+            'A resposta está demorando. Confira sua conexão e tente novamente.'
+          );
+        }
+      },25000);
+
+      postForm.submit();
+    });
+
+    // Resposta enviada pelo Apps Script dentro do iframe oculto.
+    window.addEventListener('message',event => {
+      const data = event.data;
+
+      if(!data || data.type !== 'caldascup-inscricao') return;
+      if(!aguardandoResposta) return;
+
+      aguardandoResposta = false;
+
+      if(timeoutEnvio){
+        clearTimeout(timeoutEnvio);
+        timeoutEnvio = null;
+      }
+
+      loading.classList.remove('show');
+      btnEnviar.disabled = false;
+
+      if(!data.ok){
+        mostrarErro(data.mensagem || 'Não foi possível concluir a inscrição.');
+        return;
+      }
+
+      document.getElementById('formContent').style.display = 'none';
+      document.getElementById('successEquipe').textContent =
+        data.equipe || document.getElementById('nomeEquipe').value.trim();
+
+      document.getElementById('success').classList.add('show');
+
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    atualizarCategorias();
+  </script>
+</body>
+</html>
