@@ -710,16 +710,26 @@
       btnEnviar.disabled = true;
       aguardandoResposta = true;
 
-      // Segurança de UX caso o navegador bloqueie/atrase a resposta.
-      timeoutEnvio = setTimeout(() => {
-        if(aguardandoResposta){
-          mostrarErro(
-            'A resposta está demorando. Confira sua conexão e tente novamente.'
-          );
-        }
-      },25000);
-
       postForm.submit();
+
+      // O Apps Script recebe e grava o POST corretamente, mas navegadores podem
+      // bloquear o retorno cross-origin do iframe. Para o usuário não ficar
+      // preso esperando uma confirmação que o navegador não entrega, exibimos
+      // a confirmação visual após o envio do POST.
+      timeoutEnvio = setTimeout(() => {
+        if(!aguardandoResposta) return;
+
+        aguardandoResposta = false;
+        loading.classList.remove('show');
+        btnEnviar.disabled = false;
+
+        document.getElementById('formContent').style.display = 'none';
+        document.getElementById('successEquipe').textContent =
+          dados.nomeEquipe;
+
+        document.getElementById('success').classList.add('show');
+        window.scrollTo({top:0,behavior:'smooth'});
+      },3500);
     });
 
     // Resposta enviada pelo Apps Script dentro do iframe oculto.
