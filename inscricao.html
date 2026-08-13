@@ -262,6 +262,45 @@
       font-size:13px;
       font-weight:900;
     }
+    .cat-section-title{
+      grid-column:1/-1;
+      margin:4px 0 0;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+
+    .cat-section-title.feminino{
+      margin-top:12px;
+      color:#ff66c4;
+    }
+
+    .cat.feminino{
+      border-color:rgba(255,102,196,.42);
+      background:rgba(255,102,196,.07);
+    }
+
+    .cat.feminino:hover{
+      border-color:rgba(255,102,196,.72);
+    }
+
+    .cat.feminino .nome{
+      color:#ff9bd7;
+    }
+
+    .cat.feminino.active{
+      border-color:#ff66c4;
+      background:linear-gradient(145deg,rgba(255,102,196,.20),rgba(255,102,196,.08));
+    }
+
+    .cat.feminino.active .check{
+      background:#ff66c4;
+      border-color:#ff66c4;
+      color:#031521;
+    }
+
 
     .summary{
       margin-top:18px;
@@ -517,6 +556,7 @@
           </div>
 
           <div class="cats">
+            <div class="cat-section-title">Masculino</div>
             <label class="cat"><input type="checkbox" value="Sub 06"><span class="check">✓</span><span class="nome">Sub 06</span></label>
             <label class="cat"><input type="checkbox" value="Sub 07"><span class="check">✓</span><span class="nome">Sub 07</span></label>
             <label class="cat"><input type="checkbox" value="Sub 08"><span class="check">✓</span><span class="nome">Sub 08</span></label>
@@ -526,6 +566,10 @@
             <label class="cat"><input type="checkbox" value="Sub 12"><span class="check">✓</span><span class="nome">Sub 12</span></label>
             <label class="cat"><input type="checkbox" value="Sub 13"><span class="check">✓</span><span class="nome">Sub 13</span></label>
             <label class="cat"><input type="checkbox" value="Sub 14"><span class="check">✓</span><span class="nome">Sub 14</span></label>
+
+            <div class="cat-section-title feminino">Feminino</div>
+            <label class="cat feminino"><input type="checkbox" value="Fem Sub 13"><span class="check">✓</span><span class="nome">Sub 13</span></label>
+            <label class="cat feminino"><input type="checkbox" value="Fem Sub 15"><span class="check">✓</span><span class="nome">Sub 15</span></label>
           </div>
 
           <div class="summary">
