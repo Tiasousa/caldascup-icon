@@ -464,6 +464,9 @@
         Envie sua equipe diretamente para a organização do torneio.
         Após o envio, os dados entram no sistema oficial para validação.
       </p>
+      <button type="button" id="btnAbrirConsulta" class="button" style="max-width:360px;margin-top:18px;">
+        🔎 CONSULTAR MINHA INSCRIÇÃO
+      </button>
     </section>
 
     <section class="card">
@@ -590,6 +593,26 @@
     <footer>Caldas Cup Fut7 • Caldas Novas / GO • 2026</footer>
   </main>
 
+
+  <div id="consultaBox" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(1,10,15,.90);backdrop-filter:blur(10px);padding:18px;overflow:auto;">
+    <div class="card" style="max-width:620px;margin:6vh auto;">
+      <div class="section-head">
+        <div class="step">🔎</div>
+        <div>
+          <h2>Consultar minha inscrição</h2>
+          <p>Digite o WhatsApp usado no cadastro da equipe</p>
+        </div>
+      </div>
+      <div class="field">
+        <label class="title" for="consultaTelefone">WHATSAPP *</label>
+        <input id="consultaTelefone" maxlength="18" inputmode="tel" placeholder="(64) 99999-9999">
+      </div>
+      <div id="resultadoConsulta" style="margin-top:18px;"></div>
+      <button type="button" class="button" id="btnConsultar">CONSULTAR AGORA</button>
+      <button type="button" id="btnFecharConsulta" style="width:100%;margin-top:12px;padding:13px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:transparent;color:#eef4f8;font-weight:800;cursor:pointer;">FECHAR</button>
+    </div>
+  </div>
+
   <div class="loading" id="loading">
     <div class="loader-box">
       <div class="loader"></div>
@@ -603,6 +626,8 @@
   <!-- Form real de POST, montado via JavaScript -->
   <form id="postForm" method="POST" target="postFrame" style="display:none">
     <input type="hidden" name="payload" id="payload">
+    <input type="hidden" name="acao" id="postAcao">
+    <input type="hidden" name="telefone" id="postTelefone">
     <input type="text" name="website" id="website" class="hp" tabindex="-1" autocomplete="off">
   </form>
 
@@ -647,7 +672,62 @@
     document.querySelectorAll('.cat input').forEach(input => {
       input.addEventListener('change',() => {
         input.closest('.cat').classList.toggle('active',input.checked);
-        atualizarCategorias();
+    
+    const consultaBox = document.getElementById('consultaBox');
+    const consultaTelefone = document.getElementById('consultaTelefone');
+
+    document.getElementById('btnAbrirConsulta').addEventListener('click',() => {
+      document.getElementById('resultadoConsulta').innerHTML = '';
+      consultaBox.style.display = 'block';
+      setTimeout(()=>consultaTelefone.focus(),100);
+    });
+
+    document.getElementById('btnFecharConsulta').addEventListener('click',() => {
+      consultaBox.style.display = 'none';
+    });
+
+    consultaTelefone.addEventListener('input',() => {
+      let v = consultaTelefone.value.replace(/\D/g,'').slice(0,11);
+      if(v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4})$/,'($1) $2-$3');
+      else if(v.length > 6) v = v.replace(/^(\d{2})(\d{4})(\d{0,4})$/,'($1) $2-$3');
+      else if(v.length > 2) v = v.replace(/^(\d{2})(\d{0,5})$/,'($1) $2');
+      else if(v.length) v = v.replace(/^(\d{0,2})$/,'($1');
+      consultaTelefone.value = v;
+    });
+
+    document.getElementById('btnConsultar').addEventListener('click',() => {
+      const tel = consultaTelefone.value.replace(/\D/g,'');
+      if(tel.length < 10){
+        document.getElementById('resultadoConsulta').innerHTML =
+          '<div class="alert error" style="display:block;">Informe o WhatsApp usado na inscrição, com DDD.</div>';
+        return;
+      }
+
+      if(!ENDPOINT_INSCRICAO.startsWith('https://script.google.com/macros/s/')){
+        document.getElementById('resultadoConsulta').innerHTML =
+          '<div class="alert error" style="display:block;">Consulta ainda não configurada.</div>';
+        return;
+      }
+
+      payload.value = '';
+      document.getElementById('postAcao').value = 'consultar';
+      document.getElementById('postTelefone').value = tel;
+      postForm.action = ENDPOINT_INSCRICAO;
+      window.consultandoInscricao = true;
+      loading.classList.add('show');
+      postForm.submit();
+
+      setTimeout(()=>{
+        if(window.consultandoInscricao){
+          window.consultandoInscricao = false;
+          loading.classList.remove('show');
+          document.getElementById('resultadoConsulta').innerHTML =
+            '<div class="alert error" style="display:block;">Não foi possível consultar agora. Tente novamente.</div>';
+        }
+      },15000);
+    });
+
+    atualizarCategorias();
       });
     });
 
@@ -704,6 +784,8 @@
       };
 
       payload.value = JSON.stringify(dados);
+      document.getElementById('postAcao').value = '';
+      document.getElementById('postTelefone').value = '';
       postForm.action = ENDPOINT_INSCRICAO;
 
       loading.classList.add('show');
@@ -737,6 +819,41 @@
       const data = event.data;
 
       if(!data || data.type !== 'caldascup-inscricao') return;
+
+      if(window.consultandoInscricao){
+        window.consultandoInscricao = false;
+        loading.classList.remove('show');
+
+        const box = document.getElementById('resultadoConsulta');
+        if(!data.ok){
+          box.innerHTML = '<div class="alert error" style="display:block;">' +
+            (data.mensagem || 'Inscrição não encontrada.') + '</div>';
+          return;
+        }
+
+        box.innerHTML = (data.equipes || []).map(e => {
+          const confirmada = e.validacao === 'Confirmada';
+          const ajuste = e.validacao === 'Ajuste';
+          const titulo = confirmada ? '✅ EQUIPE CONFIRMADA' :
+                         ajuste ? '⚠️ NECESSITA AJUSTE' :
+                         '🟡 AGUARDANDO VALIDAÇÃO';
+          const texto = confirmada
+            ? 'Sua equipe está confirmada na Caldas Cup 2026.'
+            : ajuste
+              ? 'A organização precisa ajustar informações da sua inscrição.'
+              : 'Sua inscrição foi recebida e ainda está sendo analisada.';
+          const borda = confirmada ? 'rgba(61,214,140,.35)' :
+                        ajuste ? 'rgba(244,196,48,.35)' :
+                        'rgba(255,255,255,.12)';
+          return '<div style="padding:18px;margin-top:12px;border:1px solid '+borda+';border-radius:16px;background:rgba(255,255,255,.035);">' +
+            '<strong style="font-size:18px;">'+titulo+'</strong>' +
+            '<div style="margin-top:8px;color:#eef4f8;font-weight:900;">'+e.nomeEquipe+'</div>' +
+            '<div style="margin-top:6px;color:#a9c3d1;font-size:13px;line-height:1.55;">'+texto+'</div>' +
+            '</div>';
+        }).join('');
+        return;
+      }
+
       if(!aguardandoResposta) return;
 
       aguardandoResposta = false;
