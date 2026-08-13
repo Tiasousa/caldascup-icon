@@ -673,63 +673,11 @@
       input.addEventListener('change',() => {
         input.closest('.cat').classList.toggle('active',input.checked);
     
-    const consultaBox = document.getElementById('consultaBox');
-    const consultaTelefone = document.getElementById('consultaTelefone');
-
-    document.getElementById('btnAbrirConsulta').addEventListener('click',() => {
-      document.getElementById('resultadoConsulta').innerHTML = '';
-      consultaBox.style.display = 'block';
-      setTimeout(()=>consultaTelefone.focus(),100);
-    });
-
-    document.getElementById('btnFecharConsulta').addEventListener('click',() => {
-      consultaBox.style.display = 'none';
-    });
-
-    consultaTelefone.addEventListener('input',() => {
-      let v = consultaTelefone.value.replace(/\D/g,'').slice(0,11);
-      if(v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4})$/,'($1) $2-$3');
-      else if(v.length > 6) v = v.replace(/^(\d{2})(\d{4})(\d{0,4})$/,'($1) $2-$3');
-      else if(v.length > 2) v = v.replace(/^(\d{2})(\d{0,5})$/,'($1) $2');
-      else if(v.length) v = v.replace(/^(\d{0,2})$/,'($1');
-      consultaTelefone.value = v;
-    });
-
-    document.getElementById('btnConsultar').addEventListener('click',() => {
-      const tel = consultaTelefone.value.replace(/\D/g,'');
-      if(tel.length < 10){
-        document.getElementById('resultadoConsulta').innerHTML =
-          '<div class="alert error" style="display:block;">Informe o WhatsApp usado na inscrição, com DDD.</div>';
-        return;
-      }
-
-      if(!ENDPOINT_INSCRICAO.startsWith('https://script.google.com/macros/s/')){
-        document.getElementById('resultadoConsulta').innerHTML =
-          '<div class="alert error" style="display:block;">Consulta ainda não configurada.</div>';
-        return;
-      }
-
-      payload.value = '';
-      document.getElementById('postAcao').value = 'consultar';
-      document.getElementById('postTelefone').value = tel;
-      postForm.action = ENDPOINT_INSCRICAO;
-      window.consultandoInscricao = true;
-      loading.classList.add('show');
-      postForm.submit();
-
-      setTimeout(()=>{
-        if(window.consultandoInscricao){
-          window.consultandoInscricao = false;
-          loading.classList.remove('show');
-          document.getElementById('resultadoConsulta').innerHTML =
-            '<div class="alert error" style="display:block;">Não foi possível consultar agora. Tente novamente.</div>';
-        }
-      },15000);
-    });
-
-    atualizarCategorias();
+        atualizarCategorias();
       });
     });
+
+
 
     const telefone = document.getElementById('telefone');
 
@@ -878,6 +826,60 @@
       document.getElementById('success').classList.add('show');
 
       window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    const consultaBox = document.getElementById('consultaBox');
+    const consultaTelefone = document.getElementById('consultaTelefone');
+
+    document.getElementById('btnAbrirConsulta').addEventListener('click',() => {
+      document.getElementById('resultadoConsulta').innerHTML = '';
+      consultaBox.style.display = 'block';
+      setTimeout(()=>consultaTelefone.focus(),100);
+    });
+
+    document.getElementById('btnFecharConsulta').addEventListener('click',() => {
+      consultaBox.style.display = 'none';
+    });
+
+    consultaTelefone.addEventListener('input',() => {
+      let v = consultaTelefone.value.replace(/\D/g,'').slice(0,11);
+      if(v.length > 10) v = v.replace(/^(\d{2})(\d{5})(\d{4})$/,'($1) $2-$3');
+      else if(v.length > 6) v = v.replace(/^(\d{2})(\d{4})(\d{0,4})$/,'($1) $2-$3');
+      else if(v.length > 2) v = v.replace(/^(\d{2})(\d{0,5})$/,'($1) $2');
+      else if(v.length) v = v.replace(/^(\d{0,2})$/,'($1');
+      consultaTelefone.value = v;
+    });
+
+    document.getElementById('btnConsultar').addEventListener('click',() => {
+      const tel = consultaTelefone.value.replace(/\D/g,'');
+      if(tel.length < 10){
+        document.getElementById('resultadoConsulta').innerHTML =
+          '<div class="alert error" style="display:block;">Informe o WhatsApp usado na inscrição, com DDD.</div>';
+        return;
+      }
+
+      if(!ENDPOINT_INSCRICAO.startsWith('https://script.google.com/macros/s/')){
+        document.getElementById('resultadoConsulta').innerHTML =
+          '<div class="alert error" style="display:block;">Consulta ainda não configurada.</div>';
+        return;
+      }
+
+      payload.value = '';
+      document.getElementById('postAcao').value = 'consultar';
+      document.getElementById('postTelefone').value = tel;
+      postForm.action = ENDPOINT_INSCRICAO;
+      window.consultandoInscricao = true;
+      loading.classList.add('show');
+      postForm.submit();
+
+      setTimeout(()=>{
+        if(window.consultandoInscricao){
+          window.consultandoInscricao = false;
+          loading.classList.remove('show');
+          document.getElementById('resultadoConsulta').innerHTML =
+            '<div class="alert error" style="display:block;">Não foi possível consultar agora. Tente novamente.</div>';
+        }
+      },15000);
     });
 
     atualizarCategorias();
