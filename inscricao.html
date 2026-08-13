@@ -852,32 +852,89 @@
 
     document.getElementById('btnConsultar').addEventListener('click',() => {
       const tel = consultaTelefone.value.replace(/\D/g,'');
+
       if(tel.length < 10){
         document.getElementById('resultadoConsulta').innerHTML =
           '<div class="alert error" style="display:block;">Informe o WhatsApp usado na inscrição, com DDD.</div>';
         return;
       }
 
-      if(!ENDPOINT_INSCRICAO.startsWith('https://script.google.com/macros/s/')){
-        document.getElementById('resultadoConsulta').innerHTML =
-          '<div class="alert error" style="display:block;">Consulta ainda não configurada.</div>';
-        return;
-      }
-
-      payload.value = '';
-      document.getElementById('postAcao').value = 'consultar';
-      document.getElementById('postTelefone').value = tel;
-      postForm.action = ENDPOINT_INSCRICAO;
-      window.consultandoInscricao = true;
       loading.classList.add('show');
-      postForm.submit();
+      document.getElementById('resultadoConsulta').innerHTML = '';
 
-      setTimeout(()=>{
-        if(window.consultandoInscricao){
-          window.consultandoInscricao = false;
-          loading.classList.remove('show');
-          document.getElementById('resultadoConsulta').innerHTML =
-            '<div class="alert error" style="display:block;">Não foi possível consultar agora. Tente novamente.</div>';
+      const callbackName = 'caldasCupConsultaCallback_' + Date.now();
+      let scriptConsulta = null;
+      let timerConsulta = null;
+
+      window[callbackName] = function(data){
+        if(timerConsulta) clearTimeout(timerConsulta);
+        loading.classList.remove('show');
+
+        if(scriptConsulta && scriptConsulta.parentNode){
+          scriptConsulta.parentNode.removeChild(scriptConsulta);
+        }
+
+        try{ delete window[callbackName]; }catch(e){ window[callbackName] = undefined; }
+
+        const box = document.getElementById('resultadoConsulta');
+
+        if(!data || !data.ok){
+          box.innerHTML =
+            '<div class="alert error" style="display:block;">' +
+            ((data && data.mensagem) || 'Inscrição não encontrada.') +
+            '</div>';
+          return;
+        }
+
+        box.innerHTML = (data.equipes || []).map(e => {
+          const confirmada = e.validacao === 'Confirmada';
+          const ajuste = e.validacao === 'Ajuste';
+
+          const titulo = confirmada
+            ? '✅ EQUIPE CONFIRMADA'
+            : ajuste
+              ? '⚠️ NECESSITA AJUSTE'
+              : '🟡 AGUARDANDO VALIDAÇÃO';
+
+          const texto = confirmada
+            ? 'Sua equipe está confirmada na Caldas Cup 2026.'
+            : ajuste
+              ? 'A organização precisa ajustar informações da sua inscrição.'
+              : 'Sua inscrição foi recebida e ainda está sendo analisada.';
+
+          return '<div style="padding:18px;margin-top:12px;border:1px solid rgba(244,196,48,.25);border-radius:16px;background:rgba(255,255,255,.035);">' +
+            '<strong style="font-size:18px;">'+titulo+'</strong>' +
+            '<div style="margin-top:8px;color:#eef4f8;font-weight:900;">'+e.nomeEquipe+'</div>' +
+            '<div style="margin-top:6px;color:#a9c3d1;font-size:13px;line-height:1.55;">'+texto+'</div>' +
+            '</div>';
+        }).join('');
+      };
+
+      scriptConsulta = document.createElement('script');
+      scriptConsulta.src =
+        ENDPOINT_INSCRICAO +
+        '?acao=consultar' +
+        '&telefone=' + encodeURIComponent(tel) +
+        '&callback=' + encodeURIComponent(callbackName) +
+        '&_=' + Date.now();
+
+      scriptConsulta.onerror = function(){
+        if(timerConsulta) clearTimeout(timerConsulta);
+        loading.classList.remove('show');
+        document.getElementById('resultadoConsulta').innerHTML =
+          '<div class="alert error" style="display:block;">Não foi possível consultar agora. Tente novamente.</div>';
+        try{ delete window[callbackName]; }catch(e){}
+      };
+
+      document.body.appendChild(scriptConsulta);
+
+      timerConsulta = setTimeout(() => {
+        loading.classList.remove('show');
+        document.getElementById('resultadoConsulta').innerHTML =
+          '<div class="alert error" style="display:block;">A consulta demorou mais que o esperado. Tente novamente.</div>';
+        try{ delete window[callbackName]; }catch(e){}
+        if(scriptConsulta && scriptConsulta.parentNode){
+          scriptConsulta.parentNode.removeChild(scriptConsulta);
         }
       },15000);
     });
