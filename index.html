@@ -38,20 +38,30 @@
       overflow:hidden;
       background:var(--bg);
       font-family:Arial,Helvetica,sans-serif;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    body{
+      min-height:100dvh;
     }
 
     #app{
       position:fixed;
       inset:0;
+      z-index:1;
       width:100%;
       height:100%;
       border:0;
       opacity:0;
+      visibility:hidden;
       background:var(--bg);
-      transition:opacity .65s ease;
+      transition:opacity .72s ease,visibility .72s ease;
     }
 
-    #app.visivel{opacity:1}
+    #app.visivel{
+      opacity:1;
+      visibility:visible;
+    }
 
     #splash{
       position:fixed;
@@ -62,150 +72,152 @@
       justify-content:center;
       overflow:hidden;
       padding:
-        calc(20px + env(safe-area-inset-top,0px))
+        calc(14px + env(safe-area-inset-top,0px))
         18px
-        calc(20px + env(safe-area-inset-bottom,0px));
+        calc(16px + env(safe-area-inset-bottom,0px));
 
       background:
-        radial-gradient(circle at 50% 30%,rgba(40,169,224,.22),transparent 28%),
-        radial-gradient(circle at 50% 72%,rgba(244,196,48,.09),transparent 34%),
+        radial-gradient(circle at 50% 22%,rgba(40,169,224,.24),transparent 30%),
+        radial-gradient(circle at 50% 72%,rgba(244,196,48,.08),transparent 34%),
         linear-gradient(155deg,#02111a 0%,#06283a 50%,#031521 100%);
 
       color:var(--text);
-      transition:opacity .75s ease,visibility .75s ease;
+      transition:opacity .78s ease,visibility .78s ease,transform .78s ease;
+      isolation:isolate;
+    }
+
+    #splash::before{
+      content:"";
+      position:absolute;
+      inset:-20%;
+      z-index:-2;
+      background:
+        radial-gradient(circle at 30% 22%,rgba(92,214,214,.10),transparent 24%),
+        radial-gradient(circle at 72% 32%,rgba(40,169,224,.12),transparent 24%),
+        radial-gradient(circle at 50% 88%,rgba(244,196,48,.06),transparent 25%);
+      filter:blur(20px);
+      animation:ambiente 5s ease-in-out infinite alternate;
+    }
+
+    #splash::after{
+      content:"";
+      position:absolute;
+      left:-15%;
+      right:-15%;
+      bottom:-90px;
+      height:210px;
+      z-index:-1;
+      opacity:.48;
+      background:
+        repeating-radial-gradient(
+          ellipse at center,
+          transparent 0 16px,
+          rgba(40,169,224,.15) 17px 18px,
+          transparent 19px 31px
+        );
+      transform:perspective(500px) rotateX(70deg);
+      pointer-events:none;
     }
 
     #splash.saindo{
       opacity:0;
       visibility:hidden;
       pointer-events:none;
+      transform:scale(1.012);
     }
 
     .conteudo{
-      width:min(94vw,480px);
+      width:min(94vw,520px);
+      max-height:100%;
       display:flex;
       flex-direction:column;
       align-items:center;
+      justify-content:center;
       text-align:center;
       position:relative;
       z-index:2;
-      animation:entrada .9s cubic-bezier(.2,.8,.2,1) both;
+      animation:entrada .8s cubic-bezier(.2,.8,.2,1) both;
     }
 
-    .universo{
+    .video-stage{
       position:relative;
-      width:min(78vw,430px);
-      height:min(58vh,500px);
-      min-height:330px;
-      margin-bottom:14px;
+      width:min(76vw,420px);
+      height:min(59vh,560px);
+      min-height:360px;
+      max-height:560px;
+      margin:0 auto 14px;
       display:grid;
       place-items:center;
-      perspective:1200px;
-    }
-
-    .halo{
-      position:absolute;
-      width:82%;
-      aspect-ratio:1/1;
-      border-radius:50%;
+      overflow:hidden;
+      border-radius:28px;
       background:
-        radial-gradient(circle,rgba(40,169,224,.30),rgba(40,169,224,.10) 44%,transparent 72%);
-      filter:blur(24px);
-      animation:pulsar 2.8s ease-in-out infinite;
+        radial-gradient(circle at 50% 45%,rgba(40,169,224,.18),transparent 56%),
+        #031521;
+      box-shadow:
+        0 32px 70px rgba(0,0,0,.46),
+        0 0 42px rgba(40,169,224,.13);
+      border:1px solid rgba(92,214,214,.16);
+      isolation:isolate;
     }
 
-    .mascote{
-      position:relative;
-      z-index:3;
-      width:min(74vw,380px);
-      max-height:min(54vh,470px);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      transform-style:preserve-3d;
-      animation:mascoteFlutua 3.4s ease-in-out infinite;
-      filter:
-        drop-shadow(0 28px 40px rgba(0,0,0,.52))
-        drop-shadow(0 0 32px rgba(40,169,224,.28));
-    }
-
-    .mascote::before{
+    .video-stage::before{
       content:"";
       position:absolute;
-      inset:9% 10% 7%;
-      border-radius:38% 38% 32% 32%;
-      background:
-        radial-gradient(circle at 50% 48%,rgba(92,214,214,.24),transparent 44%),
-        radial-gradient(circle at 50% 62%,rgba(244,196,48,.17),transparent 50%);
-      filter:blur(18px);
-      z-index:-1;
-      animation:brilhoMascote 2.5s ease-in-out infinite;
-    }
-
-    .mascote img{
-      width:100%;
-      height:auto;
-      max-height:min(54vh,470px);
-      object-fit:contain;
-      display:block;
-      user-select:none;
-      -webkit-user-drag:none;
-    }
-
-    .orbita{
-      position:absolute;
-      border-radius:50%;
-      border:2px solid transparent;
+      inset:-1px;
+      z-index:4;
       pointer-events:none;
-      z-index:1;
+      border-radius:inherit;
+      box-shadow:
+        inset 0 0 34px rgba(0,0,0,.24),
+        inset 0 -52px 58px rgba(2,17,26,.34);
     }
 
-    .orbita.azul{
-      width:96%;
-      height:42%;
-      border-top-color:rgba(92,214,214,.86);
-      border-bottom-color:rgba(40,169,224,.28);
-      filter:drop-shadow(0 0 10px rgba(40,169,224,.62));
-      animation:orbitaAzul 4.2s linear infinite;
-    }
-
-    .orbita.ouro{
-      width:88%;
-      height:47%;
-      border-left-color:rgba(244,196,48,.85);
-      border-right-color:rgba(244,196,48,.24);
-      filter:drop-shadow(0 0 10px rgba(244,196,48,.46));
-      animation:orbitaOuro 5.1s linear infinite reverse;
-    }
-
-    .rastro{
+    .video-stage::after{
+      content:"";
       position:absolute;
-      width:88%;
-      aspect-ratio:1/1;
-      border-radius:50%;
-      background:
-        conic-gradient(
-          from 0deg,
-          transparent 0 18%,
-          rgba(92,214,214,.36) 21%,
-          transparent 26% 56%,
-          rgba(244,196,48,.42) 61%,
-          transparent 68% 100%
-        );
+      left:10%;
+      right:10%;
+      bottom:-20px;
+      height:70px;
+      z-index:3;
+      pointer-events:none;
+      background:radial-gradient(ellipse at center,rgba(40,169,224,.24),transparent 70%);
       filter:blur(12px);
-      opacity:.58;
-      animation:rastroGira 5.6s linear infinite;
-      z-index:0;
     }
 
-    @keyframes mascoteFlutua{
-      0%,100%{transform:translateY(0) scale(1) rotateY(-1.2deg)}
-      50%{transform:translateY(-10px) scale(1.012) rotateY(1.2deg)}
+    #videoSplash{
+      position:absolute;
+      inset:-2.2% -2.2% -4.2% -2.2%;
+      width:104.4%;
+      height:106.4%;
+      display:block;
+      object-fit:cover;
+      object-position:center 44%;
+      background:#031521;
+      user-select:none;
+      -webkit-user-select:none;
+      pointer-events:none;
+      transform:scale(1.018);
     }
 
-    @keyframes brilhoMascote{
-      0%,100%{opacity:.68;transform:scale(.97)}
-      50%{opacity:1;transform:scale(1.035)}
+    .video-vinheta{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      pointer-events:none;
+      background:
+        linear-gradient(to bottom,rgba(3,21,33,.04) 0%,transparent 55%,rgba(3,21,33,.38) 100%),
+        radial-gradient(ellipse at center,transparent 52%,rgba(3,21,33,.28) 100%);
+    }
+
+    .video-brilho{
+      position:absolute;
+      inset:0;
+      z-index:1;
+      pointer-events:none;
+      background:radial-gradient(circle at 50% 48%,rgba(92,214,214,.13),transparent 58%);
+      mix-blend-mode:screen;
+      animation:brilho 2.6s ease-in-out infinite;
     }
 
     .mini{
@@ -215,57 +227,73 @@
       letter-spacing:.34em;
       text-transform:uppercase;
       margin-bottom:8px;
+      text-shadow:0 0 18px rgba(244,196,48,.20);
     }
 
     .titulo{
       margin:0;
-      font-size:clamp(36px,9vw,50px);
+      font-size:clamp(36px,9vw,52px);
       line-height:1;
       font-weight:900;
       letter-spacing:.055em;
       text-shadow:0 10px 28px rgba(0,0,0,.36);
+      white-space:nowrap;
     }
 
     .titulo span{color:var(--gold)}
 
     .sub{
-      margin:14px 0 24px;
+      margin:12px 0 20px;
       color:var(--muted);
-      font-size:12px;
+      font-size:11px;
       letter-spacing:.17em;
       text-transform:uppercase;
       line-height:1.6;
     }
 
     .barra{
-      width:min(78vw,320px);
-      height:8px;
+      position:relative;
+      width:min(78vw,340px);
+      height:9px;
       overflow:hidden;
       border-radius:999px;
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(40,169,224,.34);
-      box-shadow:inset 0 1px 3px rgba(0,0,0,.46),0 0 18px rgba(40,169,224,.14);
+      background:rgba(255,255,255,.075);
+      border:1px solid rgba(40,169,224,.38);
+      box-shadow:
+        inset 0 1px 3px rgba(0,0,0,.46),
+        0 0 20px rgba(40,169,224,.16);
     }
 
     .barra span{
       display:block;
-      width:38%;
+      width:0%;
       height:100%;
       border-radius:inherit;
-      background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),#fff3b0,transparent);
-      box-shadow:0 0 16px rgba(244,196,48,.95);
-      animation:carregar 1.35s ease-in-out infinite;
+      background:linear-gradient(90deg,var(--blue),#40d5ef,var(--cyan),#d8ffff);
+      box-shadow:0 0 16px rgba(92,214,214,.74);
+      transition:width .32s ease;
+    }
+
+    .barra::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);
+      transform:translateX(-100%);
+      animation:reflexo 1.5s ease-in-out infinite;
+      pointer-events:none;
     }
 
     .status{
       min-height:20px;
-      margin-top:14px;
+      margin-top:13px;
       color:#dbe8ee;
       font-size:12px;
-      letter-spacing:.08em;
+      letter-spacing:.10em;
+      text-transform:none;
     }
 
-    .status::after{
+    .status.carregando::after{
       content:"";
       animation:pontos 1.25s steps(4,end) infinite;
     }
@@ -273,9 +301,10 @@
     #fallback{
       display:none;
       width:min(86vw,360px);
-      margin-top:18px;
-      padding-top:16px;
+      margin-top:16px;
+      padding-top:15px;
       border-top:1px solid rgba(255,255,255,.10);
+      animation:entradaFallback .45s ease both;
     }
 
     #fallback p{
@@ -298,37 +327,36 @@
       font-weight:800;
       text-decoration:none;
       box-shadow:0 10px 28px rgba(244,196,48,.20);
+      transition:transform .18s ease,filter .18s ease;
+    }
+
+    #abrirDireto:active{
+      transform:scale(.98);
     }
 
     @keyframes entrada{
-      from{opacity:0;transform:translateY(18px) scale(.97)}
+      from{opacity:0;transform:translateY(16px) scale(.985)}
       to{opacity:1;transform:none}
     }
 
-    @keyframes orbitaAzul{
-      to{transform:rotate(360deg)}
+    @keyframes entradaFallback{
+      from{opacity:0;transform:translateY(8px)}
+      to{opacity:1;transform:none}
     }
 
-    @keyframes orbitaOuro{
-      to{transform:rotate(360deg)}
+    @keyframes ambiente{
+      from{transform:translate3d(-1%,-1%,0) scale(1)}
+      to{transform:translate3d(1%,1%,0) scale(1.05)}
     }
 
-    @keyframes orbitaVertical{
-      to{transform:rotate(360deg)}
+    @keyframes brilho{
+      0%,100%{opacity:.58}
+      50%{opacity:1}
     }
 
-    @keyframes rastroGira{
-      to{transform:rotate(360deg)}
-    }
-
-    @keyframes pulsar{
-      0%,100%{transform:scale(.94);opacity:.62}
-      50%{transform:scale(1.08);opacity:1}
-    }
-
-    @keyframes carregar{
-      0%{transform:translateX(-135%)}
-      100%{transform:translateX(375%)}
+    @keyframes reflexo{
+      0%{transform:translateX(-120%)}
+      100%{transform:translateX(120%)}
     }
 
     @keyframes pontos{
@@ -338,29 +366,108 @@
       75%,100%{content:"..."}
     }
 
-    @media(max-height:680px){
-      .universo{
-        width:min(76vw,330px);
-        height:min(48vh,350px);
-        min-height:250px;
+    @media (min-width:900px){
+      .conteudo{
+        width:min(92vw,560px);
+      }
+
+      .video-stage{
+        width:min(31vw,430px);
+        height:min(58vh,560px);
+        min-height:390px;
+      }
+
+      .titulo{
+        font-size:50px;
+      }
+    }
+
+    @media (max-width:600px){
+      #splash{
+        padding:
+          calc(8px + env(safe-area-inset-top,0px))
+          12px
+          calc(12px + env(safe-area-inset-bottom,0px));
+      }
+
+      .conteudo{
+        width:96vw;
+      }
+
+      .video-stage{
+        width:min(86vw,410px);
+        height:min(60vh,555px);
+        min-height:340px;
+        margin-bottom:12px;
+        border-radius:24px;
+      }
+
+      .mini{
+        font-size:10px;
+        letter-spacing:.29em;
+      }
+
+      .titulo{
+        font-size:clamp(34px,10.5vw,46px);
+      }
+
+      .sub{
+        margin:10px 0 17px;
+        font-size:10px;
+        letter-spacing:.13em;
+      }
+
+      .status{
+        margin-top:11px;
+      }
+    }
+
+    @media(max-height:760px){
+      .video-stage{
+        height:min(52vh,430px);
+        min-height:285px;
         margin-bottom:8px;
       }
 
-      .mascote{
-        width:min(70vw,300px);
-        max-height:min(46vh,330px);
+      .mini{
+        margin-bottom:6px;
       }
 
-      .mascote img{
-        max-height:min(46vh,330px);
+      .titulo{
+        font-size:34px;
       }
 
-      .orbita.azul{width:94%;height:40%}
-      .orbita.ouro{width:86%;height:45%}
-      .rastro{width:84%}
+      .sub{
+        margin:8px 0 14px;
+      }
 
-      .titulo{font-size:34px}
-      .sub{margin:9px 0 16px}
+      #fallback{
+        margin-top:10px;
+        padding-top:10px;
+      }
+    }
+
+    @media(max-height:620px){
+      .video-stage{
+        height:min(46vh,320px);
+        min-height:220px;
+      }
+
+      .sub{
+        display:none;
+      }
+
+      .barra{
+        margin-top:10px;
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        scroll-behavior:auto !important;
+      }
     }
   </style>
 </head>
@@ -369,19 +476,22 @@
   <div id="splash" aria-live="polite">
     <div class="conteudo">
 
-      <div class="universo">
-        <div class="halo"></div>
-        <div class="rastro"></div>
-        <div class="orbita azul"></div>
-        <div class="orbita ouro"></div>
+      <div class="video-stage">
+        <video
+          id="videoSplash"
+          autoplay
+          muted
+          playsinline
+          webkit-playsinline
+          preload="auto"
+          poster="./mascote-caldas-cup.jpeg"
+          aria-label="Abertura animada Caldas Cup"
+        >
+          <source src="./abertura-caldas-cup.mp4" type="video/mp4">
+        </video>
 
-        <div class="mascote">
-          <img
-            src="./mascote-caldas-cup.jpeg"
-            alt="Mascote Caldas Cup segurando o escudo"
-            draggable="false"
-          >
-        </div>
+        <div class="video-brilho"></div>
+        <div class="video-vinheta"></div>
       </div>
 
       <div class="mini">Painel de Controle</div>
@@ -394,9 +504,18 @@
         Fut7 · Equipes · Hospedagem · Financeiro
       </div>
 
-      <div class="barra"><span></span></div>
+      <div
+        class="barra"
+        role="progressbar"
+        aria-label="Carregando sistema"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="0"
+      >
+        <span id="progresso"></span>
+      </div>
 
-      <div class="status" id="status">Carregando sistema</div>
+      <div class="status carregando" id="status">Carregando sistema</div>
 
       <div id="fallback">
         <p>O sistema está demorando mais que o esperado para abrir.</p>
@@ -422,47 +541,221 @@
   ></iframe>
 
   <script>
-    const splash = document.getElementById('splash');
-    const iframe = document.getElementById('app');
-    const fallback = document.getElementById('fallback');
-    const status = document.getElementById('status');
+    (function(){
+      const APP_URL = 'https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec';
 
-    const inicio = Date.now();
-    const TEMPO_MINIMO_SPLASH = 3000;
-    const TEMPO_LIMITE = 15000;
+      const splash = document.getElementById('splash');
+      const iframe = document.getElementById('app');
+      const video = document.getElementById('videoSplash');
+      const fallback = document.getElementById('fallback');
+      const status = document.getElementById('status');
+      const progresso = document.getElementById('progresso');
+      const barra = document.querySelector('.barra');
 
-    let iframeCarregado = false;
-    let splashEncerrada = false;
+      const inicio = Date.now();
+      const DURACAO_SPLASH = 5000;
+      const TEMPO_LIMITE = 15000;
 
-    function encerrarSplash(){
-      if(splashEncerrada) return;
+      let iframeCarregado = false;
+      let videoFinalizado = false;
+      let splashEncerrada = false;
+      let fallbackExibido = false;
+      let progressoAtual = 0;
 
-      const decorrido = Date.now() - inicio;
-      const restante = Math.max(0,TEMPO_MINIMO_SPLASH - decorrido);
+      const userAgent = navigator.userAgent || '';
+      const plataforma = navigator.platform || '';
 
-      window.setTimeout(function(){
+      const ehIOS =
+        /iPad|iPhone|iPod/.test(userAgent) ||
+        (plataforma === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+      function atualizarProgresso(valor){
+        const limitado = Math.max(0,Math.min(100,valor));
+        progressoAtual = limitado;
+        progresso.style.width = limitado + '%';
+        barra.setAttribute('aria-valuenow',String(Math.round(limitado)));
+      }
+
+      function animarProgresso(){
+        if(splashEncerrada) return;
+
+        const decorrido = Date.now() - inicio;
+
+        if(!videoFinalizado){
+          const alvo = Math.min(88,(decorrido / DURACAO_SPLASH) * 88);
+          atualizarProgresso(Math.max(progressoAtual,alvo));
+        }else if(!iframeCarregado){
+          const espera = Math.min(96,88 + ((decorrido - DURACAO_SPLASH) / 7000) * 8);
+          atualizarProgresso(Math.max(progressoAtual,espera));
+        }
+
+        requestAnimationFrame(animarProgresso);
+      }
+
+      function mostrarFallback(){
+        if(fallbackExibido || splashEncerrada) return;
+
+        fallbackExibido = true;
+        status.classList.remove('carregando');
+        status.textContent = 'Não foi possível concluir a abertura automática';
+        fallback.style.display = 'block';
+        atualizarProgresso(Math.max(progressoAtual,96));
+      }
+
+      function finalizarTransicaoIframe(){
+        if(splashEncerrada) return;
+
         splashEncerrada = true;
+        status.classList.remove('carregando');
         status.textContent = 'Sistema pronto';
-        iframe.classList.add('visivel');
-        splash.classList.add('saindo');
+        atualizarProgresso(100);
 
         window.setTimeout(function(){
-          splash.style.display = 'none';
-        },800);
-      },restante);
-    }
+          iframe.classList.add('visivel');
+          splash.classList.add('saindo');
 
-    iframe.addEventListener('load',function(){
-      iframeCarregado = true;
-      encerrarSplash();
-    });
+          window.setTimeout(function(){
+            splash.style.display = 'none';
+          },820);
+        },260);
+      }
 
-    window.setTimeout(function(){
-      if(iframeCarregado || splashEncerrada) return;
+      function abrirDiretoNoIOS(){
+        if(splashEncerrada) return;
 
-      status.textContent = 'Ainda carregando';
-      fallback.style.display = 'block';
-    },TEMPO_LIMITE);
+        splashEncerrada = true;
+        status.classList.remove('carregando');
+        status.textContent = 'Abrindo sistema';
+        atualizarProgresso(100);
+
+        window.setTimeout(function(){
+          splash.classList.add('saindo');
+
+          window.setTimeout(function(){
+            window.location.replace(APP_URL);
+          },430);
+        },220);
+      }
+
+      function tentarConcluir(){
+        if(splashEncerrada || !videoFinalizado) return;
+
+        /*
+          iPhone/iPad:
+          o Google Apps Script pode falhar quando aberto dentro de iframe
+          por causa das restrições de cookies/WebKit.
+          Para tornar a abertura confiável, depois da animação fazemos
+          a navegação direta para o Apps Script.
+        */
+        if(ehIOS){
+          abrirDiretoNoIOS();
+          return;
+        }
+
+        if(iframeCarregado){
+          finalizarTransicaoIframe();
+          return;
+        }
+
+        status.textContent = 'Finalizando carregamento';
+      }
+
+      function marcarVideoFinalizado(){
+        if(videoFinalizado) return;
+
+        videoFinalizado = true;
+        atualizarProgresso(Math.max(progressoAtual,88));
+        tentarConcluir();
+      }
+
+      iframe.addEventListener('load',function(){
+        iframeCarregado = true;
+
+        if(videoFinalizado){
+          tentarConcluir();
+        }
+      });
+
+      video.addEventListener('ended',marcarVideoFinalizado);
+
+      video.addEventListener('error',function(){
+        /*
+          Se o MP4 falhar, o poster permanece visível.
+          Mantemos aproximadamente o mesmo tempo cinematográfico
+          antes de tentar entrar no sistema.
+        */
+        window.setTimeout(marcarVideoFinalizado,DURACAO_SPLASH);
+      });
+
+      video.addEventListener('loadedmetadata',function(){
+        /*
+          Se o vídeo vier com duração um pouco diferente de 5s,
+          o evento "ended" continuará sendo a referência principal.
+        */
+        if(video.duration && isFinite(video.duration)){
+          video.currentTime = 0;
+        }
+      });
+
+      const tentativaPlay = video.play();
+
+      if(tentativaPlay && typeof tentativaPlay.catch === 'function'){
+        tentativaPlay.catch(function(){
+          /*
+            Autoplay muted + playsinline normalmente funciona.
+            Caso algum navegador impeça, usamos o poster e o timer.
+          */
+          window.setTimeout(marcarVideoFinalizado,DURACAO_SPLASH);
+        });
+      }
+
+      /*
+        Segurança: se por qualquer motivo o evento "ended" não disparar,
+        liberamos a continuidade após alguns segundos.
+      */
+      window.setTimeout(function(){
+        if(!videoFinalizado){
+          marcarVideoFinalizado();
+        }
+      },DURACAO_SPLASH + 1200);
+
+      /*
+        Fallback preservado do index anterior.
+        Se a abertura automática não concluir, mostramos o botão
+        para abrir o Apps Script diretamente.
+      */
+      window.setTimeout(function(){
+        if(splashEncerrada) return;
+
+        /*
+          No iOS a navegação direta normalmente já ocorre ao fim do vídeo.
+          Esta condição serve como proteção caso isso não aconteça.
+        */
+        if(ehIOS && videoFinalizado){
+          abrirDiretoNoIOS();
+          return;
+        }
+
+        if(!iframeCarregado || !videoFinalizado){
+          mostrarFallback();
+        }
+      },TEMPO_LIMITE);
+
+      /*
+        Caso o usuário volte para esta página pelo histórico,
+        tentamos retomar o vídeo sem som.
+      */
+      document.addEventListener('visibilitychange',function(){
+        if(document.visibilityState === 'visible' && !videoFinalizado && video.paused){
+          const retomada = video.play();
+          if(retomada && typeof retomada.catch === 'function'){
+            retomada.catch(function(){});
+          }
+        }
+      });
+
+      animarProgresso();
+    })();
   </script>
 </body>
 </html>
