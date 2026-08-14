@@ -141,10 +141,9 @@
 
     .video-stage{
       position:relative;
-      width:min(76vw,420px);
-      height:min(59vh,560px);
-      min-height:360px;
-      max-height:560px;
+      width:min(82vw,340px);
+      aspect-ratio:576 / 1040;
+      height:auto;
       margin:0 auto 14px;
       display:grid;
       place-items:center;
@@ -187,17 +186,16 @@
 
     #videoSplash{
       position:absolute;
-      inset:-2.2% -2.2% -4.2% -2.2%;
-      width:104.4%;
-      height:106.4%;
+      inset:0;
+      width:100%;
+      height:100%;
       display:block;
-      object-fit:cover;
-      object-position:center 44%;
+      object-fit:contain;
+      object-position:center center;
       background:#031521;
       user-select:none;
       -webkit-user-select:none;
       pointer-events:none;
-      transform:scale(1.018);
     }
 
     .video-vinheta{
@@ -372,9 +370,7 @@
       }
 
       .video-stage{
-        width:min(31vw,430px);
-        height:min(58vh,560px);
-        min-height:390px;
+        width:min(28vw,330px);
       }
 
       .titulo{
@@ -385,9 +381,9 @@
     @media (max-width:600px){
       #splash{
         padding:
-          calc(8px + env(safe-area-inset-top,0px))
-          12px
-          calc(12px + env(safe-area-inset-bottom,0px));
+          calc(6px + env(safe-area-inset-top,0px))
+          10px
+          calc(10px + env(safe-area-inset-bottom,0px));
       }
 
       .conteudo{
@@ -395,10 +391,8 @@
       }
 
       .video-stage{
-        width:min(86vw,410px);
-        height:min(60vh,555px);
-        min-height:340px;
-        margin-bottom:12px;
+        width:min(84vw,325px);
+        margin-bottom:10px;
         border-radius:24px;
       }
 
@@ -408,24 +402,23 @@
       }
 
       .titulo{
-        font-size:clamp(34px,10.5vw,46px);
+        font-size:clamp(32px,10vw,44px);
       }
 
       .sub{
-        margin:10px 0 17px;
+        margin:9px 0 15px;
         font-size:10px;
         letter-spacing:.13em;
       }
 
       .status{
-        margin-top:11px;
+        margin-top:10px;
       }
     }
 
     @media(max-height:760px){
       .video-stage{
-        height:min(52vh,430px);
-        min-height:285px;
+        width:min(72vw,265px);
         margin-bottom:8px;
       }
 
@@ -449,8 +442,7 @@
 
     @media(max-height:620px){
       .video-stage{
-        height:min(46vh,320px);
-        min-height:220px;
+        width:min(60vw,210px);
       }
 
       .sub{
@@ -542,8 +534,6 @@
 
   <script>
     (function(){
-      const APP_URL = 'https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec';
-
       const splash = document.getElementById('splash');
       const iframe = document.getElementById('app');
       const video = document.getElementById('videoSplash');
@@ -561,13 +551,6 @@
       let splashEncerrada = false;
       let fallbackExibido = false;
       let progressoAtual = 0;
-
-      const userAgent = navigator.userAgent || '';
-      const plataforma = navigator.platform || '';
-
-      const ehIOS =
-        /iPad|iPhone|iPod/.test(userAgent) ||
-        (plataforma === 'MacIntel' && navigator.maxTouchPoints > 1);
 
       function atualizarProgresso(valor){
         const limitado = Math.max(0,Math.min(100,valor));
@@ -597,13 +580,13 @@
 
         fallbackExibido = true;
         status.classList.remove('carregando');
-        status.textContent = 'Não foi possível concluir a abertura automática';
+        status.textContent = 'Ainda carregando';
         fallback.style.display = 'block';
         atualizarProgresso(Math.max(progressoAtual,96));
       }
 
-      function finalizarTransicaoIframe(){
-        if(splashEncerrada) return;
+      function encerrarSplash(){
+        if(splashEncerrada || !videoFinalizado || !iframeCarregado) return;
 
         splashEncerrada = true;
         status.classList.remove('carregando');
@@ -620,131 +603,52 @@
         },260);
       }
 
-      function abrirDiretoNoIOS(){
-        if(splashEncerrada) return;
-
-        splashEncerrada = true;
-        status.classList.remove('carregando');
-        status.textContent = 'Abrindo sistema';
-        atualizarProgresso(100);
-
-        window.setTimeout(function(){
-          splash.classList.add('saindo');
-
-          window.setTimeout(function(){
-            window.location.replace(APP_URL);
-          },430);
-        },220);
-      }
-
-      function tentarConcluir(){
-        if(splashEncerrada || !videoFinalizado) return;
-
-        /*
-          iPhone/iPad:
-          o Google Apps Script pode falhar quando aberto dentro de iframe
-          por causa das restrições de cookies/WebKit.
-          Para tornar a abertura confiável, depois da animação fazemos
-          a navegação direta para o Apps Script.
-        */
-        if(ehIOS){
-          abrirDiretoNoIOS();
-          return;
-        }
-
-        if(iframeCarregado){
-          finalizarTransicaoIframe();
-          return;
-        }
-
-        status.textContent = 'Finalizando carregamento';
-      }
-
       function marcarVideoFinalizado(){
         if(videoFinalizado) return;
 
         videoFinalizado = true;
         atualizarProgresso(Math.max(progressoAtual,88));
-        tentarConcluir();
+
+        if(iframeCarregado){
+          encerrarSplash();
+        }else{
+          status.textContent = 'Finalizando carregamento';
+        }
       }
 
       iframe.addEventListener('load',function(){
         iframeCarregado = true;
 
         if(videoFinalizado){
-          tentarConcluir();
+          encerrarSplash();
         }
       });
 
       video.addEventListener('ended',marcarVideoFinalizado);
 
       video.addEventListener('error',function(){
-        /*
-          Se o MP4 falhar, o poster permanece visível.
-          Mantemos aproximadamente o mesmo tempo cinematográfico
-          antes de tentar entrar no sistema.
-        */
         window.setTimeout(marcarVideoFinalizado,DURACAO_SPLASH);
-      });
-
-      video.addEventListener('loadedmetadata',function(){
-        /*
-          Se o vídeo vier com duração um pouco diferente de 5s,
-          o evento "ended" continuará sendo a referência principal.
-        */
-        if(video.duration && isFinite(video.duration)){
-          video.currentTime = 0;
-        }
       });
 
       const tentativaPlay = video.play();
 
       if(tentativaPlay && typeof tentativaPlay.catch === 'function'){
         tentativaPlay.catch(function(){
-          /*
-            Autoplay muted + playsinline normalmente funciona.
-            Caso algum navegador impeça, usamos o poster e o timer.
-          */
           window.setTimeout(marcarVideoFinalizado,DURACAO_SPLASH);
         });
       }
 
-      /*
-        Segurança: se por qualquer motivo o evento "ended" não disparar,
-        liberamos a continuidade após alguns segundos.
-      */
       window.setTimeout(function(){
         if(!videoFinalizado){
           marcarVideoFinalizado();
         }
       },DURACAO_SPLASH + 1200);
 
-      /*
-        Fallback preservado do index anterior.
-        Se a abertura automática não concluir, mostramos o botão
-        para abrir o Apps Script diretamente.
-      */
       window.setTimeout(function(){
-        if(splashEncerrada) return;
-
-        /*
-          No iOS a navegação direta normalmente já ocorre ao fim do vídeo.
-          Esta condição serve como proteção caso isso não aconteça.
-        */
-        if(ehIOS && videoFinalizado){
-          abrirDiretoNoIOS();
-          return;
-        }
-
-        if(!iframeCarregado || !videoFinalizado){
-          mostrarFallback();
-        }
+        if(iframeCarregado || splashEncerrada) return;
+        mostrarFallback();
       },TEMPO_LIMITE);
 
-      /*
-        Caso o usuário volte para esta página pelo histórico,
-        tentamos retomar o vídeo sem som.
-      */
       document.addEventListener('visibilitychange',function(){
         if(document.visibilityState === 'visible' && !videoFinalizado && video.paused){
           const retomada = video.play();
