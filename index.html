@@ -2,20 +2,144 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
 
-  <title>Caldas Cup Fut7</title>
+  <!-- =========================================================
+       CALDAS CUP 2026
+       TÍTULO E INFORMAÇÕES DA PÁGINA
+       ========================================================= -->
 
-  <meta name="theme-color" content="#031521">
-  <meta name="application-name" content="Caldas Cup Fut7">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Caldas Cup">
+  <title>Caldas Cup 2026 — Sistema Oficial</title>
 
-  <link rel="manifest" href="./manifest.json">
-  <link rel="icon" type="image/png" href="./icon.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="./icon.png">
+  <meta
+    name="description"
+    content="Caldas Cup 2026 • Sistema oficial de gestão do campeonato."
+  >
+
+  <!-- =========================================================
+       PRÉVIA DE COMPARTILHAMENTO
+       WHATSAPP / FACEBOOK / INSTAGRAM / MESSENGER
+       ========================================================= -->
+
+  <meta property="og:type" content="website">
+
+  <meta
+    property="og:site_name"
+    content="Caldas Cup 2026"
+  >
+
+  <meta
+    property="og:title"
+    content="Caldas Cup 2026 — Sistema Oficial"
+  >
+
+  <meta
+    property="og:description"
+    content="Acesse o sistema oficial da Caldas Cup 2026."
+  >
+
+  <meta
+    property="og:url"
+    content="https://tiasousa.github.io/caldascup-icon/"
+  >
+
+  <meta
+    property="og:image"
+    content="https://tiasousa.github.io/caldascup-icon/mascote-caldas-cup.jpeg"
+  >
+
+  <meta
+    property="og:image:secure_url"
+    content="https://tiasousa.github.io/caldascup-icon/mascote-caldas-cup.jpeg"
+  >
+
+  <meta
+    property="og:image:type"
+    content="image/jpeg"
+  >
+
+  <meta
+    property="og:image:alt"
+    content="Caldas Cup 2026"
+  >
+
+  <!-- =========================================================
+       X / TWITTER
+       ========================================================= -->
+
+  <meta
+    name="twitter:card"
+    content="summary_large_image"
+  >
+
+  <meta
+    name="twitter:title"
+    content="Caldas Cup 2026 — Sistema Oficial"
+  >
+
+  <meta
+    name="twitter:description"
+    content="Acesse o sistema oficial da Caldas Cup 2026."
+  >
+
+  <meta
+    name="twitter:image"
+    content="https://tiasousa.github.io/caldascup-icon/mascote-caldas-cup.jpeg"
+  >
+
+  <!-- =========================================================
+       PWA / CELULAR
+       ========================================================= -->
+
+  <meta
+    name="theme-color"
+    content="#031521"
+  >
+
+  <meta
+    name="application-name"
+    content="Caldas Cup Fut7"
+  >
+
+  <meta
+    name="mobile-web-app-capable"
+    content="yes"
+  >
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  >
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  >
+
+  <meta
+    name="apple-mobile-web-app-title"
+    content="Caldas Cup"
+  >
+
+  <link
+    rel="manifest"
+    href="./manifest.json"
+  >
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="./icon.png"
+  >
+
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="./icon.png"
+  >
 
   <style>
     :root{
@@ -29,9 +153,12 @@
       --muted:#a9c3d1;
     }
 
-    *{box-sizing:border-box}
+    *{
+      box-sizing:border-box;
+    }
 
-    html,body{
+    html,
+    body{
       margin:0;
       width:100%;
       height:100%;
@@ -51,53 +178,100 @@
       transition:opacity .65s ease;
     }
 
-    #app.visivel{opacity:1}
+    #app.visivel{
+      opacity:1;
+    }
 
     #splash{
       position:fixed;
       inset:0;
       z-index:9999;
+
       display:flex;
       align-items:center;
       justify-content:center;
+
       overflow:hidden;
+
       padding:
         calc(14px + env(safe-area-inset-top,0px))
         18px
         calc(16px + env(safe-area-inset-bottom,0px));
 
       background:
-        radial-gradient(circle at 50% 22%,rgba(40,169,224,.24),transparent 30%),
-        radial-gradient(circle at 50% 72%,rgba(244,196,48,.08),transparent 34%),
-        linear-gradient(155deg,#02111a 0%,#06283a 50%,#031521 100%);
+        radial-gradient(
+          circle at 50% 22%,
+          rgba(40,169,224,.24),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 50% 72%,
+          rgba(244,196,48,.08),
+          transparent 34%
+        ),
+        linear-gradient(
+          155deg,
+          #02111a 0%,
+          #06283a 50%,
+          #031521 100%
+        );
 
       color:var(--text);
-      transition:opacity .78s ease,visibility .78s ease,transform .78s ease;
+
+      transition:
+        opacity .78s ease,
+        visibility .78s ease,
+        transform .78s ease;
+
       isolation:isolate;
     }
 
     #splash::before{
       content:"";
+
       position:absolute;
       inset:-20%;
+
       z-index:-2;
+
       background:
-        radial-gradient(circle at 30% 22%,rgba(92,214,214,.10),transparent 24%),
-        radial-gradient(circle at 72% 32%,rgba(40,169,224,.12),transparent 24%),
-        radial-gradient(circle at 50% 88%,rgba(244,196,48,.06),transparent 25%);
+        radial-gradient(
+          circle at 30% 22%,
+          rgba(92,214,214,.10),
+          transparent 24%
+        ),
+        radial-gradient(
+          circle at 72% 32%,
+          rgba(40,169,224,.12),
+          transparent 24%
+        ),
+        radial-gradient(
+          circle at 50% 88%,
+          rgba(244,196,48,.06),
+          transparent 25%
+        );
+
       filter:blur(20px);
-      animation:ambiente 5s ease-in-out infinite alternate;
+
+      animation:
+        ambiente 5s ease-in-out infinite alternate;
     }
 
     #splash::after{
       content:"";
+
       position:absolute;
+
       left:-15%;
       right:-15%;
       bottom:-90px;
+
       height:210px;
+
       z-index:-1;
+
       opacity:.48;
+
       background:
         repeating-radial-gradient(
           ellipse at center,
@@ -105,7 +279,11 @@
           rgba(40,169,224,.15) 17px 18px,
           transparent 19px 31px
         );
-      transform:perspective(500px) rotateX(70deg);
+
+      transform:
+        perspective(500px)
+        rotateX(70deg);
+
       pointer-events:none;
     }
 
@@ -119,43 +297,69 @@
     .conteudo{
       width:min(94vw,520px);
       max-height:100%;
+
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
+
       text-align:center;
+
       position:relative;
       z-index:2;
-      animation:entrada .8s cubic-bezier(.2,.8,.2,1) both;
+
+      animation:
+        entrada .8s cubic-bezier(.2,.8,.2,1) both;
     }
 
     .video-stage{
       position:relative;
+
       width:min(82vw,340px);
+
       aspect-ratio:576 / 1040;
+
       height:auto;
+
       margin:0 auto 14px;
+
       display:grid;
       place-items:center;
+
       overflow:hidden;
+
       border-radius:28px;
+
       background:
-        radial-gradient(circle at 50% 45%,rgba(40,169,224,.18),transparent 56%),
+        radial-gradient(
+          circle at 50% 45%,
+          rgba(40,169,224,.18),
+          transparent 56%
+        ),
         #031521;
+
       box-shadow:
         0 32px 70px rgba(0,0,0,.46),
         0 0 42px rgba(40,169,224,.13);
-      border:1px solid rgba(92,214,214,.16);
+
+      border:
+        1px solid rgba(92,214,214,.16);
+
       isolation:isolate;
     }
 
     .video-stage::before{
       content:"";
+
       position:absolute;
       inset:-1px;
+
       z-index:4;
+
       pointer-events:none;
+
       border-radius:inherit;
+
       box-shadow:
         inset 0 0 34px rgba(0,0,0,.24),
         inset 0 -52px 58px rgba(2,17,26,.34);
@@ -163,90 +367,160 @@
 
     .video-stage::after{
       content:"";
+
       position:absolute;
+
       left:10%;
       right:10%;
       bottom:-20px;
+
       height:70px;
+
       z-index:3;
+
       pointer-events:none;
-      background:radial-gradient(ellipse at center,rgba(40,169,224,.24),transparent 70%);
+
+      background:
+        radial-gradient(
+          ellipse at center,
+          rgba(40,169,224,.24),
+          transparent 70%
+        );
+
       filter:blur(12px);
     }
 
     #videoSplash{
       position:absolute;
       inset:0;
+
       width:100%;
       height:100%;
+
       display:block;
+
       object-fit:contain;
       object-position:center center;
+
       background:#031521;
+
       user-select:none;
       -webkit-user-select:none;
+
       pointer-events:none;
     }
 
     .video-vinheta{
       position:absolute;
       inset:0;
+
       z-index:2;
+
       pointer-events:none;
+
       background:
-        linear-gradient(to bottom,rgba(3,21,33,.04) 0%,transparent 55%,rgba(3,21,33,.38) 100%),
-        radial-gradient(ellipse at center,transparent 52%,rgba(3,21,33,.28) 100%);
+        linear-gradient(
+          to bottom,
+          rgba(3,21,33,.04) 0%,
+          transparent 55%,
+          rgba(3,21,33,.38) 100%
+        ),
+        radial-gradient(
+          ellipse at center,
+          transparent 52%,
+          rgba(3,21,33,.28) 100%
+        );
     }
 
     .video-brilho{
       position:absolute;
       inset:0;
+
       z-index:1;
+
       pointer-events:none;
-      background:radial-gradient(circle at 50% 48%,rgba(92,214,214,.13),transparent 58%);
+
+      background:
+        radial-gradient(
+          circle at 50% 48%,
+          rgba(92,214,214,.13),
+          transparent 58%
+        );
+
       mix-blend-mode:screen;
-      animation:brilho 2.6s ease-in-out infinite;
+
+      animation:
+        brilho 2.6s ease-in-out infinite;
     }
 
     .mini{
       color:var(--gold2);
+
       font-size:11px;
       font-weight:800;
+
       letter-spacing:.34em;
+
       text-transform:uppercase;
+
       margin-bottom:8px;
-      text-shadow:0 0 18px rgba(244,196,48,.20);
+
+      text-shadow:
+        0 0 18px rgba(244,196,48,.20);
     }
 
     .titulo{
       margin:0;
+
       font-size:clamp(36px,9vw,52px);
+
       line-height:1;
+
       font-weight:900;
+
       letter-spacing:.055em;
-      text-shadow:0 10px 28px rgba(0,0,0,.36);
+
+      text-shadow:
+        0 10px 28px rgba(0,0,0,.36);
+
       white-space:nowrap;
     }
 
-    .titulo span{color:var(--gold)}
+    .titulo span{
+      color:var(--gold);
+    }
 
     .sub{
       margin:12px 0 20px;
+
       color:var(--muted);
+
       font-size:11px;
+
       letter-spacing:.17em;
+
       text-transform:uppercase;
+
       line-height:1.6;
     }
 
     .barra{
       position:relative;
+
       width:min(78vw,340px);
+
       height:9px;
+
       overflow:hidden;
+
       border-radius:999px;
-      background:rgba(255,255,255,.075);
-      border:1px solid rgba(40,169,224,.38);
+
+      background:
+        rgba(255,255,255,.075);
+
+      border:
+        1px solid rgba(40,169,224,.38);
+
       box-shadow:
         inset 0 1px 3px rgba(0,0,0,.46),
         0 0 20px rgba(40,169,224,.16);
@@ -254,68 +528,129 @@
 
     .barra span{
       display:block;
+
       width:0%;
       height:100%;
+
       border-radius:inherit;
-      background:linear-gradient(90deg,var(--blue),#40d5ef,var(--cyan),#d8ffff);
-      box-shadow:0 0 16px rgba(92,214,214,.74);
-      transition:width .32s ease;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--blue),
+          #40d5ef,
+          var(--cyan),
+          #d8ffff
+        );
+
+      box-shadow:
+        0 0 16px rgba(92,214,214,.74);
+
+      transition:
+        width .32s ease;
     }
 
     .barra::after{
       content:"";
+
       position:absolute;
       inset:0;
-      background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(255,255,255,.25),
+          transparent
+        );
+
       transform:translateX(-100%);
-      animation:reflexo 1.5s ease-in-out infinite;
+
+      animation:
+        reflexo 1.5s ease-in-out infinite;
+
       pointer-events:none;
     }
 
     .status{
       min-height:20px;
+
       margin-top:13px;
+
       color:#dbe8ee;
+
       font-size:12px;
+
       letter-spacing:.10em;
+
       text-transform:none;
     }
 
     .status.carregando::after{
       content:"";
-      animation:pontos 1.25s steps(4,end) infinite;
+
+      animation:
+        pontos 1.25s steps(4,end) infinite;
     }
 
     #fallback{
       display:none;
+
       width:min(86vw,360px);
+
       margin-top:16px;
+
       padding-top:15px;
-      border-top:1px solid rgba(255,255,255,.10);
-      animation:entradaFallback .45s ease both;
+
+      border-top:
+        1px solid rgba(255,255,255,.10);
+
+      animation:
+        entradaFallback .45s ease both;
     }
 
     #fallback p{
       margin:0 0 13px;
+
       color:var(--muted);
+
       font-size:13px;
+
       line-height:1.5;
     }
 
     #abrirDireto{
       display:inline-flex;
+
       align-items:center;
       justify-content:center;
+
       min-height:46px;
+
       padding:12px 22px;
+
       border-radius:12px;
-      background:linear-gradient(180deg,var(--gold2),var(--gold));
+
+      background:
+        linear-gradient(
+          180deg,
+          var(--gold2),
+          var(--gold)
+        );
+
       color:#071c29;
+
       font-size:14px;
       font-weight:800;
+
       text-decoration:none;
-      box-shadow:0 10px 28px rgba(244,196,48,.20);
-      transition:transform .18s ease,filter .18s ease;
+
+      box-shadow:
+        0 10px 28px rgba(244,196,48,.20);
+
+      transition:
+        transform .18s ease,
+        filter .18s ease;
     }
 
     #abrirDireto:active{
@@ -323,38 +658,87 @@
     }
 
     @keyframes entrada{
-      from{opacity:0;transform:translateY(16px) scale(.985)}
-      to{opacity:1;transform:none}
+      from{
+        opacity:0;
+        transform:
+          translateY(16px)
+          scale(.985);
+      }
+
+      to{
+        opacity:1;
+        transform:none;
+      }
     }
 
     @keyframes entradaFallback{
-      from{opacity:0;transform:translateY(8px)}
-      to{opacity:1;transform:none}
+      from{
+        opacity:0;
+        transform:translateY(8px);
+      }
+
+      to{
+        opacity:1;
+        transform:none;
+      }
     }
 
     @keyframes ambiente{
-      from{transform:translate3d(-1%,-1%,0) scale(1)}
-      to{transform:translate3d(1%,1%,0) scale(1.05)}
+      from{
+        transform:
+          translate3d(-1%,-1%,0)
+          scale(1);
+      }
+
+      to{
+        transform:
+          translate3d(1%,1%,0)
+          scale(1.05);
+      }
     }
 
     @keyframes brilho{
-      0%,100%{opacity:.58}
-      50%{opacity:1}
+      0%,
+      100%{
+        opacity:.58;
+      }
+
+      50%{
+        opacity:1;
+      }
     }
 
     @keyframes reflexo{
-      0%{transform:translateX(-120%)}
-      100%{transform:translateX(120%)}
+      0%{
+        transform:translateX(-120%);
+      }
+
+      100%{
+        transform:translateX(120%);
+      }
     }
 
     @keyframes pontos{
-      0%{content:""}
-      25%{content:"."}
-      50%{content:".."}
-      75%,100%{content:"..."}
+      0%{
+        content:"";
+      }
+
+      25%{
+        content:".";
+      }
+
+      50%{
+        content:"..";
+      }
+
+      75%,
+      100%{
+        content:"...";
+      }
     }
 
     @media (min-width:900px){
+
       .conteudo{
         width:min(92vw,560px);
       }
@@ -368,12 +752,12 @@
       }
     }
 
-    /* ---------- TELAS GRANDES / TV (1600px+) ----------
-       Sem isso, numa TV/monitor gigante o splash ficava
-       pequeno e perdido no meio de uma área escura enorme.
-       Aqui tudo escala proporcionalmente, com um teto (max)
-       pra não ficar absurdo em resoluções 4K/8K. */
+    /* =========================================================
+       TELAS GRANDES / TV - 1600px+
+       ========================================================= */
+
     @media (min-width:1600px){
+
       .conteudo{
         width:min(48vw,760px);
       }
@@ -422,34 +806,57 @@
       }
     }
 
+    /* =========================================================
+       CELULAR
+       ========================================================= */
+
     @media (max-width:600px){
+
       #splash{
         padding:
           calc(4px + env(safe-area-inset-top,0px))
           0
           calc(8px + env(safe-area-inset-bottom,0px));
+
         align-items:stretch;
       }
 
       .conteudo{
         width:100vw;
         height:100%;
+
         max-height:none;
+
         justify-content:flex-start;
+
         padding:0 12px;
       }
 
       .video-stage{
         width:min(
           96vw,
-          calc((100dvh - 245px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) * 0.553846)
+          calc(
+            (
+              100dvh
+              - 245px
+              - env(safe-area-inset-top,0px)
+              - env(safe-area-inset-bottom,0px)
+            ) * 0.553846
+          )
         );
+
         max-width:none;
+
         flex:0 0 auto;
+
         margin:0 auto 4px;
+
         border-radius:0;
+
         border:0;
+
         box-shadow:none;
+
         background:transparent;
       }
 
@@ -460,7 +867,9 @@
 
       #videoSplash{
         object-fit:contain;
+
         object-position:center bottom;
+
         background:transparent;
       }
 
@@ -476,19 +885,26 @@
 
       .mini{
         margin:0 0 6px;
+
         font-size:10px;
+
         letter-spacing:.29em;
+
         line-height:1.15;
       }
 
       .titulo{
-        font-size:clamp(32px,10.5vw,44px);
+        font-size:
+          clamp(32px,10.5vw,44px);
+
         line-height:1;
       }
 
       .sub{
         margin:10px 0 14px;
+
         font-size:10px;
+
         letter-spacing:.13em;
       }
 
@@ -501,12 +917,25 @@
       }
     }
 
-    @media(max-height:760px){
+    /* =========================================================
+       CELULARES COM MENOR ALTURA
+       ========================================================= */
+
+    @media (max-height:760px){
+
       .video-stage{
         width:min(
           94vw,
-          calc((100dvh - 220px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) * 0.553846)
+          calc(
+            (
+              100dvh
+              - 220px
+              - env(safe-area-inset-top,0px)
+              - env(safe-area-inset-bottom,0px)
+            ) * 0.553846
+          )
         );
+
         margin-bottom:3px;
       }
 
@@ -528,11 +957,19 @@
       }
     }
 
-    @media(max-height:620px){
+    @media (max-height:620px){
+
       .video-stage{
         width:min(
           88vw,
-          calc((100dvh - 175px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) * 0.553846)
+          calc(
+            (
+              100dvh
+              - 175px
+              - env(safe-area-inset-top,0px)
+              - env(safe-area-inset-bottom,0px)
+            ) * 0.553846
+          )
         );
       }
 
@@ -546,7 +983,10 @@
     }
 
     @media (prefers-reduced-motion:reduce){
-      *,*::before,*::after{
+
+      *,
+      *::before,
+      *::after{
         animation-duration:.01ms !important;
         animation-iteration-count:1 !important;
         scroll-behavior:auto !important;
@@ -556,10 +996,20 @@
 </head>
 
 <body>
-  <div id="splash" aria-live="polite">
+
+  <!-- =========================================================
+       SPLASH / TELA DE ABERTURA
+       ========================================================= -->
+
+  <div
+    id="splash"
+    aria-live="polite"
+  >
+
     <div class="conteudo">
 
       <div class="video-stage">
+
         <video
           id="videoSplash"
           autoplay
@@ -570,14 +1020,20 @@
           poster="./mascote-caldas-cup.jpeg"
           aria-label="Abertura animada Caldas Cup"
         >
-          <source src="./abertura-caldas-cup.mp4" type="video/mp4">
+          <source
+            src="./abertura-caldas-cup.mp4"
+            type="video/mp4"
+          >
         </video>
 
         <div class="video-brilho"></div>
         <div class="video-vinheta"></div>
+
       </div>
 
-      <div class="mini">Painel de Controle</div>
+      <div class="mini">
+        Painel de Controle
+      </div>
 
       <h1 class="titulo">
         CALDAS <span>CUP</span>
@@ -598,10 +1054,18 @@
         <span id="progresso"></span>
       </div>
 
-      <div class="status carregando" id="status">Carregando sistema</div>
+      <div
+        class="status carregando"
+        id="status"
+      >
+        Carregando sistema
+      </div>
 
       <div id="fallback">
-        <p>O sistema está demorando mais que o esperado para abrir.</p>
+
+        <p>
+          O sistema está demorando mais que o esperado para abrir.
+        </p>
 
         <a
           id="abrirDireto"
@@ -611,10 +1075,16 @@
         >
           ABRIR SISTEMA
         </a>
+
       </div>
 
     </div>
+
   </div>
+
+  <!-- =========================================================
+       SISTEMA PRINCIPAL
+       ========================================================= -->
 
   <iframe
     id="app"
@@ -623,134 +1093,406 @@
     allow="clipboard-read; clipboard-write"
   ></iframe>
 
+  <!-- =========================================================
+       JAVASCRIPT
+       ========================================================= -->
+
   <script>
     (function(){
-      const splash = document.getElementById('splash');
-      const iframe = document.getElementById('app');
-      const video = document.getElementById('videoSplash');
-      const fallback = document.getElementById('fallback');
-      const status = document.getElementById('status');
-      const progresso = document.getElementById('progresso');
-      const barra = document.querySelector('.barra');
 
-      const inicio = Date.now();
-      const DURACAO_SPLASH = 5000;
-      const TEMPO_LIMITE = 15000;
+      const splash =
+        document.getElementById('splash');
 
-      let iframeCarregado = false;
-      let videoFinalizado = false;
-      let splashEncerrada = false;
-      let fallbackExibido = false;
-      let progressoAtual = 0;
+      const iframe =
+        document.getElementById('app');
+
+      const video =
+        document.getElementById('videoSplash');
+
+      const fallback =
+        document.getElementById('fallback');
+
+      const status =
+        document.getElementById('status');
+
+      const progresso =
+        document.getElementById('progresso');
+
+      const barra =
+        document.querySelector('.barra');
+
+
+      const inicio =
+        Date.now();
+
+
+      const DURACAO_SPLASH =
+        5000;
+
+
+      const TEMPO_LIMITE =
+        15000;
+
+
+      let iframeCarregado =
+        false;
+
+
+      let videoFinalizado =
+        false;
+
+
+      let splashEncerrada =
+        false;
+
+
+      let fallbackExibido =
+        false;
+
+
+      let progressoAtual =
+        0;
+
 
       function atualizarProgresso(valor){
-        const limitado = Math.max(0,Math.min(100,valor));
-        progressoAtual = limitado;
-        progresso.style.width = limitado + '%';
-        barra.setAttribute('aria-valuenow',String(Math.round(limitado)));
+
+        const limitado =
+          Math.max(
+            0,
+            Math.min(
+              100,
+              valor
+            )
+          );
+
+
+        progressoAtual =
+          limitado;
+
+
+        progresso.style.width =
+          limitado + '%';
+
+
+        barra.setAttribute(
+          'aria-valuenow',
+          String(
+            Math.round(
+              limitado
+            )
+          )
+        );
       }
+
 
       function animarProgresso(){
-        if(splashEncerrada) return;
 
-        const decorrido = Date.now() - inicio;
-
-        if(!videoFinalizado){
-          const alvo = Math.min(88,(decorrido / DURACAO_SPLASH) * 88);
-          atualizarProgresso(Math.max(progressoAtual,alvo));
-        }else if(!iframeCarregado){
-          const espera = Math.min(96,88 + ((decorrido - DURACAO_SPLASH) / 7000) * 8);
-          atualizarProgresso(Math.max(progressoAtual,espera));
+        if(splashEncerrada){
+          return;
         }
 
-        requestAnimationFrame(animarProgresso);
+
+        const decorrido =
+          Date.now() - inicio;
+
+
+        if(!videoFinalizado){
+
+          const alvo =
+            Math.min(
+              88,
+              (decorrido / DURACAO_SPLASH) * 88
+            );
+
+
+          atualizarProgresso(
+            Math.max(
+              progressoAtual,
+              alvo
+            )
+          );
+
+        }else if(!iframeCarregado){
+
+          const espera =
+            Math.min(
+              96,
+              88 +
+              (
+                (
+                  decorrido -
+                  DURACAO_SPLASH
+                ) /
+                7000
+              ) *
+              8
+            );
+
+
+          atualizarProgresso(
+            Math.max(
+              progressoAtual,
+              espera
+            )
+          );
+        }
+
+
+        requestAnimationFrame(
+          animarProgresso
+        );
       }
+
 
       function mostrarFallback(){
-        if(fallbackExibido || splashEncerrada) return;
 
-        fallbackExibido = true;
-        status.classList.remove('carregando');
-        status.textContent = 'Ainda carregando';
-        fallback.style.display = 'block';
-        atualizarProgresso(Math.max(progressoAtual,96));
+        if(
+          fallbackExibido ||
+          splashEncerrada
+        ){
+          return;
+        }
+
+
+        fallbackExibido =
+          true;
+
+
+        status.classList.remove(
+          'carregando'
+        );
+
+
+        status.textContent =
+          'Ainda carregando';
+
+
+        fallback.style.display =
+          'block';
+
+
+        atualizarProgresso(
+          Math.max(
+            progressoAtual,
+            96
+          )
+        );
       }
+
 
       function encerrarSplash(){
-        if(splashEncerrada || !videoFinalizado || !iframeCarregado) return;
 
-        splashEncerrada = true;
-        status.classList.remove('carregando');
-        status.textContent = 'Sistema pronto';
-        atualizarProgresso(100);
+        if(
+          splashEncerrada ||
+          !videoFinalizado ||
+          !iframeCarregado
+        ){
+          return;
+        }
 
-        window.setTimeout(function(){
-          iframe.classList.add('visivel');
-          splash.classList.add('saindo');
 
-          window.setTimeout(function(){
-            splash.style.display = 'none';
-          },820);
-        },260);
+        splashEncerrada =
+          true;
+
+
+        status.classList.remove(
+          'carregando'
+        );
+
+
+        status.textContent =
+          'Sistema pronto';
+
+
+        atualizarProgresso(
+          100
+        );
+
+
+        window.setTimeout(
+          function(){
+
+            iframe.classList.add(
+              'visivel'
+            );
+
+
+            splash.classList.add(
+              'saindo'
+            );
+
+
+            window.setTimeout(
+              function(){
+
+                splash.style.display =
+                  'none';
+
+              },
+              820
+            );
+
+          },
+          260
+        );
       }
+
 
       function marcarVideoFinalizado(){
-        if(videoFinalizado) return;
-
-        videoFinalizado = true;
-        atualizarProgresso(Math.max(progressoAtual,88));
-
-        if(iframeCarregado){
-          encerrarSplash();
-        }else{
-          status.textContent = 'Finalizando carregamento';
-        }
-      }
-
-      iframe.addEventListener('load',function(){
-        iframeCarregado = true;
 
         if(videoFinalizado){
-          encerrarSplash();
+          return;
         }
-      });
 
-      video.addEventListener('ended',marcarVideoFinalizado);
 
-      video.addEventListener('error',function(){
-        window.setTimeout(marcarVideoFinalizado,DURACAO_SPLASH);
-      });
+        videoFinalizado =
+          true;
 
-      const tentativaPlay = video.play();
 
-      if(tentativaPlay && typeof tentativaPlay.catch === 'function'){
-        tentativaPlay.catch(function(){
-          window.setTimeout(marcarVideoFinalizado,DURACAO_SPLASH);
-        });
+        atualizarProgresso(
+          Math.max(
+            progressoAtual,
+            88
+          )
+        );
+
+
+        if(iframeCarregado){
+
+          encerrarSplash();
+
+        }else{
+
+          status.textContent =
+            'Finalizando carregamento';
+
+        }
       }
 
-      window.setTimeout(function(){
-        if(!videoFinalizado){
-          marcarVideoFinalizado();
-        }
-      },DURACAO_SPLASH + 1200);
 
-      window.setTimeout(function(){
-        if(iframeCarregado || splashEncerrada) return;
-        mostrarFallback();
-      },TEMPO_LIMITE);
+      iframe.addEventListener(
+        'load',
+        function(){
 
-      document.addEventListener('visibilitychange',function(){
-        if(document.visibilityState === 'visible' && !videoFinalizado && video.paused){
-          const retomada = video.play();
-          if(retomada && typeof retomada.catch === 'function'){
-            retomada.catch(function(){});
+          iframeCarregado =
+            true;
+
+
+          if(videoFinalizado){
+
+            encerrarSplash();
+
           }
         }
-      });
+      );
+
+
+      video.addEventListener(
+        'ended',
+        marcarVideoFinalizado
+      );
+
+
+      video.addEventListener(
+        'error',
+        function(){
+
+          window.setTimeout(
+            marcarVideoFinalizado,
+            DURACAO_SPLASH
+          );
+
+        }
+      );
+
+
+      const tentativaPlay =
+        video.play();
+
+
+      if(
+        tentativaPlay &&
+        typeof tentativaPlay.catch === 'function'
+      ){
+
+        tentativaPlay.catch(
+          function(){
+
+            window.setTimeout(
+              marcarVideoFinalizado,
+              DURACAO_SPLASH
+            );
+
+          }
+        );
+      }
+
+
+      window.setTimeout(
+        function(){
+
+          if(!videoFinalizado){
+
+            marcarVideoFinalizado();
+
+          }
+
+        },
+        DURACAO_SPLASH + 1200
+      );
+
+
+      window.setTimeout(
+        function(){
+
+          if(
+            iframeCarregado ||
+            splashEncerrada
+          ){
+            return;
+          }
+
+
+          mostrarFallback();
+
+        },
+        TEMPO_LIMITE
+      );
+
+
+      document.addEventListener(
+        'visibilitychange',
+        function(){
+
+          if(
+            document.visibilityState === 'visible' &&
+            !videoFinalizado &&
+            video.paused
+          ){
+
+            const retomada =
+              video.play();
+
+
+            if(
+              retomada &&
+              typeof retomada.catch === 'function'
+            ){
+
+              retomada.catch(
+                function(){}
+              );
+
+            }
+          }
+        }
+      );
+
 
       animarProgresso();
+
     })();
   </script>
+
 </body>
 </html>
