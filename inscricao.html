@@ -535,6 +535,9 @@
       <button type="button" id="btnAbrirConsulta" class="button" style="max-width:360px;margin-top:18px;">
         🔎 CONSULTAR MINHA INSCRIÇÃO
       </button>
+      <button type="button" id="btnVerContrato" class="contrato-secundario" style="display:block;width:min(360px,100%);margin:12px auto 0;">
+        📄 VER CONTRATO ANTES DE SE INSCREVER
+      </button>
     </section>
 
     <section class="card">
@@ -698,6 +701,18 @@
   </main>
 
 
+  <div id="contratoConsultaBox" hidden role="dialog" aria-modal="true" aria-labelledby="contratoConsultaTitulo" style="position:fixed;inset:0;z-index:9999;background:rgba(1,10,15,.94);backdrop-filter:blur(10px);padding:18px;overflow:auto;">
+    <div class="card" style="max-width:760px;margin:3vh auto;">
+      <div class="section-head">
+        <div class="step">📄</div>
+        <div><h2 id="contratoConsultaTitulo">Contrato de participação</h2><p>Consulta livre, sem cadastro e sem assinatura</p></div>
+      </div>
+      <p class="contrato-ajuda">Esta é uma cópia informativa. Os dados do responsável, da equipe e das categorias serão preenchidos somente durante a inscrição.</p>
+      <div id="contratoConsultaTexto" class="contrato-texto" tabindex="0" role="region" aria-label="Contrato para consulta"></div>
+      <button type="button" id="btnFecharContrato" class="button">FECHAR CONTRATO</button>
+    </div>
+  </div>
+
   <div id="consultaBox" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(1,10,15,.90);backdrop-filter:blur(10px);padding:18px;overflow:auto;">
     <div class="card" style="max-width:620px;margin:6vh auto;">
       <div class="section-head">
@@ -807,6 +822,48 @@
     const CONTRATO_PRECO = null;
     const CONTRATO_CLAUSULAS = "ORGANIZADORA: AD SPORTS, pessoa jurídica de direito privado, inscrita no CNPJ sob o nº 44.434.773/0001-51, com endereço na Rua 01, Qd. 01, Lt. 37, Santa Clara.\n\nPelo presente instrumento, as partes acima qualificadas, doravante denominadas simplesmente ORGANIZADORA e PARTICIPANTE, têm entre si justo e contratado o presente instrumento, mediante as cláusulas e condições seguintes:\n\n1 – DO OBJETO DO CONTRATO\n\n1.1 O presente contrato tem por objeto a participação do PARTICIPANTE na CALDAS CUP FUT 7 BASE 2026, organizada pela ORGANIZADORA, com a finalidade de promover o intercâmbio esportivo, a integração, o lazer e a prática do futebol de base.\n\n2 – DAS INSCRIÇÕES\n\n2.1 Para estar apto a disputar a CALDAS CUP FUT 7 BASE 2026, o PARTICIPANTE deverá pagar à ORGANIZADORA o valor de R$ __________________ (________________________________________), via PIX ou boleto, até o dia 14/10/2026 – PRIMEIRO LOTE.\n\n2.2 É de responsabilidade da equipe PARTICIPANTE observar as condições de saúde e aptidão física dos atletas inscritos para participação na competição.\n\n2.2.1 A presente inscrição refere-se única e exclusivamente à participação na CALDAS CUP FUT 7 BASE 2026, não guardando qualquer relação com eventual pacote turístico, hospedagem, alimentação ou transporte, salvo contratação expressa em separado.\n\n2.3 Eventual pedido de cancelamento da inscrição somente será aceito até o dia 14/10/2026, data limite para devolução integral da quantia paga. Após essa data, não haverá devolução da taxa de inscrição, ressalvadas as hipóteses previstas em lei.\n\n2.4 Caso o PARTICIPANTE abandone voluntariamente a competição antes de seu término, não terá direito à devolução, total ou proporcional, dos valores pagos pela inscrição, ressalvadas as hipóteses legalmente aplicáveis.\n\n3 – DA ORGANIZADORA E DA COMPETIÇÃO\n\n3.1 A ORGANIZADORA será responsável pela organização e realização da CALDAS CUP FUT 7 BASE 2026, torneio de futebol de base amador a ser realizado no período de 15 a 21 de dezembro de 2026, podendo a programação esportiva ser concluída antes do prazo previsto em razão da tabela, número de equipes ou necessidades técnicas da competição.\n\n3.2 O torneio será realizado no Estádio Serra de Caldas e no Complexo Esportivo Tayo, na cidade de Caldas Novas/GO, podendo a ORGANIZADORA, mediante necessidade técnica, operacional, climática ou de força maior, utilizar outros locais previamente comunicados aos participantes.\n\n3.2.1 A ORGANIZADORA disponibilizará condições de hidratação durante as partidas, conforme estrutura e regras definidas para a competição, sem prejuízo da responsabilidade de cada equipe pela hidratação adequada de seus atletas.\n\n3.2.2 Durante a realização das partidas, haverá estrutura de primeiros socorros e/ou profissional capacitado para o atendimento inicial, podendo, quando necessário, ser providenciado o encaminhamento do atleta ou participante para unidade de saúde adequada.\n\n4 – DO PARTICIPANTE\n\n4.1 É dever do PARTICIPANTE conhecer e aceitar os termos do Regulamento Oficial da CALDAS CUP FUT 7 BASE 2026 e deste contrato.\n\n4.2 É dever do PARTICIPANTE estar presente nos locais dos jogos nos horários definidos pela ORGANIZADORA e respeitar rigorosamente a programação da competição.\n\n4.3 É dever das equipes providenciar e utilizar uniforme completo de jogo em todas as partidas, observando as exigências estabelecidas no Regulamento Oficial.\n\n4.4 É dever do PARTICIPANTE atender aos requisitos de inscrição e documentação, acatar a autoridade da arbitragem e as decisões dos Comitês Organizador e Disciplinar, bem como respeitar funcionários, árbitros, atletas, dirigentes, torcedores e demais membros envolvidos no evento.\n\n5 – DAS RESPONSABILIDADES\n\n5.1 O PARTICIPANTE declara estar ciente de que a prática esportiva envolve riscos inerentes à atividade física e compromete-se a observar as normas de segurança, o regulamento e as orientações da ORGANIZADORA.\n\n5.1.1 A ORGANIZADORA recomenda que as equipes avaliem a contratação de seguro para seus atletas, a fim de proporcionar cobertura adicional para eventuais ocorrências durante o torneio.\n\n5.2 A hospedagem das delegações, quando necessária, deverá ser contratada pelas próprias equipes PARTICIPANTES, salvo quando houver contratação específica de serviço oferecido ou intermediado pela ORGANIZADORA.\n\n5.2.1 No caso de alojamento em escolas ou instalações semelhantes, as equipes deverão providenciar para seus membros colchões, roupas de cama, cobertores, travesseiros e materiais de higiene pessoal, salvo orientação diferente da ORGANIZADORA.\n\n5.2.2 A ORGANIZADORA recomenda que os participantes evitem levar equipamentos eletrônicos, objetos de elevado valor ou grandes quantias em dinheiro aos alojamentos e locais dos jogos.\n\n5.2.3 A guarda dos objetos pessoais será de responsabilidade de seus respectivos proprietários, ressalvadas as responsabilidades legalmente atribuíveis à ORGANIZADORA.\n\n5.2.4 Caso as equipes utilizem alojamentos disponibilizados para a competição, serão responsáveis pelos danos comprovadamente causados por seus integrantes às respectivas instalações.\n\n5.3 – Alimentação: Caso a delegação tenha contratado serviço de alimentação relacionado ao evento, deverá observar os horários estabelecidos para café da manhã, almoço, lanche e jantar, conforme programação e tabela dos jogos.\n\n5.4 – Transporte: Caso haja transporte disponibilizado ou contratado para determinada delegação, seus integrantes deverão respeitar os horários e locais definidos pela ORGANIZADORA.\n\n5.5 A ORGANIZADORA poderá alterar horários, locais ou programação da competição em decorrência de caso fortuito, força maior, condições meteorológicas, determinações das autoridades competentes ou outras circunstâncias que impeçam ou prejudiquem a realização segura das partidas.\n\n5.6 Havendo dano comprovadamente causado pelo PARTICIPANTE ou por integrante de sua delegação a imóvel, instalação, equipamento ou material de terceiros, o responsável deverá reparar os prejuízos causados, observada a legislação aplicável.\n\n6 – DO DIREITO DE IMAGEM\n\n6.1 A ORGANIZADORA poderá realizar fotografias, filmagens e transmissões dos jogos e demais atividades relacionadas à competição.\n\n6.2 As imagens e materiais produzidos poderão ser selecionados e editados segundo critérios técnicos e de comunicação da ORGANIZADORA.\n\n6.3 Observada a legislação aplicável e, especialmente no caso de menores de idade, mediante autorização de seu responsável legal, fica autorizado o uso gratuito de imagem, voz e nome captados durante a CALDAS CUP FUT 7 BASE 2026 para divulgação institucional e promocional da competição, incluindo fotografias, vídeos, transmissões, redes sociais, websites, materiais impressos, campanhas publicitárias e materiais relacionados ao evento e seus patrocinadores.\n\n7 – DOS ACOMPANHANTES E DO ACESSO AOS JOGOS\n\n7.1 O acesso dos ACOMPANHANTES aos locais de realização dos jogos da CALDAS CUP FUT 7 BASE 2026 estará condicionado à aquisição do respectivo passaporte de acesso, conforme as condições estabelecidas pela ORGANIZADORA.\n\n7.2 – PASSAPORTE COMPLETO – R$ 350,00 (trezentos e cinquenta reais): válido para acesso aos jogos durante todos os dias da competição, no período de 15 a 21 de dezembro de 2026.\n\n7.3 – PASSAPORTE DIÁRIO – R$ 70,00 (setenta reais): valor por acompanhante, válido exclusivamente para acesso aos jogos no dia correspondente à aquisição.\n\n7.4 – ISENTOS: terão acesso isento do pagamento do passaporte:\n\na) menores de 14 (quatorze) anos; e\nb) maiores de 60 (sessenta) anos.\n\n7.5 Para concessão da isenção, a ORGANIZADORA poderá exigir documento oficial ou outro documento hábil que comprove a idade do acompanhante.\n\n7.6 O passaporte refere-se exclusivamente ao acesso aos jogos da CALDAS CUP FUT 7 BASE 2026, não incluindo hospedagem, alimentação, transporte ou outros serviços, salvo contratação expressa.\n\n7.7 O passaporte será de uso individual, podendo o acesso ser controlado por pulseira, credencial, ingresso, QR Code ou outro sistema adotado pela ORGANIZADORA.\n\n7.8 É proibida a transferência, empréstimo, falsificação, reprodução ou utilização irregular do passaporte, credencial ou pulseira por terceiros.\n\n8 – DAS DISPOSIÇÕES GERAIS\n\n8.1 A ORGANIZADORA fornecerá oportunamente ao PARTICIPANTE informações sobre cronograma, locais, datas e horários dos jogos, além das demais condições necessárias à participação na competição.\n\n8.2 Orientações adicionais consideradas importantes para organização, segurança e realização do evento poderão ser fornecidas aos responsáveis pelas equipes, devendo ser observadas pelos PARTICIPANTES.\n\n8.3 O PARTICIPANTE responderá pela veracidade e exatidão das informações e documentos apresentados à ORGANIZADORA.\n\n8.4 O PARTICIPANTE poderá registrar abaixo eventual observação ou discordância específica em relação às disposições deste instrumento:\n\n---\n\n---\n\n8.5 Ao formalizar sua participação na CALDAS CUP FUT 7 BASE 2026, ORGANIZADORA e PARTICIPANTE declaram conhecer e concordar com as condições previstas neste instrumento e no Regulamento Oficial da competição.\n\n8.6 Fica eleito o foro da Comarca de Caldas Novas/GO, observadas as regras legais de competência aplicáveis, para dirimir eventuais controvérsias decorrentes deste contrato.\n\nE, por estarem justas e contratadas, as partes firmam o presente instrumento em duas vias de igual teor, juntamente com duas testemunhas.\n\n";
     const contratoEtapa = document.getElementById('contratoEtapa');
+    const contratoConsultaBox = document.getElementById('contratoConsultaBox');
+    const btnVerContrato = document.getElementById('btnVerContrato');
+    let focoAntesDoContrato = null;
+
+    function textoContratoConsulta(){
+      return 'CONTRATO DE PRESTAÇÃO DE SERVIÇOS PARA PARTICIPAÇÃO\n' +
+        'CALDAS CUP FUT 7 BASE 2026\n\n' +
+        'RESPONSÁVEL: preenchido no momento da inscrição\n' +
+        'CPF: preenchido no momento da inscrição\n' +
+        'DATA DE NASCIMENTO: preenchida no momento da inscrição\n' +
+        'EQUIPE: preenchida no momento da inscrição\n' +
+        'CATEGORIAS: selecionadas no momento da inscrição\n' +
+        'TELEFONE: preenchido no momento da inscrição\n' +
+        'E-MAIL: preenchido no momento da inscrição\n\n' +
+        CONTRATO_CLAUSULAS +
+        'Caldas Novas/GO, data registrada no momento da assinatura.\n\n' +
+        'AD SPORTS – ORGANIZADORA\nCNPJ: 44.434.773/0001-51\n\n' +
+        'RESPONSÁVEL / PARTICIPANTE: preenchido e assinado eletronicamente durante a inscrição.\n\n' +
+        'TESTEMUNHAS: campos destinados ao instrumento formal, quando aplicável.\n\n' +
+        'Versão do contrato: ' + CONTRATO_VERSAO;
+    }
+
+    function abrirContratoConsulta(){
+      focoAntesDoContrato = document.activeElement;
+      document.getElementById('contratoConsultaTexto').textContent = textoContratoConsulta();
+      contratoConsultaBox.hidden = false;
+      document.body.style.overflow = 'hidden';
+      document.getElementById('btnFecharContrato').focus();
+    }
+    function fecharContratoConsulta(){
+      contratoConsultaBox.hidden = true;
+      document.body.style.overflow = '';
+      if(focoAntesDoContrato) focoAntesDoContrato.focus();
+    }
+    btnVerContrato.addEventListener('click',abrirContratoConsulta);
+    document.getElementById('btnFecharContrato').addEventListener('click',fecharContratoConsulta);
+    contratoConsultaBox.addEventListener('click',event => {
+      if(event.target === contratoConsultaBox) fecharContratoConsulta();
+    });
+    document.addEventListener('keydown',event => {
+      if(event.key === 'Escape' && !contratoConsultaBox.hidden) fecharContratoConsulta();
+    });
     const contratoAceite = document.getElementById('contratoAceite');
     const canvas = document.getElementById('assinaturaCanvas');
     const contexto = canvas.getContext('2d');
