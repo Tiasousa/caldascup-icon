@@ -573,7 +573,8 @@
             </div>
             <div class="field">
               <label class="title" for="dataNascimento">DATA DE NASCIMENTO *</label>
-              <input id="dataNascimento" type="date" autocomplete="bday" required>
+              <input id="dataNascimento" type="text" inputmode="numeric" maxlength="10" autocomplete="bday" placeholder="DD/MM/AAAA" aria-describedby="nascimentoAjuda" required>
+              <small id="nascimentoAjuda" class="contrato-ajuda">Digite dia, mês e ano completo. Ex.: 15/08/1990.</small>
             </div>
             <div class="field full">
               <label class="title" for="email">E-MAIL DO RESPONSÁVEL *</label>
@@ -829,9 +830,27 @@
       ['nomeEquipe','responsavel','cpf','dataNascimento','telefone','email','cidade','qtdAtletas','observacoes'].forEach(id => {
         dados[id] = document.getElementById(id).value.trim();
       });
+      dados.dataNascimento = nascimentoISO();
       dados.categorias = [...document.querySelectorAll('.cat input:checked')].map(i => i.value);
       return dados;
     }
+
+    function nascimentoISO(){
+      const valor = document.getElementById('dataNascimento').value.trim();
+      const partes = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(valor) || /^(\d{2})(\d{2})(\d{4})$/.exec(valor);
+      if(!partes) return '';
+      const [,dia,mes,ano] = partes;
+      const data = new Date(Number(ano),Number(mes)-1,Number(dia));
+      if(Number(ano) < 1900 || data.getFullYear() !== Number(ano) ||
+        data.getMonth() !== Number(mes)-1 || data.getDate() !== Number(dia)) return '';
+      return ano + '-' + mes + '-' + dia;
+    }
+    // Do not rewrite the value while typing: the user can edit any year digit.
+    document.getElementById('dataNascimento').addEventListener('blur',() => {
+      const iso = nascimentoISO();
+      if(iso) document.getElementById('dataNascimento').value = iso.split('-').reverse().join('/');
+      validarIdentificacao();
+    });
 
     function validarIdentificacao(){
       const cpf = document.getElementById('cpf');
@@ -846,8 +865,8 @@
       const nascimento = document.getElementById('dataNascimento');
       const hoje = new Date();
       const limite = [hoje.getFullYear(),String(hoje.getMonth()+1).padStart(2,'0'),String(hoje.getDate()).padStart(2,'0')].join('-');
-      nascimento.max = limite;
-      nascimento.setCustomValidity(nascimento.value && nascimento.value <= limite && nascimento.value >= '1900-01-01' ? '' : 'Informe uma data de nascimento válida.');
+      const iso = nascimentoISO();
+      nascimento.setCustomValidity(iso && iso <= limite ? '' : 'Informe uma data válida no formato DD/MM/AAAA, com o ano completo e sem data futura.');
     }
     ['cpf','dataNascimento'].forEach(id => document.getElementById(id).addEventListener('input',validarIdentificacao));
 
@@ -1057,7 +1076,7 @@
       };
 
       dados.cpf = document.getElementById('cpf').value.replace(/\D/g,'');
-      dados.dataNascimento = document.getElementById('dataNascimento').value;
+      dados.dataNascimento = nascimentoISO();
       dados.email = document.getElementById('email').value.trim();
       dados.contrato = criarRegistroContrato(dados);
       payload.value = JSON.stringify(dados);
