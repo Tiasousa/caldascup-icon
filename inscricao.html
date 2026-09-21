@@ -230,13 +230,21 @@
       gap:10px;
     }
 
+    .cats-ajuda{
+      margin:0 0 10px;
+      color:var(--muted);
+      font-size:12.5px;
+      line-height:1.5;
+    }
+
     .cat{
       position:relative;
-      cursor:pointer;
+      cursor:default;
       display:flex;
-      align-items:center;
-      gap:10px;
-      padding:14px 12px;
+      flex-direction:column;
+      align-items:stretch;
+      gap:8px;
+      padding:12px 12px 10px;
       border-radius:15px;
       border:1px solid rgba(255,255,255,.08);
       background:rgba(255,255,255,.035);
@@ -249,38 +257,38 @@
       border-color:rgba(244,196,48,.28);
     }
 
-    .cat input{
-      position:absolute;
-      opacity:0;
-      pointer-events:none;
-    }
-
-    .check{
-      width:22px;
-      height:22px;
-      flex:0 0 auto;
-      display:grid;
-      place-items:center;
-      border-radius:7px;
-      border:1px solid rgba(255,255,255,.18);
-      color:#031521;
-      font-size:14px;
-      font-weight:900;
-    }
-
     .cat.active{
       border-color:rgba(244,196,48,.55);
       background:linear-gradient(145deg,rgba(244,196,48,.14),rgba(244,196,48,.05));
     }
 
-    .cat.active .check{
-      background:var(--gold);
-      border-color:var(--gold);
-    }
-
     .cat .nome{
       font-size:13px;
       font-weight:900;
+    }
+
+    .cat input[type=number]{
+      width:100%;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:9px;
+      padding:8px 9px;
+      font-size:15px;
+      font-weight:700;
+      text-align:center;
+      background:rgba(3,21,33,.55);
+      color:#fff;
+      font-family:inherit;
+    }
+
+    .cat input[type=number]:focus{
+      outline:none;
+      border-color:var(--gold);
+      box-shadow:0 0 0 3px rgba(244,196,48,.15);
+    }
+
+    .cat.active input[type=number]{
+      border-color:rgba(244,196,48,.5);
+      color:var(--gold);
     }
     .cat-section-title{
       grid-column:1/-1;
@@ -315,10 +323,9 @@
       background:linear-gradient(145deg,rgba(255,102,196,.20),rgba(255,102,196,.08));
     }
 
-    .cat.feminino.active .check{
-      background:#ff66c4;
+    .cat.feminino.active input[type=number]{
       border-color:#ff66c4;
-      color:#031521;
+      color:#ff9bd7;
     }
 
 
@@ -600,21 +607,22 @@
             </div>
           </div>
 
+          <p class="cats-ajuda">Digite quantos atletas sua equipe vai inscrever em cada categoria (pode marcar mais de uma).</p>
           <div class="cats">
             <div class="cat-section-title">Masculino</div>
-            <label class="cat"><input type="checkbox" value="Sub 06"><span class="check">✓</span><span class="nome">Sub 06</span></label>
-            <label class="cat"><input type="checkbox" value="Sub 07"><span class="check">✓</span><span class="nome">Sub 07</span></label>
-            <label class="cat"><input type="checkbox" value="Sub 08"><span class="check">✓</span><span class="nome">Sub 08</span></label>
-            <label class="cat"><input type="checkbox" value="Sub 09"><span class="check">✓</span><span class="nome">Sub 09</span></label>
-            <label class="cat"><input type="checkbox" value="Sub 10"><span class="check">✓</span><span class="nome">Sub 10</span></label>
-            <label class="cat"><input type="checkbox" value="Sub 11"><span class="check">✓</span><span class="nome">Sub 11</span></label>
-            <label class="cat"><input type="checkbox" value="Sub 12"><span class="check">✓</span><span class="nome">Sub 12</span></label>
-            <label class="cat"><input type="checkbox" value="Sub 13"><span class="check">✓</span><span class="nome">Sub 13</span></label>
-            <label class="cat"><input type="checkbox" value="Sub 14"><span class="check">✓</span><span class="nome">Sub 14</span></label>
+            <label class="cat" data-cat="Sub 06"><span class="nome">Sub 06</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
+            <label class="cat" data-cat="Sub 07"><span class="nome">Sub 07</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
+            <label class="cat" data-cat="Sub 08"><span class="nome">Sub 08</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
+            <label class="cat" data-cat="Sub 09"><span class="nome">Sub 09</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
+            <label class="cat" data-cat="Sub 10"><span class="nome">Sub 10</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
+            <label class="cat" data-cat="Sub 11"><span class="nome">Sub 11</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
+            <label class="cat" data-cat="Sub 12"><span class="nome">Sub 12</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
+            <label class="cat" data-cat="Sub 13"><span class="nome">Sub 13</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
+            <label class="cat" data-cat="Sub 14"><span class="nome">Sub 14</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
 
             <div class="cat-section-title feminino">Feminino</div>
-            <label class="cat feminino"><input type="checkbox" value="Fem Sub 13"><span class="check">✓</span><span class="nome">Sub 13</span></label>
-            <label class="cat feminino"><input type="checkbox" value="Fem Sub 15"><span class="check">✓</span><span class="nome">Sub 15</span></label>
+            <label class="cat feminino" data-cat="Fem Sub 13"><span class="nome">Sub 13</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
+            <label class="cat feminino" data-cat="Fem Sub 15"><span class="nome">Sub 15</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
           </div>
 
           <div class="summary">
@@ -640,9 +648,10 @@
 
           <div class="grid">
             <div class="field">
-              <label class="title" for="qtdAtletas">QUANTIDADE TOTAL DE ATLETAS *</label>
-              <input id="qtdAtletas" type="number" min="1" max="500" inputmode="numeric"
-                     placeholder="Ex.: 18" required>
+              <label class="title" for="qtdAtletas">QUANTIDADE TOTAL DE ATLETAS</label>
+              <input id="qtdAtletas" type="text" readonly value="0"
+                     style="cursor:default;opacity:.85;">
+              <small style="display:block;margin-top:6px;color:var(--muted);font-size:11.5px;">Soma automática das categorias acima.</small>
             </div>
 
             <div class="field full">
@@ -783,15 +792,27 @@
       mensagem.scrollIntoView({behavior:'smooth',block:'center'});
     }
 
-    function atualizarCategorias(){
-      qtdCategorias.textContent =
-        document.querySelectorAll('.cat input:checked').length;
+    function categoriasComQuantidade(){
+      const mapa = {};
+      document.querySelectorAll('.cat[data-cat]').forEach(label => {
+        const qtd = Number(label.querySelector('input[type=number]').value) || 0;
+        if(qtd > 0) mapa[label.dataset.cat] = qtd;
+      });
+      return mapa;
     }
 
-    document.querySelectorAll('.cat input').forEach(input => {
-      input.addEventListener('change',() => {
-        input.closest('.cat').classList.toggle('active',input.checked);
-    
+    function atualizarCategorias(){
+      const mapa = categoriasComQuantidade();
+      const total = Object.values(mapa).reduce((s,v) => s+v, 0);
+      qtdCategorias.textContent = Object.keys(mapa).length;
+      const campoTotal = document.getElementById('qtdAtletas');
+      if(campoTotal) campoTotal.value = total;
+    }
+
+    document.querySelectorAll('.cat[data-cat] input[type=number]').forEach(input => {
+      input.addEventListener('input',() => {
+        const qtd = Number(input.value) || 0;
+        input.closest('.cat').classList.toggle('active', qtd > 0);
         atualizarCategorias();
       });
     });
@@ -893,7 +914,7 @@
         dados[id] = document.getElementById(id).value.trim();
       });
       dados.dataNascimento = nascimentoISO();
-      dados.categorias = [...document.querySelectorAll('.cat input:checked')].map(i => i.value);
+      dados.categorias = Object.entries(categoriasComQuantidade()).map(([cat,qtd]) => cat + ' (' + qtd + ')');
       return dados;
     }
 
@@ -1101,11 +1122,10 @@
       if(!form.reportValidity()) return;
       invalidarContrato();
 
-      const selecionadas =
-        [...document.querySelectorAll('.cat input:checked')];
+      const categoriasPreenchidas = categoriasComQuantidade();
 
-      if(!selecionadas.length){
-        mostrarErro('Selecione pelo menos uma categoria.');
+      if(!Object.keys(categoriasPreenchidas).length){
+        mostrarErro('Informe a quantidade de atletas em pelo menos uma categoria.');
         return;
       }
 
@@ -1124,16 +1144,13 @@
         return;
       }
 
-      const categorias = {};
-      selecionadas.forEach(i => categorias[i.value] = true);
-
       const dados = {
         nomeEquipe: document.getElementById('nomeEquipe').value.trim(),
         responsavel: document.getElementById('responsavel').value.trim(),
         telefone: telefone.value.trim(),
         cidade: document.getElementById('cidade').value.trim(),
-        categorias: categorias,
-        qtdAtletas: document.getElementById('qtdAtletas').value,
+        categorias: categoriasPreenchidas,
+        qtdAtletas: Object.values(categoriasPreenchidas).reduce((s,v) => s+v, 0),
         observacoes: document.getElementById('observacoes').value.trim()
       };
 
