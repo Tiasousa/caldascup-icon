@@ -933,12 +933,29 @@
         data.getMonth() !== Number(mes)-1 || data.getDate() !== Number(dia)) return '';
       return ano + '-' + mes + '-' + dia;
     }
-    // Do not rewrite the value while typing: the user can edit any year digit.
-    document.getElementById('dataNascimento').addEventListener('blur',() => {
-      const iso = nascimentoISO();
-      if(iso) document.getElementById('dataNascimento').value = iso.split('-').reverse().join('/');
+    function aplicarMascaraNumerica(campo, formatar, limite){
+      const antes = campo.value.slice(0,campo.selectionStart ?? campo.value.length).replace(/\D/g,'').length;
+      const digitos = campo.value.replace(/\D/g,'').slice(0,limite);
+      const formatado = formatar(digitos);
+      campo.value = formatado;
+      let posicao = 0, vistos = 0;
+      while(posicao < formatado.length && vistos < antes){
+        if(/\d/.test(formatado[posicao])) vistos++;
+        posicao++;
+      }
+      if(antes >= digitos.length) posicao = formatado.length;
+      campo.setSelectionRange(posicao,posicao);
       validarIdentificacao();
-    });
+    }
+    const campoCpf = document.getElementById('cpf');
+    campoCpf.addEventListener('input',() => aplicarMascaraNumerica(campoCpf, v =>
+      v.slice(0,3) + (v.length > 3 ? '.' + v.slice(3,6) : '') +
+      (v.length > 6 ? '.' + v.slice(6,9) : '') +
+      (v.length > 9 ? '-' + v.slice(9,11) : ''), 11));
+    const campoNascimento = document.getElementById('dataNascimento');
+    campoNascimento.addEventListener('input',() => aplicarMascaraNumerica(campoNascimento, v =>
+      v.slice(0,2) + (v.length > 2 ? '/' + v.slice(2,4) : '') +
+      (v.length > 4 ? '/' + v.slice(4,8) : ''), 8));
 
     function validarIdentificacao(){
       const cpf = document.getElementById('cpf');
@@ -956,7 +973,6 @@
       const iso = nascimentoISO();
       nascimento.setCustomValidity(iso && iso <= limite ? '' : 'Informe uma data válida no formato DD/MM/AAAA, com o ano completo e sem data futura.');
     }
-    ['cpf','dataNascimento'].forEach(id => document.getElementById(id).addEventListener('input',validarIdentificacao));
 
     function textoContrato(dados){
       const cabecalho = 'CONTRATO DE PRESTAÇÃO DE SERVIÇOS PARA PARTICIPAÇÃO\nCALDAS CUP FUT 7 BASE 2026\n\n' +
