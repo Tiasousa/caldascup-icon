@@ -353,6 +353,10 @@
     }
 
     .summary > div{min-width:0;}
+    .summary-card{min-width:0;}
+    .summary-card label.title{display:block;margin-bottom:8px;}
+    .summary-card input{max-width:220px;}
+    .summary-card small:last-child{margin-top:7px;}
 
     .alert{
       display:none;
@@ -606,11 +610,11 @@
             <div class="step">2</div>
             <div>
               <h2>Categorias</h2>
-              <p>Selecione todas as categorias que sua equipe disputará</p>
+              <p>Informe quantas inscrições sua equipe fará em cada categoria</p>
             </div>
           </div>
 
-          <p class="cats-ajuda">Digite quantos atletas sua equipe vai inscrever em cada categoria (pode marcar mais de uma).</p>
+          <p class="cats-ajuda">Digite quantas vezes a equipe participará de cada categoria. Ex.: 2 em Sub 06 e 1 em Sub 14 = 3 categorias. A quantidade de atletas é informada separadamente abaixo.</p>
           <div class="cats">
             <div class="cat-section-title">Masculino</div>
             <label class="cat" data-cat="Sub 06"><span class="nome">Sub 06</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
@@ -629,15 +633,16 @@
           </div>
 
           <div class="summary">
-            <div>
+            <div class="summary-card">
               <small>Quantidade de categorias</small>
               <strong id="qtdCategorias">0</strong>
             </div>
-            <div>
-              <small>Quantidade de atletas</small>
-              <strong id="qtdAtletasResumo">0</strong>
+            <div class="summary-card">
+              <label class="title" for="qtdAtletas">Quantidade de atletas</label>
+              <input id="qtdAtletas" type="number" min="1" max="500" step="1" inputmode="numeric" placeholder="Digite o total" required aria-describedby="qtdAtletasAjuda">
+              <small id="qtdAtletasAjuda">Digite o total de atletas da equipe.</small>
             </div>
-            <div>
+            <div class="summary-card">
               <small>Status inicial</small>
               <strong>Pendente de validação</strong>
             </div>
@@ -803,9 +808,8 @@
 
     function atualizarCategorias(){
       const mapa = categoriasComQuantidade();
-      const total = Object.values(mapa).reduce((s,v) => s+v, 0);
-      qtdCategorias.textContent = Object.keys(mapa).length;
-      document.getElementById('qtdAtletasResumo').textContent = total;
+      const totalCategorias = Object.values(mapa).reduce((s,v) => s+v, 0);
+      qtdCategorias.textContent = totalCategorias;
     }
 
     document.querySelectorAll('.cat[data-cat] input[type=number]').forEach(input => {
@@ -912,8 +916,8 @@
       ['nomeEquipe','responsavel','cpf','dataNascimento','telefone','email','cidade','observacoes'].forEach(id => {
         dados[id] = document.getElementById(id).value.trim();
       });
-      dados.qtdAtletas = Object.values(categoriasComQuantidade()).reduce((s,v) => s+v, 0);
-      dados.qtdCategorias = Object.keys(categoriasComQuantidade()).length;
+      dados.qtdAtletas = Number(document.getElementById('qtdAtletas').value);
+      dados.qtdCategorias = Object.values(categoriasComQuantidade()).reduce((s,v) => s+v, 0);
       dados.dataNascimento = nascimentoISO();
       dados.categorias = Object.entries(categoriasComQuantidade()).map(([cat,qtd]) => cat + ' (' + qtd + ')');
       return dados;
@@ -963,7 +967,7 @@
       let clausulas = CONTRATO_CLAUSULAS;
       if(precoConfigurado()){
         const moeda = (CONTRATO_PRECO.valorCentavos / 100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-        const total = CONTRATO_PRECO.valorCentavos * (CONTRATO_PRECO.porCategoria ? dados.categorias.length : 1);
+        const total = CONTRATO_PRECO.valorCentavos * (CONTRATO_PRECO.porCategoria ? dados.qtdCategorias : 1);
         const valor = moeda + ' (' + CONTRATO_PRECO.valorPorExtenso + ')' +
           (CONTRATO_PRECO.porCategoria ? ' por categoria, totalizando ' + (total/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}) : ' pelo total da equipe');
         clausulas = clausulas.replace(/R\$ _+ \(_+\)/,valor);
@@ -1127,7 +1131,7 @@
       const categoriasPreenchidas = categoriasComQuantidade();
 
       if(!Object.keys(categoriasPreenchidas).length){
-        mostrarErro('Informe a quantidade de atletas em pelo menos uma categoria.');
+        mostrarErro('Informe a quantidade de inscrições em pelo menos uma categoria.');
         return;
       }
 
@@ -1152,8 +1156,8 @@
         telefone: telefone.value.trim(),
         cidade: document.getElementById('cidade').value.trim(),
         categorias: categoriasPreenchidas,
-        qtdCategorias: Object.keys(categoriasPreenchidas).length,
-        qtdAtletas: Object.values(categoriasPreenchidas).reduce((s,v) => s+v, 0),
+        qtdCategorias: Object.values(categoriasPreenchidas).reduce((s,v) => s+v, 0),
+        qtdAtletas: Number(document.getElementById('qtdAtletas').value),
         observacoes: document.getElementById('observacoes').value.trim()
       };
 
