@@ -267,7 +267,7 @@
       font-weight:900;
     }
 
-    .cat input[type=number]{
+    .cat select{
       width:100%;
       border:1px solid rgba(255,255,255,.14);
       border-radius:9px;
@@ -278,15 +278,17 @@
       background:rgba(3,21,33,.55);
       color:#fff;
       font-family:inherit;
+      cursor:pointer;
+      appearance:auto;
     }
 
-    .cat input[type=number]:focus{
+    .cat select:focus{
       outline:none;
       border-color:var(--gold);
       box-shadow:0 0 0 3px rgba(244,196,48,.15);
     }
 
-    .cat.active input[type=number]{
+    .cat.active select{
       border-color:rgba(244,196,48,.5);
       color:var(--gold);
     }
@@ -323,7 +325,7 @@
       background:linear-gradient(145deg,rgba(255,102,196,.20),rgba(255,102,196,.08));
     }
 
-    .cat.feminino.active input[type=number]{
+    .cat.feminino.active select{
       border-color:#ff66c4;
       color:#ff9bd7;
     }
@@ -624,22 +626,22 @@
             </div>
           </div>
 
-          <p class="cats-ajuda">Digite quantas vezes a equipe participará de cada categoria. Ex.: 2 em Sub 06 e 1 em Sub 14 = 3 categorias. A quantidade de atletas é informada separadamente abaixo.</p>
+          <p class="cats-ajuda">Toque no número de cada categoria e escolha 0, 1, 2, 3 ou 4. Ex.: 2 em Sub 06 e 1 em Sub 14 = 3 categorias. A quantidade de atletas é informada separadamente abaixo.</p>
           <div class="cats">
             <div class="cat-section-title">Masculino</div>
-            <label class="cat" data-cat="Sub 06"><span class="nome">Sub 06</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
-            <label class="cat" data-cat="Sub 07"><span class="nome">Sub 07</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
-            <label class="cat" data-cat="Sub 08"><span class="nome">Sub 08</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
-            <label class="cat" data-cat="Sub 09"><span class="nome">Sub 09</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
-            <label class="cat" data-cat="Sub 10"><span class="nome">Sub 10</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
-            <label class="cat" data-cat="Sub 11"><span class="nome">Sub 11</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
-            <label class="cat" data-cat="Sub 12"><span class="nome">Sub 12</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
-            <label class="cat" data-cat="Sub 13"><span class="nome">Sub 13</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
-            <label class="cat" data-cat="Sub 14"><span class="nome">Sub 14</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
+            <label class="cat" data-cat="Sub 06"><span class="nome">Sub 06</span><select aria-label="Quantidade Sub 06"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+            <label class="cat" data-cat="Sub 07"><span class="nome">Sub 07</span><select aria-label="Quantidade Sub 07"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+            <label class="cat" data-cat="Sub 08"><span class="nome">Sub 08</span><select aria-label="Quantidade Sub 08"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+            <label class="cat" data-cat="Sub 09"><span class="nome">Sub 09</span><select aria-label="Quantidade Sub 09"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+            <label class="cat" data-cat="Sub 10"><span class="nome">Sub 10</span><select aria-label="Quantidade Sub 10"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+            <label class="cat" data-cat="Sub 11"><span class="nome">Sub 11</span><select aria-label="Quantidade Sub 11"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+            <label class="cat" data-cat="Sub 12"><span class="nome">Sub 12</span><select aria-label="Quantidade Sub 12"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+            <label class="cat" data-cat="Sub 13"><span class="nome">Sub 13</span><select aria-label="Quantidade Sub 13"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+            <label class="cat" data-cat="Sub 14"><span class="nome">Sub 14</span><select aria-label="Quantidade Sub 14"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
 
             <div class="cat-section-title feminino">Feminino</div>
-            <label class="cat feminino" data-cat="Fem Sub 13"><span class="nome">Sub 13</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
-            <label class="cat feminino" data-cat="Fem Sub 15"><span class="nome">Sub 15</span><input type="number" min="0" max="99" inputmode="numeric" placeholder="0" value=""></label>
+            <label class="cat feminino" data-cat="Fem Sub 13"><span class="nome">Sub 13</span><select aria-label="Quantidade feminino Sub 13"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+            <label class="cat feminino" data-cat="Fem Sub 15"><span class="nome">Sub 15</span><select aria-label="Quantidade feminino Sub 15"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
           </div>
 
           <div class="summary">
@@ -817,7 +819,7 @@
     function categoriasComQuantidade(){
       const mapa = {};
       document.querySelectorAll('.cat[data-cat]').forEach(label => {
-        const qtd = Number(label.querySelector('input[type=number]').value) || 0;
+        const qtd = Number(label.querySelector('select').value) || 0;
         if(qtd > 0) mapa[label.dataset.cat] = qtd;
       });
       return mapa;
@@ -829,8 +831,8 @@
       qtdCategorias.textContent = totalCategorias;
     }
 
-    document.querySelectorAll('.cat[data-cat] input[type=number]').forEach(input => {
-      input.addEventListener('input',() => {
+    document.querySelectorAll('.cat[data-cat] select').forEach(input => {
+      input.addEventListener('change',() => {
         const qtd = Number(input.value) || 0;
         input.closest('.cat').classList.toggle('active', qtd > 0);
         atualizarCategorias();
