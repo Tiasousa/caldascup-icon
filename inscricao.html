@@ -1082,6 +1082,11 @@
     }
 
     function abrirContrato(){
+      // Fecha o teclado do celular antes de mudar a altura da página.
+      // Isso evita saltos e tela posicionada no lugar errado na troca de etapa.
+      if(document.activeElement && typeof document.activeElement.blur === 'function'){
+        document.activeElement.blur();
+      }
       contratoData = new Date().toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo',day:'numeric',month:'long',year:'numeric'});
       contratoSnapshot = JSON.stringify(dadosContrato());
       document.getElementById('contratoTexto').textContent = textoContrato(dadosContrato());
@@ -1090,8 +1095,12 @@
       contratoAceite.disabled = false;
       document.getElementById('contratoValorAviso').hidden = true;
       limparAssinatura();
-      document.getElementById('contratoTitulo').focus();
-      contratoEtapa.scrollIntoView({behavior:'smooth',block:'start'});
+      const tituloContrato = document.getElementById('contratoTitulo');
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        const topo = Math.max(0, window.scrollY + contratoEtapa.getBoundingClientRect().top - 10);
+        window.scrollTo({top:topo,behavior:'auto'});
+        try{ tituloContrato.focus({preventScroll:true}); }catch(_){ tituloContrato.focus(); }
+      }));
     }
 
     // Any change to the reviewed registration invalidates its previous acceptance.
