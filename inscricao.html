@@ -522,10 +522,20 @@
 
     [hidden]{display:none !important}
     .contrato-texto{white-space:pre-wrap;overflow-wrap:anywhere;max-height:440px;overflow:auto;padding:18px;background:#fff;color:#172936;border-radius:14px;line-height:1.65;font-size:14px}
-    .contrato-aceite{display:flex;align-items:flex-start;gap:12px;margin-top:20px;line-height:1.5;font-size:14px}
-    .contrato-aceite input{width:22px;height:22px;flex:0 0 22px;accent-color:var(--gold)}
+    .contrato-aceite{display:flex;align-items:flex-start;gap:12px;margin-top:20px;padding:14px;border:2px solid rgba(244,196,48,.48);border-radius:14px;background:rgba(244,196,48,.08);line-height:1.5;font-size:14px;font-weight:700;cursor:pointer}
+    .contrato-aceite input{width:30px;height:30px;flex:0 0 30px;accent-color:var(--gold);cursor:pointer}
     #assinaturaCanvas{display:block;width:100%;height:220px;margin-top:12px;background:#fff;border:2px solid var(--gold);border-radius:14px;touch-action:none;cursor:crosshair}
     .contrato-ajuda{color:var(--muted);font-size:13px;line-height:1.5}
+    .contrato-passos{margin:14px 0 18px;padding:14px;border:1px solid rgba(244,196,48,.32);border-radius:14px;background:rgba(244,196,48,.07)}
+    .contrato-passos strong{display:block;margin-bottom:5px;color:var(--gold);font-size:16px}
+    .contrato-progresso{margin-bottom:10px;color:var(--text);font-size:13px;font-weight:800}
+    .contrato-passo{display:flex;align-items:flex-start;gap:9px;margin-top:7px;color:#ffcf87;font-size:13px;line-height:1.4}
+    .contrato-passo::before{content:'○';font-size:18px;line-height:1;color:var(--gold);font-weight:900}
+    .contrato-passo.ok{color:#8de5b9}
+    .contrato-passo.ok::before{content:'✓';color:#38d98a}
+    .assinatura-chamada{margin-top:18px;padding:11px 13px;border-radius:12px;background:rgba(40,169,224,.13);border:1px solid rgba(40,169,224,.34);color:#a8def5;font-weight:900;text-align:center;letter-spacing:.03em}
+    .contrato-destaque{outline:3px solid #ff9a7a!important;outline-offset:4px;animation:contratoPulso .75s ease 2}
+    @keyframes contratoPulso{50%{outline-color:var(--gold);box-shadow:0 0 0 7px rgba(244,196,48,.14)}}
     .contrato-secundario{padding:12px 16px;margin-top:12px;background:transparent;color:var(--text);border:1px solid var(--muted);border-radius:12px;cursor:pointer}
     :focus-visible{outline:3px solid var(--gold);outline-offset:3px}
   </style>
@@ -673,11 +683,18 @@
               <div><h2 id="contratoTitulo" tabindex="-1">Contrato e assinatura</h2>
               <p>Confira os dados, leia o contrato e assine para finalizar</p></div>
             </div>
+            <div class="contrato-passos" id="contratoPassos" aria-live="polite">
+              <strong id="contratoPassosTitulo">Falta fazer estas 2 ações:</strong>
+              <div class="contrato-progresso" id="contratoProgresso">0 de 2 concluídas</div>
+              <div class="contrato-passo" id="passoAceite">1. Toque no quadradinho abaixo para confirmar que leu e concorda.</div>
+              <div class="contrato-passo" id="passoAssinatura">2. No quadro branco, desenhe sua assinatura com o dedo.</div>
+            </div>
             <div id="contratoTexto" class="contrato-texto" tabindex="0" role="region" aria-label="Contrato completo para leitura"></div>
             <p id="contratoValorAviso" class="contrato-ajuda" hidden>A organização ainda precisa definir o valor da inscrição. A assinatura e o envio estarão disponíveis após essa definição.</p>
             <label class="contrato-aceite"><input id="contratoAceite" type="checkbox" disabled>
-              <span id="contratoAceiteTexto">Li integralmente e concordo com o Contrato de Prestação de Serviços e com o Regulamento Oficial da Caldas Cup Fut 7 Base 2026.</span>
+              <span id="contratoAceiteTexto"><strong>TOQUE NO QUADRADINHO.</strong><br>Li integralmente e concordo com o Contrato de Prestação de Serviços e com o Regulamento Oficial da Caldas Cup Fut 7 Base 2026.</span>
             </label>
+            <div class="assinatura-chamada">✍️ ASSINE AQUI COM O DEDO</div>
             <p id="assinaturaAjuda" class="contrato-ajuda">Assine abaixo com o dedo, caneta ou mouse. Alterações nos dados exigem novo aceite e assinatura.</p>
             <canvas id="assinaturaCanvas" width="1000" height="300" aria-label="Área para desenhar a assinatura do responsável" aria-describedby="assinaturaAjuda">Seu navegador precisa oferecer suporte a canvas para desenhar a assinatura.</canvas>
             <button id="limparAssinatura" type="button" class="contrato-secundario">LIMPAR ASSINATURA</button>
@@ -1021,9 +1038,33 @@
     }
 
     function atualizarBotaoContrato(){
-      btnEnviar.disabled = aguardandoResposta || (contratoRevisado &&
-        (!contexto || !contratoAceite.checked || !assinaturaValida() || pointerAtivo !== null));
-      btnEnviar.textContent = contratoRevisado ? 'FINALIZAR E ASSINAR INSCRIÇÃO' : 'CONTINUAR PARA O CONTRATO';
+      btnEnviar.disabled = aguardandoResposta;
+      const passoAceite = document.getElementById('passoAceite');
+      const passoAssinatura = document.getElementById('passoAssinatura');
+      const aceitePronto = contratoAceite.checked;
+      const assinaturaPronta = assinaturaValida();
+      if(passoAceite) passoAceite.classList.toggle('ok',aceitePronto);
+      if(passoAssinatura) passoAssinatura.classList.toggle('ok',assinaturaPronta);
+      const concluidas = Number(aceitePronto) + Number(assinaturaPronta);
+      const progresso = document.getElementById('contratoProgresso');
+      if(progresso) progresso.textContent = concluidas === 2 ? '2 de 2 concluídas — tudo pronto para enviar!' : concluidas + ' de 2 concluídas';
+      const tituloPassos = document.getElementById('contratoPassosTitulo');
+      if(tituloPassos) tituloPassos.textContent = concluidas === 2 ? 'Tudo pronto!' : concluidas === 1 ? 'Falta somente 1 ação:' : 'Falta fazer estas 2 ações:';
+      if(!contratoRevisado){
+        btnEnviar.textContent = 'CONTINUAR PARA O CONTRATO';
+      }else if(concluidas === 2){
+        btnEnviar.textContent = 'FINALIZAR E ENVIAR INSCRIÇÃO';
+      }else{
+        btnEnviar.textContent = 'MOSTRAR O QUE AINDA FALTA';
+      }
+    }
+
+    function destacarPendenciaContrato(alvo){
+      document.querySelectorAll('.contrato-destaque').forEach(el=>el.classList.remove('contrato-destaque'));
+      if(!alvo) return;
+      alvo.classList.add('contrato-destaque');
+      alvo.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>alvo.classList.remove('contrato-destaque'),1800);
     }
 
     function limparAssinatura(){
@@ -1155,8 +1196,21 @@
         abrirContrato();
         return;
       }
-      if(!contratoAceite.checked || !assinaturaValida() || pointerAtivo !== null){
-        mostrarErro('Confira o contrato, marque o aceite e desenhe sua assinatura antes de enviar.');
+      if(!contratoAceite.checked && !assinaturaValida()){
+        mostrarErro('Faltam 2 passos: marque o quadradinho confirmando que leu o contrato e desenhe sua assinatura no quadro branco.');
+        destacarPendenciaContrato(document.querySelector('.contrato-aceite'));
+        atualizarBotaoContrato();
+        return;
+      }
+      if(!contratoAceite.checked){
+        mostrarErro('Falta marcar o quadradinho “Li integralmente e concordo com o contrato”.');
+        destacarPendenciaContrato(document.querySelector('.contrato-aceite'));
+        atualizarBotaoContrato();
+        return;
+      }
+      if(!assinaturaValida() || pointerAtivo !== null){
+        mostrarErro('Falta desenhar sua assinatura no quadro branco. Faça um traço completo com o dedo.');
+        destacarPendenciaContrato(canvas);
         atualizarBotaoContrato();
         return;
       }
