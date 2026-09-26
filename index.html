@@ -1018,16 +1018,34 @@
   <iframe
     id="app"
     title="Sistema Caldas Cup Fut7"
-    src="https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec"
     allow="clipboard-read; clipboard-write"
   ></iframe>
 
   <script>
     (function(){
-      var app=document.getElementById('app');
-      var carregando=document.getElementById('carregandoInicial');
-      app.addEventListener('load',function(){
-        window.setTimeout(function(){carregando.classList.add('oculto');},350);
+      var APP_URL = "https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec";
+
+      var ehCelular = /Android|iPhone|iPad|iPod|Mobile|Windows Phone/i.test(navigator.userAgent);
+
+      var app = document.getElementById('app');
+      var carregando = document.getElementById('carregandoInicial');
+
+      if (ehCelular) {
+        // Celular: o Google bloqueia o storage entre domínios que o
+        // google.script.run precisa pra funcionar dentro de iframe de
+        // terceiro (isso é bloqueio do próprio navegador, não dá pra
+        // contornar mantendo iframe). Navega direto, sem iframe.
+        // Aberto pelo ícone instalado na tela inicial (PWA), fica em
+        // tela cheia, sem barra de endereço — igual app nativo.
+        app.remove();
+        window.location.replace(APP_URL);
+        return;
+      }
+
+      // Computador: mantém o iframe (já funciona certo).
+      app.src = APP_URL;
+      app.addEventListener('load', function(){
+        window.setTimeout(function(){ carregando.classList.add('oculto'); }, 350);
       });
     })();
   </script>
