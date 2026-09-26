@@ -988,10 +988,31 @@
         scroll-behavior:auto !important;
       }
     }
+
+    #carregandoInicial{
+      position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;gap:18px;padding:24px;
+      background:radial-gradient(circle at 50% 35%,rgba(40,169,224,.18),transparent 34%),#031521;
+      color:#eef4f8;text-align:center;transition:opacity .3s ease,visibility .3s ease;
+    }
+    #carregandoInicial.oculto{opacity:0;visibility:hidden;pointer-events:none;}
+    #carregandoInicial img{width:clamp(100px,18vw,150px);height:auto;display:block;object-fit:contain;}
+    #carregandoInicial strong{font-family:Arial,sans-serif;font-size:clamp(20px,4vw,30px);}
+    #carregandoInicial span{color:#a9c3d1;font-size:14px;}
+    .carregandoBarra{width:min(300px,72vw);height:7px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.1);}
+    .carregandoBarra i{display:block;width:42%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#28a9e0,#5cd6d6,#f4c430);animation:carregandoMovimento 1.1s ease-in-out infinite alternate;}
+    @keyframes carregandoMovimento{from{transform:translateX(-35%)}to{transform:translateX(175%)}}
   </style>
 </head>
 
 <body>
+
+  <div id="carregandoInicial" role="status" aria-live="polite">
+    <img src="./icon.png" alt="Caldas Cup">
+    <strong>Preparando sistema</strong>
+    <div class="carregandoBarra"><i></i></div>
+    <span>Aguarde um instante...</span>
+  </div>
 
   <!-- O aplicativo abre diretamente na tela de acesso. -->
   <iframe
@@ -1000,6 +1021,16 @@
     src="https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec"
     allow="clipboard-read; clipboard-write"
   ></iframe>
+
+  <script>
+    (function(){
+      var app=document.getElementById('app');
+      var carregando=document.getElementById('carregandoInicial');
+      app.addEventListener('load',function(){
+        window.setTimeout(function(){carregando.classList.add('oculto');},350);
+      });
+    })();
+  </script>
 
 </body>
 </html>
