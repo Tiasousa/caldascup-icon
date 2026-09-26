@@ -52,20 +52,13 @@
       </div>
     </div>
   </div>
-  <iframe id="app" title="Sistema Caldas Cup Fut7" allow="clipboard-read; clipboard-write"></iframe>
+  <iframe id="app" title="Sistema Caldas Cup Fut7" src="https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec" allow="clipboard-read; clipboard-write"></iframe>
   <script>
     (function(){
-      var url='https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec';
-      var celular=window.matchMedia('(max-width:760px)').matches||/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      if(celular){
-        window.setTimeout(function(){window.location.replace(url);},700);
-        return;
-      }
       var app=document.getElementById('app'),inicio=document.getElementById('acessoInicial');
       app.addEventListener('load',function(){
-        window.setTimeout(function(){app.classList.add('pronto');inicio.classList.add('oculto');},300);
+        window.setTimeout(function(){app.classList.add('pronto');inicio.classList.add('oculto');},900);
       });
-      app.src=url;
     })();
   </script>
 </body>
