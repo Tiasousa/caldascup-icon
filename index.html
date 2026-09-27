@@ -1034,14 +1034,16 @@
         window.setTimeout(function(){ carregando.classList.add('oculto'); }, 350);
       });
 
-      // Se em 5s o iframe não terminou de carregar (navegador bloqueando
+      // Se em 15s o iframe não terminou de carregar (navegador bloqueando
       // por dentro, tela azul), cai pra navegação direta como último
       // recurso — só nesse caso aparece a URL/aviso do Google.
+      // 15s dá folga suficiente pra internet/5G ruim, sem confundir
+      // "carregando devagar" com "travado de verdade".
       window.setTimeout(function(){
         if (!resolvido) {
           window.location.replace(APP_URL);
         }
-      }, 5000);
+      }, 15000);
     })();
   </script>
 
