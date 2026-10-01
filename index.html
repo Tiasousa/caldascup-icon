@@ -6,6 +6,9 @@
     name="viewport"
     content="width=device-width, initial-scale=1, viewport-fit=cover"
   >
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 
   <!-- =========================================================
        CALDAS CUP 2026
@@ -126,19 +129,19 @@
 
   <link
     rel="manifest"
-    href="./manifest.json?v=2026.09.26.1"
+    href="./manifest.json?v=2026.09.30.2"
   >
 
   <link
     rel="icon"
     type="image/png"
-    href="./icon.png?v=2026.09.26.1"
+    href="./icon.png?v=2026.09.30.2"
   >
 
   <link
     rel="apple-touch-icon"
     sizes="180x180"
-    href="./icon.png?v=2026.09.26.1"
+    href="./icon.png?v=2026.09.30.2"
   >
 
   <style>
@@ -1008,7 +1011,7 @@
 <body>
 
   <div id="carregandoInicial" role="status" aria-live="polite">
-    <img src="./icon.png?v=2026.09.26.1" alt="Caldas Cup">
+    <img src="./icon.png?v=2026.09.30.2" alt="Caldas Cup">
     <strong>Preparando sistema</strong>
     <div class="carregandoBarra"><i></i></div>
     <span>Aguarde um instante...</span>
@@ -1018,7 +1021,6 @@
   <iframe
     id="app"
     title="Sistema Caldas Cup Fut7"
-    src="https://script.google.com/macros/s/AKfycbyIQ4QRv-AQlJxc2_L7Az6agwEBaB70ttV_UL0bH4gCRnn_tQ21UVm4gspdk01GsYRZ/exec"
     allow="clipboard-read; clipboard-write"
   ></iframe>
 
@@ -1029,21 +1031,34 @@
       var carregando = document.getElementById('carregandoInicial');
       var resolvido = false;
 
+      function urlAtualizada(){
+        return APP_URL + '?atualizar=' + Date.now();
+      }
+
       app.addEventListener('load', function(){
         resolvido = true;
         window.setTimeout(function(){ carregando.classList.add('oculto'); }, 350);
       });
 
-      // Se em 15s o iframe não terminou de carregar (navegador bloqueando
-      // por dentro, tela azul), cai pra navegação direta como último
-      // recurso — só nesse caso aparece a URL/aviso do Google.
-      // 15s dá folga suficiente pra internet/5G ruim, sem confundir
-      // "carregando devagar" com "travado de verdade".
-      window.setTimeout(function(){
-        if (!resolvido) {
-          window.location.replace(APP_URL);
-        }
-      }, 15000);
+      function carregarVersaoNova(){
+        resolvido = false;
+        carregando.classList.remove('oculto');
+        app.src = urlAtualizada();
+
+        // Se em 15s o iframe não terminou de carregar (navegador bloqueando
+        // por dentro, tela azul), cai pra navegação direta como último recurso.
+        window.setTimeout(function(){
+          if (!resolvido) {
+            window.location.replace(urlAtualizada());
+          }
+        }, 15000);
+      }
+
+      window.addEventListener('pageshow', function(evento){
+        if (evento.persisted) carregarVersaoNova();
+      });
+
+      carregarVersaoNova();
     })();
   </script>
 
